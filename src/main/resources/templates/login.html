@@ -77,13 +77,12 @@
                 }
             }
 
-
             function isvalid() {
                 if (checkUsername() && checkPassword()) {
                     $.post("/user/login",$("#loginform").serialize(),function(data){
                         //处理服务器响应的数据  data  {flag:true,errorMsg:"注册失败"}
                         if (data === "{code: 200, msg: '成功'}") {
-                            location.href="index";
+                            window.location.replace("http://" + location.host + "/index");
                         } else {
                             alert("账号或密码错误！")
                         }
