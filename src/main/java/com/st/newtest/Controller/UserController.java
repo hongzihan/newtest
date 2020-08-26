@@ -7,9 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -32,9 +30,6 @@ public class UserController {
             return "{code: 500, msg: '失败'}";
         }
         session.setAttribute("user", newUser);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("index");
-//        return modelAndView;
         return "{code: 200, msg: '成功'}";
     }
 
