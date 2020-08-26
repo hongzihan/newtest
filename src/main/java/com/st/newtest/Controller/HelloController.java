@@ -45,4 +45,9 @@ public class HelloController {
     public String tables() {
         return "tables";
     }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
 }
