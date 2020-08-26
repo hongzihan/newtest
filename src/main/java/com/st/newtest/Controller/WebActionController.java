@@ -83,14 +83,7 @@ public class WebActionController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value="/saveActionData_mail")
-    public String saveActionData_mail(String zoneid, String playername, String mailtitle, String mailtext, Integer gold, Integer yuanbao, Integer integral, String templates, HttpSession session) {
-        if (session.getAttribute("username") != null) {
-            System.out.println("存在小白");
-        } else {
-            System.out.println("不存在小白，开始添加");
-            session.setAttribute("username", "小白");
-        }
-        System.out.println(session + " = session");
+    public String saveActionData_mail(String zoneid, String playername, String mailtitle, String mailtext, Integer gold, Integer yuanbao, Integer integral, String templates) {
         if (zoneid == "" || playername == "" || mailtitle == "" || templates == "") {
             return "{code:404, msg:'失败'}";
         }
