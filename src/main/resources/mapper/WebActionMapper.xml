@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.newtest.Mapper.WebActionMapper" >
+  <resultMap id="BaseResultMap" type="com.st.newtest.Entity.WebAction" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="zoneid" property="zoneid" jdbcType="VARCHAR" />
+    <result column="actiontype" property="actiontype" jdbcType="INTEGER" />
+    <result column="actiondata" property="actiondata" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from web_action
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.st.newtest.Entity.WebAction" >
+    insert into web_action (id, zoneid, actiontype, 
+      actiondata)
+    values (#{id,jdbcType=INTEGER}, #{zoneid,jdbcType=VARCHAR}, #{actiontype,jdbcType=INTEGER}, 
+      #{actiondata,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.st.newtest.Entity.WebAction" >
+    update web_action
+    set zoneid = #{zoneid,jdbcType=VARCHAR},
+      actiontype = #{actiontype,jdbcType=INTEGER},
+      actiondata = #{actiondata,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, zoneid, actiontype, actiondata
+    from web_action
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByZoneid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, zoneid, actiontype, actiondata
+    from web_action
+    where zoneid = #{zoneid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, zoneid, actiontype, actiondata
+    from web_action
+  </select>
+</mapper>

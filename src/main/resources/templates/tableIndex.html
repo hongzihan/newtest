@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container-fluid">
+    <div id="table_drop">
+
+    </div>
+</div>
+<button type="button" onclick="getData()">获取数据</button>
+<button type="button" onclick="getfile()">导出数据为csv文件</button>
+
+<input type="text" class="form-control" id="zoneidV">
+<button type="button" onclick="getData2()">根据输入框获取数据</button>
+<!--<button type="button" onclick="timeinrefurbishIndex()">实时获取数据</button>　-->
+<!--<button onclick="int=window.clearInterval(int)">停止实时数据读取</button>-->
+
+
+<!-- boot js-->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+    insertHtml = obj => {
+        let tableDiv = document.getElementById("table_drop")
+        let elementC = document.createAttribute("class")
+        elementC.nodeValue = "table-responsive";
+        tableDiv.setAttributeNode(elementC);
+        // table主体
+        let tableReal = document.createElement("table")
+        let atrc = document.createAttribute("class")
+        atrc.nodeValue = "table table-hover table-sm table-bordered table-striped"
+        tableReal.setAttributeNode(atrc)
+        // table -thead
+        let tableThead = document.createElement("thead")
+        // table -tbody
+        let tableTbody = document.createElement("tbody")
+
+        // 插入主div内
+
+
+
+        // table -tr td 即数据插入
+        // thead部分
+        let thead_tr = document.createElement("tr")
+        tableThead.appendChild(thead_tr)
+        let thead_data = ["id", "数量", "物品名", "索引名", "区id", "总占比"]
+        for (let i=0; i<thead_data.length; i++) {
+            let thead_th = document.createElement("th")
+            thead_th.innerHTML = thead_data[i]
+            let attr = document.createAttribute("scope")
+            attr.nodeValue = "col"
+            thead_th.setAttributeNode(attr)
+            thead_tr.appendChild(thead_th)
+        }
+        tableReal.appendChild(tableThead);
+        // tbody部分
+        let maxCount = 0
+        obj.forEach((item, index, arr) => {
+            maxCount = maxCount + item.count;
+        });
+        for (let i=1; i<obj.length; i++) {
+         if (obj[i].zoneid !== undefined) {
+             let tbody_tr = document.createElement("tr")
+             let item = obj[i]
+             let tbody_th = document.createElement("th")
+             tbody_th.innerHTML = item["id"]
+             let attr = document.createAttribute("scope")
+             attr.nodeValue = "row"
+             tbody_th.setAttributeNode(attr)
+             tbody_tr.appendChild(tbody_th)
+             for (let itemIndex in item) {
+                 if (itemIndex !== "id") {
+                     let tbody_td = document.createElement("td")
+                     tbody_td.innerHTML = item[itemIndex]
+                     tbody_tr.appendChild(tbody_td)
+                 }
+             }
+             let tbody_td = document.createElement("td")
+             let num = item.count / maxCount * 100
+             let str = num.toString()
+             let index = str.indexOf('.')
+             tbody_td.innerHTML = str.slice(0, index + 7) + "%"
+             tbody_tr.appendChild(tbody_td)
+
+             tableTbody.appendChild(tbody_tr)
+         } else {
+             console.log(obj[i])
+         }
+        }
+        tableReal.appendChild(tableTbody);
+        tableDiv.appendChild(tableReal);
+    }
+
+    getData = () => {
+        $.ajax({
+            type:"post",
+            url:"/dropItem/showAll",
+            data:{},
+            async: false,
+            success: data => {
+                var optionJson= JSON.parse( data );
+                optionJson.sort((a, b) => {return a.count - b.count});
+                insertHtml(optionJson)
+            }
+        });
+    }
+
+    getData2 = () => {
+        var inputV = document.getElementById("zoneidV").value;
+        if (inputV === "" || inputV === undefined) {
+            alert("请输入区id！");
+            return false;
+        } else {
+            $.ajax({
+                type:"post",
+                url:"/dropItem/showAllByZoneid",
+                data:{zoneid:inputV},
+                async: false,
+                success: data => {
+                    var optionJson= JSON.parse( data );
+                    if (optionJson.length === 0) {
+                        alert("暂无数据！")
+                    } else {
+                        optionJson.sort((a, b) => {return a.count - b.count});
+                        insertHtml(optionJson)
+                    }
+                }
+            });
+        }
+    }
+
+    getfile = () => {
+        window.open("dropItem/file");
+    }
+</script>
+</body>
+</html>

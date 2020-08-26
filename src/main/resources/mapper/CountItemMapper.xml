@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.newtest.Mapper.CountItemMapper" >
+  <resultMap id="BaseResultMap" type="com.st.newtest.Entity.CountItem" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="keyname" property="keyname" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from count_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.st.newtest.Entity.CountItem" >
+    insert into count_item (id, keyname, `count`
+      )
+    values (#{id,jdbcType=INTEGER}, #{keyname,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.st.newtest.Entity.CountItem" >
+    update count_item
+    set keyname = #{keyname,jdbcType=VARCHAR},
+      `count` = #{count,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, keyname, `count`
+    from count_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByItemKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, keyname, `count`
+    from count_item
+    where keyname = #{keyname,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, keyname, `count`
+    from count_item
+  </select>
+</mapper>

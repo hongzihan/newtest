@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        refurbishIndex = () => {
+            $.ajax({
+                type:"post",
+                url:"/dropItem/showAll",
+                data:{},
+                async: false,
+                success: data => {
+                    var optionJson= JSON.parse( data );
+                    optionJson.sort(function(a, b){return a.count - b.count});
+                    var dataAllLength = optionJson.length
+                    var mainCount = 8
+                    for (var chartCount = 0; chartCount < mainCount; chartCount++) {
+                        var hengdata = []
+                        var zongdata = []
+                        var piedata = []
+                        var preIndex = Math.floor(chartCount * (dataAllLength / mainCount))
+                        var sufIndex = Math.floor((chartCount + 1) * (dataAllLength / mainCount))
+                        var tempCount = 0
+                        for (var i=preIndex; i<sufIndex; i++) {
+                            [hengdata[i], zongdata[i]] = [optionJson[i].itemname, optionJson[i].count]
+                            piedata[i] = {};
+                            //let { foo: baz , bar: xxa} = { foo: 'aaa', bar: 'bbb' };
+                            //{xa: piedata[i]["name"] , xb: piedata[i]["value"]} = {xa: optionJson[i].itemname, xb: optionJson[i].count}
+                            piedata[i]["name"] = optionJson[i].itemname;
+                            piedata[i]["value"] = optionJson[i].count;
+                            tempCount = tempCount + 1;
+                        }
+                        if (piedata.length > 0) {
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart = echarts.init(document.getElementById('main' + (chartCount + 1)));
+
+                            // 指定图表的配置项和数据
+                            var option = {
+                                title : {
+                                    text: '国际三国 物品掉落统计 ' + mainCount + ' - ' + (chartCount + 1),
+                                    x:'center'//水平居中
+                                },
+                                tooltip : {//提示框组件。
+                                    trigger: 'item',  //'item' 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。
+                                    formatter: "{a} <br/>{b} : {c} ({d}%)" //{a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）
+                                },
+                                series : [
+                                    {
+                                        name: '物品概述',
+                                        type: 'pie',
+                                        radius : '55%',//饼图的半径
+                                        center: ['50%', '60%'],//饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。
+                                        data:piedata,
+                                        itemStyle: {//图形样式。
+                                            emphasis: {
+                                                shadowBlur: 10,
+                                                shadowOffsetX: 0,
+                                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                            }
+                                        }
+                                    }
+                                ]
+                            };
+                            // 使用刚指定的配置项和数据显示图表。
+                            myChart.setOption(option);
+                        }
+                    }
+                }
+            });
+        }
+        var int=self.setInterval("clock()",10000);
+        clock = () =>
+        {
+            refurbishIndex();
+        }
+
+        getfile = () => {
+            window.open("dropItem/file");
+        }
+    </script>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div class="row">
+    <div class="col-md-3" id="main1" style="width: 450px;height:333px;"></div>
+    <div class="col-md-3" id="main2" style="width: 450px;height:333px;"></div>
+    <div class="col-md-3" id="main3" style="width: 450px;height:333px;"></div>
+    <div class="col-md-3" id="main4" style="width: 450px;height:333px;"></div>
+</div>
+<div class="row">
+    <div class="col-md-3" id="main5" style="width: 450px;height:333px;"></div>
+    <div class="col-md-3" id="main6" style="width: 450px;height:333px;"></div>
+    <div class="col-md-3" id="main7" style="width: 450px;height:333px;"></div>
+    <div class="col-md-3" id="main8" style="width: 450px;height:333px;"></div>
+</div>
+<button type="button" onclick="refurbishIndex()">获取数据</button>　
+<button type="button" onclick="timeinrefurbishIndex()">实时获取数据</button>　
+<button onclick="int=window.clearInterval(int)">停止实时数据读取</button>
+<button type="button" onclick="getfile()">导出数据为csv文件</button>　
+</body>
+</html>

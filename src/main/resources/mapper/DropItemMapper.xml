@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.newtest.Mapper.DropItemMapper" >
+  <resultMap id="BaseResultMap" type="com.st.newtest.Entity.DropItem" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="keyname" property="keyname" jdbcType="VARCHAR" />
+    <result column="itemname" property="itemname" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="zoneid" property="zoneid" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from drop_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.st.newtest.Entity.DropItem" >
+    insert into drop_item (id, keyname, itemname, 
+      `count`, zoneid)
+    values (#{id,jdbcType=INTEGER}, #{keyname,jdbcType=VARCHAR}, #{itemname,jdbcType=VARCHAR}, 
+      #{count,jdbcType=INTEGER}, #{zoneid,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.st.newtest.Entity.DropItem" >
+    update drop_item
+    set keyname = #{keyname,jdbcType=VARCHAR},
+      itemname = #{itemname,jdbcType=VARCHAR},
+      `count` = #{count,jdbcType=INTEGER},
+      zoneid = #{zoneid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, keyname, itemname, `count`, zoneid
+    from drop_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByItemKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, keyname, itemname, `count`, zoneid
+    from drop_item
+    where keyname = #{keyname,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllByZoneid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, keyname, itemname, `count`, zoneid
+    from drop_item
+    where zoneid = #{zoneid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, keyname, itemname, `count`, zoneid
+    from drop_item
+  </select>
+</mapper>

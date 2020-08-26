@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.newtest.Mapper.CrudStItemMapper" >
+  <resultMap id="BaseResultMap" type="com.st.newtest.Entity.CrudStItem" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="zoneid" property="zoneid" jdbcType="VARCHAR" />
+    <result column="playername" property="playername" jdbcType="VARCHAR" />
+    <result column="keyname" property="keyname" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from crud_st_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.st.newtest.Entity.CrudStItem" >
+    insert into crud_st_item (id, zoneid, playername, 
+      keyname, `count`, `type`
+      )
+    values (#{id,jdbcType=INTEGER}, #{zoneid,jdbcType=VARCHAR}, #{playername,jdbcType=VARCHAR}, 
+      #{keyname,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.st.newtest.Entity.CrudStItem" >
+    update crud_st_item
+    set zoneid = #{zoneid,jdbcType=VARCHAR},
+      playername = #{playername,jdbcType=VARCHAR},
+      keyname = #{keyname,jdbcType=VARCHAR},
+      `count` = #{count,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, zoneid, playername, keyname, `count`, `type`
+    from crud_st_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByZoneid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, zoneid, playername, keyname, `count`, `type`
+    from crud_st_item
+    where zoneid = #{zoneid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, zoneid, playername, keyname, `count`, `type`
+    from crud_st_item
+  </select>
+</mapper>

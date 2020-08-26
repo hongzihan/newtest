@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Matrix Admin</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="../static/css/fullcalendar.css" />
+    <link rel="stylesheet" href="../static/css/matrix-style.css" />
+    <link rel="stylesheet" href="../static/css/matrix-media.css" />
+    <link href="../static/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../static/css/jquery.gritter.css" />
+    <link href='http://fonts.useso.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'/>
+</head>
+<body>
+
+<div th:replace="common/frame-main::frame-main"/>
+
+<!--main-container-part-->
+<div id="content">
+    <!--Action boxes-->
+    <div class="container-fluid">
+        <div class="quick-actions_homepage">
+            <ul class="quick-actions">
+                <li class="bg_lb"> <a href="index"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> 首页 </a> </li>
+                <li class="bg_lg span3"> <a href="charts"> <i class="icon-signal"></i> 数据统计</a> </li>
+                <li class="bg_ly"> <a href="widgets.html"> <i class="icon-inbox"></i><span class="label label-success">101</span> Widgets </a> </li>
+                <li class="bg_lo"> <a href="tables"> <i class="icon-th"></i> 数据表</a> </li>
+                <li class="bg_ls"> <a href="grid.html"> <i class="icon-fullscreen"></i> Full width</a> </li>
+                <li class="bg_lo span3"> <a href="form-common"> <i class="icon-th-list"></i> 游戏操作</a> </li>
+                <li class="bg_ls"> <a href="buttons.html"> <i class="icon-tint"></i> Buttons</a> </li>
+                <li class="bg_lb"> <a href="interface.html"> <i class="icon-pencil"></i>Elements</a> </li>
+                <li class="bg_lg"> <a href="calendar.html"> <i class="icon-calendar"></i> Calendar</a> </li>
+                <li class="bg_lr"> <a href="error404.html"> <i class="icon-info-sign"></i> Error</a> </li>
+            </ul>
+        </div>
+        <!--End-Action boxes-->
+
+        <!--Calender -->
+<!--        <hr>-->
+<!--        <div class="row-fluid">-->
+<!--            <div class="span12">-->
+<!--                <div class="widget-box widget-calendar">-->
+<!--                    <div class="widget-title"> <span class="icon"><i class="icon-calendar"></i></span>-->
+<!--                        <h5>Calendar</h5>-->
+<!--                        <div class="buttons"> <a id="add-event" data-toggle="modal" href="#modal-add-event" class="btn btn-inverse btn-mini"><i class="icon-plus icon-white"></i> Add new event</a>-->
+<!--                            <div class="modal hide" id="modal-add-event">-->
+<!--                                <div class="modal-header">-->
+<!--                                    <button type="button" class="close" data-dismiss="modal">×</button>-->
+<!--                                    <h3>Add a new event</h3>-->
+<!--                                </div>-->
+<!--                                <div class="modal-body">-->
+<!--                                    <p>Enter event name:</p>-->
+<!--                                    <p>-->
+<!--                                        <input id="event-name" type="text" />-->
+<!--                                    </p>-->
+<!--                                </div>-->
+<!--                                <div class="modal-footer"> <a href="#" class="btn" data-dismiss="modal">Cancel</a> <a href="#" id="add-event-submit" class="btn btn-primary">Add event</a> </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="widget-content">-->
+<!--                        <div class="panel-left">-->
+<!--                            <div id="fullcalendar"></div>-->
+<!--                        </div>-->
+<!--                        <div id="external-events" class="panel-right">-->
+<!--                            <div class="panel-title">-->
+<!--                                <h5>Drag Events to the calander</h5>-->
+<!--                            </div>-->
+<!--                            <div class="panel-content">-->
+<!--                                <div class="external-event ui-draggable label label-inverse">My Event 1</div>-->
+<!--                                <div class="external-event ui-draggable label label-inverse">My Event 2</div>-->
+<!--                                <div class="external-event ui-draggable label label-inverse">My Event 3</div>-->
+<!--                                <div class="external-event ui-draggable label label-inverse">My Event 4</div>-->
+<!--                                <div class="external-event ui-draggable label label-inverse">My Event 5</div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <!--End-Calender -->
+    </div>
+</div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+
+<div th:replace="common/frame-footer::frame-footer"/>
+
+<!--end-Footer-part-->
+
+<script src="../static/js/excanvas.min.js"></script>
+<script src="../static/js/jquery.min.js"></script>
+<script src="../static/js/jquery.ui.custom.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/js/jquery.flot.min.js"></script>
+<script src="../static/js/jquery.flot.resize.min.js"></script>
+<script src="../static/js/jquery.peity.min.js"></script>
+<script src="../static/js/fullcalendar.min.js"></script>
+<script src="../static/js/matrix.js"></script>
+<script src="../static/js/matrix.dashboard.js"></script>
+<script src="../static/js/select2.min.js"></script>
+<script src="../static/js/jquery.dataTables.min.js"></script>
+<script src="../static/js/matrix.calendar.js"></script>
+
+<script type="text/javascript">
+    // This function is called from the pop-up menus to transfer to
+    // a different page. Ignore if the value returned is a null string:
+    function goPage (newURL) {
+
+        // if url is empty, skip the menu dividers and reset the menu selection to default
+        if (newURL != "") {
+
+            // if url is "-", it is this page -- reset the menu:
+            if (newURL == "-" ) {
+                resetMenu();
+            }
+            // else, send page to designated URL
+            else {
+                document.location.href = newURL;
+            }
+        }
+    }
+
+    // resets the menu selection upon entry to this page:
+    function resetMenu() {
+        document.gomenu.selector.selectedIndex = 2;
+    }
+</script>
+</body>
+</html>
