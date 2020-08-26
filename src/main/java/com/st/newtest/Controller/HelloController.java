@@ -1,49 +1,39 @@
 package com.st.newtest.Controller;
 
+import com.st.newtest.Entity.User;
+import com.st.newtest.Util.CommonUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class HelloController {
+    private User user = null;
+    @RequestMapping("/")
+    public ModelAndView welcomePage(HttpSession session) {
+        return CommonUtil.getPage("index", session);
+    }
+
     @RequestMapping("/index")
-    public String sayHi() {
-        return "index";
+    public ModelAndView sayHi(HttpSession session) {
+        return CommonUtil.getPage("index", session);
     }
 
     @RequestMapping("/form-common")
-    public String newForm1() {
-        return "form-common";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/openIndex")
-    public String openIndex() {
-        return "index-de";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/dropIndex")
-    public String dropIndex() {
-        return "dropIndex";
-    }
-
-    @RequestMapping("/tableIndex")
-    public String tableIndex() {
-        return "tableIndex";
-    }
-
-    @RequestMapping("/dispathtcher_item")
-    public String item_dispatcher() {
-        return "item_dispatcher";
+    public ModelAndView newForm1(HttpSession session) {
+        return CommonUtil.getPage("form-common", session);
     }
 
     @RequestMapping("/charts")
-    public String charts() {
-        return "charts";
+    public ModelAndView charts(HttpSession session) {
+        return CommonUtil.getPage("charts", session);
     }
 
     @RequestMapping("/tables")
-    public String tables() {
-        return "tables";
+    public ModelAndView tables(HttpSession session) {
+        return CommonUtil.getPage("tables", session);
     }
 
     @RequestMapping("/login")
