@@ -3,6 +3,7 @@ package com.st.newtest.Controller;
 import com.st.newtest.Entity.User;
 import com.st.newtest.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,12 +21,10 @@ public class UserController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public String login(String username, String password, HttpSession session) throws IOException {
-        System.out.println("username = " + username + " password = " + password + " 请求登录！");
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
         User newUser = userService.login(user);
-        System.out.println(newUser);
         if (newUser == null) {
             return "{code: 500, msg: '失败'}";
         }
@@ -33,10 +32,10 @@ public class UserController {
         return "{code: 200, msg: '成功'}";
     }
 
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.POST, value = "/logout")
-    public String logout() {
-        return "请求接收成功";
+    @RequestMapping(method = RequestMethod.GET, value = "/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // 销毁session
+        return "login";
     }
 
     @ResponseBody
