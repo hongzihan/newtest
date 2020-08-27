@@ -5,9 +5,27 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="corepwd" jdbcType="INTEGER" property="corepwd" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <collection property="roleList" ofType="com.st.newtest.Entity.Role">
+      <id column="roleid" property="id"></id>
+      <result column="rolename" property="rolename"></result>
+      <result column="roledesc" property="roledesc"></result>
+      <collection property="permissionsList" ofType="com.st.newtest.Entity.Permissions">
+        <id column="permissionid" property="id"></id>
+        <result column="modelname" property="modelname"></result>
+        <result column="permission" property="permission"></result>
+      </collection>
+    </collection>
   </resultMap>
+  <select id="findUserByName" parameterType="java.lang.String" resultMap="BaseResultMap" >
+    select u.id id, username, password, corepwd, nickname, r.id roleid ,rolename ,roledesc , p.id permissionid ,modelname,permission from user u
+    INNER JOIN user_role ur on u.id = ur.uid
+    INNER JOIN role r ON ur.rid = r.id
+    INNER JOIN role_permission rp ON r.id = rp.rid
+    INNER JOIN permission p on rp.pid = p.id
+    where u.username = #{name}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where id = #{id,jdbcType=INTEGER}
@@ -45,4 +63,5 @@
     from user
     where username = #{username,jdbcType=VARCHAR}
   </select>
+
 </mapper>

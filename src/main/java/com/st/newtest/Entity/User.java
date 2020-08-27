@@ -1,6 +1,7 @@
 package com.st.newtest.Entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
     private Integer id;
@@ -12,6 +13,10 @@ public class User implements Serializable {
     private String email;
 
     private Integer corepwd;
+
+    private String nickname;
+
+    private List<Role> roleList;
 
     private static final long serialVersionUID = 1L;
 
@@ -55,19 +60,32 @@ public class User implements Serializable {
         this.corepwd = corepwd;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", username=").append(username);
-        sb.append(", password=").append(password);
-        sb.append(", email=").append(email);
-        sb.append(", corepwd=").append(corepwd);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", corepwd=" + corepwd +
+                ", nickname='" + nickname + '\'' +
+                ", roleList=" + roleList +
+                '}';
     }
 }

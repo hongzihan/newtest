@@ -21,4 +21,6 @@ public interface UserMapper {
     User selectByUserAndPwd(Map<String, String> userMap);
 
     List<User> selectByUsername(String username);
+
+    User findUserByName(String name);
 }
