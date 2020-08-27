@@ -1,18 +1,15 @@
 package com.st.newtest.Controller;
 
 import com.alibaba.fastjson.JSON;
-import com.st.newtest.Entity.CountItem;
 import com.st.newtest.Entity.DropItem;
 import com.st.newtest.Service.DropItemService;
 import com.st.newtest.Util.CommonUtil;
 import com.st.newtest.Util.ExportUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import sun.security.x509.OtherName;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.Result;
