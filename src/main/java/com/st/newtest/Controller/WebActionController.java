@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.st.newtest.Entity.WebAction;
 import com.st.newtest.Service.WebActionService;
 import com.st.newtest.Util.CommonUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class WebActionController {
     @Autowired
     private WebActionService webActionService;
 
+    @RequiresPermissions("saveActionData_item")
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/saveActionData_item")
     public String saveActionData_item(String zoneid, String playername, String keyname, Integer count, Integer type, HttpSession session) {
@@ -42,6 +44,7 @@ public class WebActionController {
         return "{code:200, msg:'成功'}";
     }
 
+    @RequiresPermissions("saveActionData_var")
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/saveActionData_var")
     public String saveActionData_var(String zoneid, String targetobj, String vartype, String varname, String varvalue, Integer areatype, String playername, HttpSession session) {
@@ -84,6 +87,7 @@ public class WebActionController {
         return "{code:200, msg:'成功'}";
     }
 
+    @RequiresPermissions("saveActionData_mail")
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value="/saveActionData_mail")
     public String saveActionData_mail(String zoneid, String playername, String mailtitle, String mailtext, Integer gold, Integer yuanbao, Integer integral, String templates, HttpSession session) {
