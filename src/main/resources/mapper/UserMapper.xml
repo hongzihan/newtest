@@ -18,6 +18,28 @@
       </collection>
     </collection>
   </resultMap>
+
+  <resultMap id="roleMap" type="com.st.newtest.Entity.Role">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="rolename" jdbcType="VARCHAR" property="rolename"/>
+    <result column="roledesc" jdbcType="VARCHAR" property="roledesc"/>
+    <collection property="permissionsList" ofType="com.st.newtest.Entity.Permissions">
+      <id column="permissionid" property="id"></id>
+      <result column="modelname" property="modelname"></result>
+      <result column="permission" property="permission"></result>
+    </collection>
+  </resultMap>
+
+  <resultMap id="permissionMap" type="com.st.newtest.Entity.Permissions">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="modelname" jdbcType="VARCHAR" property="modelname"/>
+    <result column="permission" jdbcType="VARCHAR" property="permission"/>
+  </resultMap>
+
+  <resultMap id="user_role_map" type="java.util.Map">
+
+  </resultMap>
+
   <select id="findUserByName" parameterType="java.lang.String" resultMap="BaseResultMap" >
     select u.id id, username, password, corepwd, nickname, r.id roleid ,rolename ,roledesc , p.id permissionid ,modelname,permission from user u
     INNER JOIN user_role ur on u.id = ur.uid
@@ -26,42 +48,125 @@
     INNER JOIN permission p on rp.pid = p.id
     where u.username = #{name}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+  <!-- 插入部分 -->
+  <!-- 用户插入 -->
+  <insert id="insertUser" parameterType="com.st.newtest.Entity.User" >
+    insert into user (id, username, password,
+      nickname, corepwd)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{nickname,jdbcType=VARCHAR}, #{corepwd,jdbcType=INTEGER})
+  </insert>
+
+  <!-- 角色插入 -->
+  <insert id="insertRole" parameterType="com.st.newtest.Entity.Role">
+    insert into role (id, rolename, roledesc)
+    values (#{id,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{roledesc,jdbcType=VARCHAR})
+  </insert>
+
+  <!-- 权限插入 -->
+  <insert id="insertPermission" parameterType="com.st.newtest.Entity.Permissions">
+    insert into permission (id, modelname, permission)
+    values (#{id,jdbcType=INTEGER}, #{modelname,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR})
+  </insert>
+
+  <!-- 用户和角色关联插入 -->
+  <insert id="insertUserAndRoleId" parameterType="java.util.Map">
+    insert into user_role (uid, rid)
+    values (#{uid,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER})
+  </insert>
+
+  <!-- 角色和权限关联插入 -->
+  <insert id="insertRoleAndPermissionId" parameterType="java.util.Map">
+    insert into role_permission (rid, pid)
+    values (#{rid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER})
+  </insert>
+
+  <!-- 删除部分 -->
+  <delete id="deleteUserById" parameterType="java.lang.Integer" >
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.st.newtest.Entity.User">
-    insert into user (id, username, `password`, 
-      email, corepwd)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{corepwd,jdbcType=INTEGER})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.st.newtest.Entity.User">
+
+  <delete id="deleteRoleById" parameterType="java.lang.Integer" >
+    delete from role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deletePermissionById" parameterType="java.lang.Integer" >
+    delete from permission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteUserAndRoleIdById" parameterType="java.util.Map" >
+    delete from user_role
+    where uid = #{uid,jdbcType=INTEGER} and rid = #{rid, jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteRoleAndPermissionIdById" parameterType="java.util.Map" >
+    delete from role_permission
+    where rid = #{rid,jdbcType=INTEGER} and pid = #{pid, jdbcType=INTEGER}
+  </delete>
+
+  <!-- 更新部分 -->
+  <update id="updateUserById" parameterType="com.st.newtest.Entity.User" >
     update user
     set username = #{username,jdbcType=VARCHAR},
-      `password` = #{password,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
       corepwd = #{corepwd,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, username, `password`, email, corepwd
+
+  <update id="updateRoleById" parameterType="com.st.newtest.Entity.Role" >
+      update role
+      set rolename = #{rolename,jdbcType=VARCHAR},
+        roledesc = #{roledesc,jdbcType=VARCHAR}
+      where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updatePermissionById" parameterType="com.st.newtest.Entity.Permissions" >
+      update permission
+      set modelname = #{modelname,jdbcType=VARCHAR},
+        permission = #{permission,jdbcType=VARCHAR}
+      where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateUserAndRoleIdById" parameterType="java.util.Map" >
+      update user_role
+      set uid = #{uid,jdbcType=INTEGER},
+        rid = #{rid,jdbcType=INTEGER}
+      where uid = #{uid,jdbcType=INTEGER} AND rid = #{rid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateRoleAndPermissionIdById" parameterType="java.util.Map" >
+      update role_permission
+      set rid = #{rid,jdbcType=INTEGER},
+        pid = #{pid,jdbcType=INTEGER}
+      where rid = #{rid,jdbcType=INTEGER} AND pid = #{pid,jdbcType=INTEGER}
+  </update>
+
+  <!-- 查询部分 -->
+  <select id="selectAllSingleUser" resultMap="BaseResultMap" >
+    select id, username, password, nickname, corepwd
     from user
-    where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, username, `password`, email, corepwd
-    from user
+
+  <select id="selectAllSingleRole" resultMap="roleMap" >
+    select id, rolename, roledesc
+    from role
   </select>
-  <select id="selectByUserAndPwd" parameterType="java.util.Map" resultMap="BaseResultMap">
-    select id, username, `password`, email, corepwd
-    from user
-    where username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+
+  <select id="selectAllSinglePermission" resultMap="permissionMap" >
+    select id, modelname, permission
+    from permission
   </select>
-  <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, username, `password`, email, corepwd
-    from user
-    where username = #{username,jdbcType=VARCHAR}
+
+  <select id="selectAllPermissionIdByRoleId" resultMap="roleMap" parameterType="java.lang.String">
+    select r.id roleid ,rolename ,roledesc , p.id permissionid ,modelname,permission from role r
+    INNER JOIN role_permission rp ON r.id = rp.rid
+    INNER JOIN permission p on rp.pid = p.id
+    where r.rolename = #{rolename, jdbcType=VARCHAR}
   </select>
 
 </mapper>

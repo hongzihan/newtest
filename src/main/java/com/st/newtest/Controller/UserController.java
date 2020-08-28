@@ -1,11 +1,13 @@
 package com.st.newtest.Controller;
 
+import com.st.newtest.Entity.Permissions;
 import com.st.newtest.Entity.User;
 import com.st.newtest.Service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,9 +71,16 @@ public class UserController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/testuser")
     public String testUser(String username) {
-        User user = userService.findUserByName(username);
-        System.out.println(user);
+        userService.selectAllSinglePermission();
         return "11";
+    }
+
+    @ResponseBody
+    @RequiresRoles("supermanager")
+    @RequestMapping(method = RequestMethod.POST, value = "/addPermission")
+    public String addPermission(Permissions permissions) {
+        userService.insertPermission(permissions);
+        return "成功";
     }
 
     @ResponseBody

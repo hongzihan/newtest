@@ -1,5 +1,7 @@
 package com.st.newtest.Mapper;
 
+import com.st.newtest.Entity.Permissions;
+import com.st.newtest.Entity.Role;
 import com.st.newtest.Entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -8,19 +10,43 @@ import java.util.Map;
 
 @Mapper
 public interface UserMapper {
-    int deleteByPrimaryKey(Integer id);
+    int insertUser(User user);
 
-    int insert(User record);
+    int insertRole(Role role);
 
-    User selectByPrimaryKey(Integer id);
+    int insertPermission(Permissions permission);
 
-    List<User> selectAll();
+    int insertUserAndRoleId(Map<String, Integer> map);
 
-    int updateByPrimaryKey(User record);
+    int insertRoleAndPermissionId(Map<String, Integer> map);
 
-    User selectByUserAndPwd(Map<String, String> userMap);
+    int deleteUserById(Integer id);
 
-    List<User> selectByUsername(String username);
+    int deleteRoleById(Integer id);
+
+    int deletePermissionById(Integer id);
+
+    int deleteUserAndRoleIdById(Map<String, Integer> map);
+
+    int deleteRoleAndPermissionIdById(Map<String, Integer> map);
+
+    int updateUserById(User user);
+
+    int updateRoleById(Role role);
+
+    int updatePermissionById(Permissions permission);
+
+    int updateUserAndRoleIdById(Map<String, Integer> map);
+
+    int updateRoleAndPermissionIdById(Map<String, Integer> map);
+
+    List<User> selectAllSingleUser();
+
+    List<Role> selectAllSingleRole();
+
+    List<Permissions> selectAllSinglePermission();
+
+    List<Role> selectAllPermissionIdByRoleId(String rolename);
 
     User findUserByName(String name);
 }

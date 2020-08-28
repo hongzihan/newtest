@@ -50,6 +50,7 @@ public class ShiroConfig {
         //对所有用户认证
         map.put("/user/login", "anon");
         map.put("/webAction/getActionData", "anon");
+        map.put("/user/testuser", "anon");
         map.put("/static/**", "anon");
         map.put("/**", "authc");
 

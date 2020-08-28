@@ -1,21 +1,50 @@
 package com.st.newtest.Service;
 
+import com.st.newtest.Entity.Permissions;
+import com.st.newtest.Entity.Role;
 import com.st.newtest.Entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
-    int deleteByPrimaryKey(Integer id);
+    int insertUser(User user);
 
-    int insert(User record);
+    int insertRole(Role role);
 
-    User selectByPrimaryKey(Integer id);
+    int insertPermission(Permissions permission);
 
-    List<User> selectAll();
+    int insertUserAndRoleId(Map<String, Integer> map);
 
-    int updateByPrimaryKey(User record);
+    int insertRoleAndPermissionId(Map<String, Integer> map);
 
-    User login(User user);
+    int deleteUserById(Integer id);
+
+    int deleteRoleById(Integer id);
+
+    int deletePermissionById(Integer id);
+
+    int deleteUserAndRoleIdById(Map<String, Integer> map);
+
+    int deleteRoleAndPermissionIdById(Map<String, Integer> map);
+
+    int updateUserById(User user);
+
+    int updateRoleById(Role role);
+
+    int updatePermissionById(Permissions permission);
+
+    int updateUserAndRoleIdById(Map<String, Integer> map);
+
+    int updateRoleAndPermissionIdById(Map<String, Integer> map);
+
+    List<User> selectAllSingleUser();
+
+    List<Role> selectAllSingleRole();
+
+    List<Permissions> selectAllSinglePermission();
+
+    List<Role> selectAllPermissionIdByRoleId(String rolename);
 
     User findUserByName(String name);
 }
