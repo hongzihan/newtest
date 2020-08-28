@@ -4,19 +4,16 @@ import com.st.newtest.Entity.Permissions;
 import com.st.newtest.Entity.Role;
 import com.st.newtest.Entity.User;
 import com.st.newtest.Service.UserService;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.SQLOutput;
 
 public class CustomRealm extends AuthorizingRealm {
 
