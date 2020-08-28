@@ -6,17 +6,15 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.List;
 
 @RequestMapping("/user")
 @Controller
@@ -27,12 +25,22 @@ public class UserController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public String login(User user) {
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
-                user.getUsername(),
-                user.getPassword()
-        );
         try{
+            /**
+             * 密码加密 md5
+             *   Shiro提供的MD5加密方法 Md5Hash()
+             *   1. 加密的内容
+             *   2. 加密的盐值 混淆字符串
+             *   3.
+             */
+            String password = new Md5Hash(user.getPassword(), user.getUsername(), 3).toString();
+            // 构造登录令牌
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
+                    user.getUsername(),
+                    password
+            );
+            // 获取subject
+            Subject subject = SecurityUtils.getSubject();
             subject.login(usernamePasswordToken);
         } catch (AuthenticationException e) {
             // e.printStackTrace();
@@ -40,6 +48,8 @@ public class UserController {
         } catch (AuthorizationException e) {
             // e.printStackTrace();
             return "没有权限";
+        } catch (Exception e) {
+            return "账号密码错误";
         }
         return "login success";
     }

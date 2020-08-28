@@ -15,7 +15,8 @@ spring:
     start-view-servlet:
       allow: true
   mvc:
-    static-path-pattern: /static/**
+    static-path-pattern: /**
+    static-locations: classpath:/templates/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
   devtools:
     restart:
       enabled: true

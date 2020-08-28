@@ -11,7 +11,7 @@ import java.util.List;
 @Service("tbItemServiceImpl")
 public class TbItemServiceImpl implements TbItemService {
 
-    @Autowired
+    @Autowired(required = false)
     private TbItemMapper tbItemMapper;
 
     @Override

@@ -3,7 +3,6 @@ package com.st.newtest.Controller;
 import com.st.newtest.Entity.User;
 import com.st.newtest.Util.CommonUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,11 +17,10 @@ public class HelloController {
         return CommonUtil.getPage("index");
     }
 
-    @RequiresRoles("super manager")
-    @RequiresPermissions("首页")
+    //@RequiresRoles("supermanager")
+    @RequiresPermissions("index")
     @RequestMapping("/index")
     public ModelAndView sayHi() {
-        System.out.println("hei");
         return CommonUtil.getPage("index");
     }
 
@@ -45,7 +43,9 @@ public class HelloController {
     }
 
     @RequestMapping("/login")
-    public String login() {
-        return "login";
+    public ModelAndView login() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("login");
+        return modelAndView;
     }
 }

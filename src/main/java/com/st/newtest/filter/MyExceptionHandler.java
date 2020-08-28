@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class MyExceptionHandler {
     @ExceptionHandler
     public String ErrorHandler(AuthorizationException e) {
-        log.error("没有通过权限验证！", e);
+        System.out.println("<===========本次没有通过权限认证===========>");
         return "error404";
     }
 }

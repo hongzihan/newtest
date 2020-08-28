@@ -48,9 +48,11 @@ public class ShiroConfig {
         //登出
         map.put("/logout", "logout");
         //对所有用户认证
-        map.put("/**", "authc");
         map.put("/user/login", "anon");
         map.put("/webAction/getActionData", "anon");
+        map.put("/static/**", "anon");
+        map.put("/**", "authc");
+
         //登录
         shiroFilterFactoryBean.setLoginUrl("/login");
         //首页
@@ -61,7 +63,7 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
-    //加入注解的使用，不加入这个注解不生效
+    //加入注解的使用，不加入这个 注解不生效 Shiro注解
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();

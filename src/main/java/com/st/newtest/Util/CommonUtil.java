@@ -23,7 +23,7 @@ public class CommonUtil {
     }
 
     public static ModelAndView getPage(String redirectPage) {
-        user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        user = (User) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(redirectPage);
         modelAndView.addObject("nickname", user.getNickname() );
