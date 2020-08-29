@@ -14,9 +14,9 @@
 
 
     <!--top-Header-menu-->
-    <div id="user-nav" class="navbar navbar-inverse">
+    <div id="user-nav" class="navbar navbar-inverse" style="overflow: visible;z-index: 999">
         <ul class="nav">
-            <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">欢迎您，<span th:text="${nickname}"/><b class="caret"></b></a>
+            <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">欢迎您，<span th:text="${nickname}"/></span><b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"><i class="icon-user"></i> 我的配置</a></li>
                     <li class="divider"></li>

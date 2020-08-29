@@ -23,43 +23,57 @@
 <div id="content">
   <div id="content-header">
     <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Form elements</a> <a href="#" class="current">Validation</a> </div>
-    <h1>Form validation</h1>
+    <h1>权限管理</h1>
   </div>
   <div class="container-fluid"><hr>
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-            <h5>Form validation</h5>
+            <h5>用户操作</h5>
           </div>
           <div class="widget-content nopadding">
-            <form class="form-horizontal" method="post" action="#" name="basic_validate" id="basic_validate" novalidate="novalidate">
+            <form class="form-horizontal" method="post" action="#" id="user_action_form">
               <div class="control-group">
-                <label class="control-label">Your Name</label>
+                <label class="control-label">用户名</label>
                 <div class="controls">
-                  <input type="text" name="required" id="required">
+                  <input type="text" name="username" id="user_action_username" th:value="${suser == null ? '' : suser.username}">
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">Your Email</label>
+                <label class="control-label">密码</label>
                 <div class="controls">
-                  <input type="text" name="email" id="email">
+                  <input type="text" name="password" id="user_action_password" th:value="${suser == null ? '' : suser.password}">
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">Date (only Number)</label>
+                <label class="control-label">昵称</label>
                 <div class="controls">
-                  <input type="text" name="date" id="date">
+                  <input type="text" name="nickname" id="user_action_nickname" th:value="${suser == null ? '' : suser.nickname}">
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">URL (Start with http://)</label>
+                <label class="control-label">核心密码(救急)</label>
                 <div class="controls">
-                  <input type="text" name="url" id="url">
+                  <input type="number" name="corepwd" id="user_action_corepwd" th:value="${suser == null ? '' : suser.corepwd}">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*操作类型 :</label>
+                <div class="controls">
+                  <label>
+                    <input type="radio" name="type" value=1 checked/>
+                    增加</label>
+                  <label>
+                    <input type="radio" name="type" value=2 />
+                    删除</label>
+                  <label>
+                    <input type="radio" name="type" value=3 />
+                    修改</label>
                 </div>
               </div>
               <div class="form-actions">
-                <input type="submit" value="Validate" class="btn btn-success">
+                <input type="submit" value="保存" class="btn btn-success"  onclick="isvalid('用户操作')">
               </div>
             </form>
           </div>
@@ -141,5 +155,35 @@
 <script src="../static/js/jquery.validate.js"></script>
 <script src="../static/js/matrix.js"></script>
 <script src="../static/js/matrix.form_validation.js"></script>
+<script type="text/javascript">
+  function isvalid(data) {
+    if (data === '用户操作') {
+      // let arr = ["user_action_username", "user_action_password", "user_action_nickname", "user_action_corepwd"]
+      // let arr2 = ["用户名", "密码", "昵称", "核心密码"]
+      // for (let i=0; i<arr.length; i++) {
+      //   let elementV = document.getElementById(arr[i]).value;
+      //   if (elementV === '') {
+      //     alert(arr2[i] + '不能为空！');
+      //     return false;
+      //   }
+      // }
+      //表单异步提交
+      $.ajax({
+        type: 'post',
+        data: $('#user_action_form').serialize(),
+        url: '/user/userAction',
+        cache:false,
+        dataType:'text',
+        success: function (msg) {
+          if (msg === "success") {
+            alert("提交成功！")
+          } else {
+            alert("提交失败！" + msg)
+          }
+        }
+      });
+    }
+  }
+</script>
 </body>
 </html>

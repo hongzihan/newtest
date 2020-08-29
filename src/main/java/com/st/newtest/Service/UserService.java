@@ -8,43 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService {
-    int insertUser(User user);
 
-    int insertRole(Role role);
+    User findUserByName(String name); // 根据名字查找用户
 
-    int insertPermission(Permissions permission);
-
-    int insertUserAndRoleId(Map<String, Integer> map);
-
-    int insertRoleAndPermissionId(Map<String, Integer> map);
-
-    int deleteUserById(Integer id);
-
-    int deleteRoleById(Integer id);
-
-    int deletePermissionById(Integer id);
-
-    int deleteUserAndRoleIdById(Map<String, Integer> map);
-
-    int deleteRoleAndPermissionIdById(Map<String, Integer> map);
-
-    int updateUserById(User user);
-
-    int updateRoleById(Role role);
-
-    int updatePermissionById(Permissions permission);
-
-    int updateUserAndRoleIdById(Map<String, Integer> map);
-
-    int updateRoleAndPermissionIdById(Map<String, Integer> map);
-
-    List<User> selectAllSingleUser();
-
-    List<Role> selectAllSingleRole();
-
-    List<Permissions> selectAllSinglePermission();
-
-    List<Role> selectAllPermissionIdByRoleId(String rolename);
-
-    User findUserByName(String name);
+    Boolean insertUser(User user); // 往数据库中插入一个用户
 }

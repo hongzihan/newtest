@@ -36,10 +36,6 @@
     <result column="permission" jdbcType="VARCHAR" property="permission"/>
   </resultMap>
 
-  <resultMap id="user_role_map" type="java.util.Map">
-
-  </resultMap>
-
   <select id="findUserByName" parameterType="java.lang.String" resultMap="BaseResultMap" >
     select u.id id, username, password, corepwd, nickname, r.id roleid ,rolename ,roledesc , p.id permissionid ,modelname,permission from user u
     INNER JOIN user_role ur on u.id = ur.uid

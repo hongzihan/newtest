@@ -25,9 +25,6 @@ public class WebActionController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/saveActionData_item")
     public String saveActionData_item(String zoneid, String playername, String keyname, Integer count, Integer type, HttpSession session) {
-        if (!CommonUtil.userIsVaild(session)) { // 用户合法性验证
-            return "{code:404, msg:'失败'}";
-        }
         if (zoneid == "" || playername == "" || keyname == "" || count == 0 || (type != 1 && type != 2)) {
             return "{code:404, msg:'失败'}";
         }
@@ -48,9 +45,6 @@ public class WebActionController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/saveActionData_var")
     public String saveActionData_var(String zoneid, String targetobj, String vartype, String varname, String varvalue, Integer areatype, String playername, HttpSession session) {
-        if (!CommonUtil.userIsVaild(session)) { // 用户合法性验证
-            return "{code:404, msg:'失败'}";
-        }
         if (zoneid == "" || targetobj == "" || vartype == "" || varname == "" || varvalue == "") {
             return "{code:404, msg:'失败'}";
         }
@@ -91,9 +85,6 @@ public class WebActionController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value="/saveActionData_mail")
     public String saveActionData_mail(String zoneid, String playername, String mailtitle, String mailtext, Integer gold, Integer yuanbao, Integer integral, String templates, HttpSession session) {
-        if (!CommonUtil.userIsVaild(session)) { // 用户合法性验证
-            return "{code:404, msg:'失败'}";
-        }
         if (zoneid == "" || playername == "" || mailtitle == "" || templates == "") {
             return "{code:404, msg:'失败'}";
         }

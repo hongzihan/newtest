@@ -26,15 +26,7 @@ public class CommonUtil {
         user = (User) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(redirectPage);
-        modelAndView.addObject("nickname", user.getNickname() );
+        modelAndView.addObject("user", user.getNickname() );
         return modelAndView;
-    }
-
-    public static Boolean userIsVaild(HttpSession session) {
-        user = (User) session.getAttribute("user");
-        if (user == null) {
-            return false;
-        }
-        return true;
     }
 }
