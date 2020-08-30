@@ -11,6 +11,6 @@ public class MyExceptionHandler {
     @ExceptionHandler
     public String ErrorHandler(AuthorizationException e) {
         System.out.println("<===========本次没有通过权限认证===========>");
-        return "error404";
+        return "error-per-reject";
     }
 }

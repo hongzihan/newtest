@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
 
+@RequestMapping("/st")
 @RestController
 public class stController {
 
@@ -77,6 +78,5 @@ public class stController {
     public String showAll() {
         return JSON.toJSONString(tbItemService.selectAll());
     }
-
 
 }

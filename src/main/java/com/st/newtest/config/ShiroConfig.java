@@ -52,6 +52,7 @@ public class ShiroConfig {
         map.put("/webAction/getActionData", "anon");
         map.put("/user/testuser", "anon");
         map.put("/static/**", "anon");
+        map.put("/openSt/**", "anon");
         map.put("/**", "authc");
 
         //登录

@@ -46,6 +46,12 @@ public class HelloController {
         return CommonUtil.getPage("tables");
     }
 
+    @RequiresRoles("supermanager")
+    @RequestMapping("/monsterDieMsg")
+    public ModelAndView monsterDieMsg() {
+        return CommonUtil.getPage("monsterDieMsg");
+    }
+
     @RequestMapping("/login")
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView();
