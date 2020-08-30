@@ -174,7 +174,9 @@
         url: '/user/userAction',
         cache:false,
         dataType:'text',
+        async:false,
         success: function (msg) {
+          console.log(msg)
           if (msg === "success") {
             alert("提交成功！")
           } else {

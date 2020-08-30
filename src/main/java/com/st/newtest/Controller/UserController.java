@@ -1,8 +1,6 @@
 package com.st.newtest.Controller;
 
-import com.st.newtest.Entity.Permissions;
 import com.st.newtest.Entity.User;
-import com.st.newtest.Mapper.UserMapper;
 import com.st.newtest.Service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -11,10 +9,8 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,9 +23,6 @@ import java.util.regex.Pattern;
 public class UserController {
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private UserMapper userMapper;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/login")
@@ -71,7 +64,6 @@ public class UserController {
 
     @RequiresRoles("supermanager")
     @ResponseBody
-    //@Transactional(rollbackFor = Exception.class)
     @RequestMapping(method = RequestMethod.POST, value = "/userAction")
     public String userAction(User user, Integer type) {
 
@@ -89,14 +81,18 @@ public class UserController {
             if (!Pattern.matches("^[0-9]*[1-9][0-9]*$", user.getCorepwd().toString())) {
                 return "failed 核心密码非法";
             }
+            if (!userService.insertUser(user)) {
+                return "failed 用户名已经存在";
+            }
 
-                userService.insertUser(user);
         } else if (type.equals(2)) { // 删除一个用户
-            // 根据username查找到该用户
-            // 通过查找到的用户获取id并通过id删除
+           if (!userService.deleteUser(user.getUsername())) {
+               return "failed 不存在该用户";
+           }
         } else if (type.equals(3)) { // 修改一个用户
-            // 根据username查找用户
-            // 比对不同值并修改
+            if (!userService.updateUser(user)) {
+                return "failed 更新失败（需更改内容相同或更新失败）";
+            }
         }
         return "success";
     }

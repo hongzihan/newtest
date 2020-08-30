@@ -57,7 +57,7 @@ public class ExportUtil {
             os.flush();
             return true;
         } catch (Exception e) {
-            log.error("doExport错误...", e);
+            //log.error("doExport错误...", e);
         }
         return false;
     }

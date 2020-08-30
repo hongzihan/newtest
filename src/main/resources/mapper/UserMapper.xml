@@ -105,7 +105,7 @@
   </delete>
 
   <!-- 更新部分 -->
-  <update id="updateUserById" parameterType="com.st.newtest.Entity.User" >
+  <update id="updateUser" parameterType="com.st.newtest.Entity.User" >
     update user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -114,28 +114,28 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updateRoleById" parameterType="com.st.newtest.Entity.Role" >
+  <update id="updateRole" parameterType="com.st.newtest.Entity.Role" >
       update role
       set rolename = #{rolename,jdbcType=VARCHAR},
         roledesc = #{roledesc,jdbcType=VARCHAR}
       where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updatePermissionById" parameterType="com.st.newtest.Entity.Permissions" >
+  <update id="updatePermission" parameterType="com.st.newtest.Entity.Permissions" >
       update permission
       set modelname = #{modelname,jdbcType=VARCHAR},
         permission = #{permission,jdbcType=VARCHAR}
       where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updateUserAndRoleIdById" parameterType="java.util.Map" >
+  <update id="updateUserAndRoleId" parameterType="java.util.Map" >
       update user_role
       set uid = #{uid,jdbcType=INTEGER},
         rid = #{rid,jdbcType=INTEGER}
       where uid = #{uid,jdbcType=INTEGER} AND rid = #{rid,jdbcType=INTEGER}
   </update>
 
-  <update id="updateRoleAndPermissionIdById" parameterType="java.util.Map" >
+  <update id="updateRoleAndPermissionId" parameterType="java.util.Map" >
       update role_permission
       set rid = #{rid,jdbcType=INTEGER},
         pid = #{pid,jdbcType=INTEGER}
@@ -148,14 +148,32 @@
     from user
   </select>
 
+  <select id="selectSingleUser" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select id, username, password, nickname, corepwd
+    from user
+    where username = #{username, jdbcType=VARCHAR}
+  </select>
+
   <select id="selectAllSingleRole" resultMap="roleMap" >
     select id, rolename, roledesc
     from role
   </select>
 
+  <select id="selectSingleRole" resultMap="roleMap" parameterType="java.lang.String">
+    select id, rolename, roledesc
+    from role
+    where rolename = #{rolename, jdbcType=VARCHAR}
+  </select>
+
   <select id="selectAllSinglePermission" resultMap="permissionMap" >
     select id, modelname, permission
     from permission
+  </select>
+
+  <select id="selectSinglePermission" resultMap="permissionMap" parameterType="java.lang.String">
+    select id, modelname, permission
+    from permission
+    where modelname = #{modelname, jdbcType=VARCHAR}
   </select>
 
   <select id="selectAllPermissionIdByRoleId" resultMap="roleMap" parameterType="java.lang.String">

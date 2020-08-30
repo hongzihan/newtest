@@ -5,7 +5,6 @@ import com.st.newtest.Entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 

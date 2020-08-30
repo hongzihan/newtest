@@ -30,15 +30,15 @@ public interface UserMapper {
 
     int deleteRoleAndPermissionIdById(Map<String, Integer> map);
 
-    int updateUserById(User user);
+    int updateUser(User user);
 
-    int updateRoleById(Role role);
+    int updateRole(Role role);
 
-    int updatePermissionById(Permissions permission);
+    int updatePermission(Permissions permission);
 
-    int updateUserAndRoleIdById(Map<String, Integer> map);
+    int updateUserAndRoleId(Map<String, Integer> map);
 
-    int updateRoleAndPermissionIdById(Map<String, Integer> map);
+    int updateRoleAndPermissionId(Map<String, Integer> map);
 
     List<User> selectAllSingleUser();
 
@@ -47,6 +47,12 @@ public interface UserMapper {
     List<Permissions> selectAllSinglePermission();
 
     List<Role> selectAllPermissionIdByRoleId(String rolename);
+
+    User selectSingleUser(String username);
+
+    User selectSingleRole(String rolename);
+
+    User selectSinglPermission(String modelname);
 
     User findUserByName(String name);
 }
