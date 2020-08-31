@@ -49,22 +49,22 @@ public class HelloController {
         return CommonUtil.getPage("tables");
     }
 
-    @RequiresRoles("supermanager")
-    @RequestMapping("/monsterDieMsg")
-    public ModelAndView monsterDieMsg() {
-        ArrayList<MonsterDie> moblist = new ArrayList<>();
-        for (int i=0; i<=4; i++) {
-            MonsterDie monsterDie = new MonsterDie();
-            monsterDie.setDietime("8-31 12:2" + i);
-            monsterDie.setMobname("野猪王" + i);
-            monsterDie.setKiller("杨大吊" + i);
-            monsterDie.setZonename("测试服" + i);
-            moblist.add(monsterDie);
-        }
-        ModelAndView modelAndView = CommonUtil.getPage("monsterDieMsg");
-        modelAndView.addObject("moblist", moblist);
-        return modelAndView;
-    }
+//    @RequiresRoles("supermanager")
+//    @RequestMapping("/monsterDieMsg")
+//    public ModelAndView monsterDieMsg() {
+//        ArrayList<MonsterDie> moblist = new ArrayList<>();
+//        for (int i=0; i<=4; i++) {
+//            MonsterDie monsterDie = new MonsterDie();
+//            monsterDie.setDietime("8-31 12:2" + i);
+//            monsterDie.setMobname("野猪王" + i);
+//            monsterDie.setKiller("杨大吊" + i);
+//            monsterDie.setZonename("测试服" + i);
+//            moblist.add(monsterDie);
+//        }
+//        ModelAndView modelAndView = CommonUtil.getPage("monsterDieMsg");
+//        modelAndView.addObject("mobList", moblist);
+//        return modelAndView;
+//    }
 
     @RequestMapping("/login")
     public ModelAndView login() {

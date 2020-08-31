@@ -24,26 +24,25 @@
   <div class="container-fluid">
     <hr>
     <div class="row-fluid">
-
-      <div class="input-group">
-        <select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-          <option selected>Choose...</option>
-          <option value="1">久玩国际测试区</option>
-          <option value="2">久玩国际三国版</option>
-          <option value="3">天龙八部六派系</option>
-        </select>
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button">搜索</button>
+      <form action="/st/searchMonsterMsg" method="post">
+        <div class="input-group">
+            <select class="custom-select" id="inputGroupSelect04" name="zonename" aria-label="Example select with button addon">
+              <option selected>Choose...</option>
+              <option th:each="zone : ${zoneList}" th:value="${zone.zonename}" name="zonename"><span th:text="${zone.zonename}"/></option>
+            </select>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">搜索</button>
+            </div>
         </div>
-      </div>
+      </form>
       <hr/>
-      <div class="jumbotron" th:if="${moblist != null}">
-        <div class="row" th:each="mob,stats: ${moblist}" th:if="${stats.index % 2 == 0}" style="margin-bottom: 10px">
+      <div class="jumbotron" th:if="${mobList != null}">
+        <div class="row" th:each="mob,stats: ${mobList}" th:if="${stats.index % 2 == 0}" style="margin-bottom: 10px">
           <div class="col-sm-6">
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title"><span th:text="${mob.mobname}"/></h5>
-                <p class="card-text"><span th:text="'被' + ${mob.killer} + '在' + ${mob.zonename} + ${mob.dietime} + '击杀'"/></p>
+                <p class="card-text"><span th:text="'被' + ${mob.killer} + '在' + ${mob.mapname} + ' ' + ${mob.dietime} + '击杀'"/></p>
                 <a href="#" class="btn btn-primary">设置</a>
               </div>
             </div>
@@ -51,8 +50,8 @@
           <div class="col-sm-6" th:if="${stats.index + 1 < stats.size}">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title"><span th:text="${moblist[stats.index + 1].mobname}"/></h5>
-                <p class="card-text"><span th:text="'被' + ${moblist[stats.index + 1].killer} + '在' + ${moblist[stats.index + 1].zonename} + ${moblist[stats.index + 1].dietime} + '击杀'"/></p>
+                <h5 class="card-title"><span th:text="${mobList[stats.index + 1].mobname}"/></h5>
+                <p class="card-text"><span th:text="'被' + ${mobList[stats.index + 1].killer} + '在' + ${mobList[stats.index + 1].mapname} + ${mobList[stats.index + 1].dietime} + '击杀'"/></p>
                 <a href="#" class="btn btn-primary">设置</a>
               </div>
             </div>
