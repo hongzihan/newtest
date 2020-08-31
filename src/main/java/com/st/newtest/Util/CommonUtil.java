@@ -25,7 +25,7 @@ public class CommonUtil {
         user = (User) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(redirectPage);
-        modelAndView.addObject("user", user.getNickname() );
+        modelAndView.addObject("nickname", user.getNickname() );
         return modelAndView;
     }
 }
