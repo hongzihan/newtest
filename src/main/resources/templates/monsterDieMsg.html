@@ -37,13 +37,29 @@
         </div>
       </div>
       <hr/>
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">白野猪</h5>
-          <p class="card-text">被杨大吊在国际三国版测试8-31 3:13 击杀.</p>
-          <a href="#" class="btn btn-primary">设置</a>
+      <div class="jumbotron" th:if="${moblist != null}">
+        <div class="row" th:each="mob,stats: ${moblist}" th:if="${stats.index % 2 == 0}" style="margin-bottom: 10px">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><span th:text="${mob.mobname}"/></h5>
+                <p class="card-text"><span th:text="'被' + ${mob.killer} + '在' + ${mob.zonename} + ${mob.dietime} + '击杀'"/></p>
+                <a href="#" class="btn btn-primary">设置</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6" th:if="${stats.index + 1 < stats.size}">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><span th:text="${moblist[stats.index + 1].mobname}"/></h5>
+                <p class="card-text"><span th:text="'被' + ${moblist[stats.index + 1].killer} + '在' + ${moblist[stats.index + 1].zonename} + ${moblist[stats.index + 1].dietime} + '击杀'"/></p>
+                <a href="#" class="btn btn-primary">设置</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
 
     </div>
 
