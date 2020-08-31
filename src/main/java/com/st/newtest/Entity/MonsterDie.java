@@ -13,6 +13,12 @@ public class MonsterDie implements Serializable {
 
     private String dietime;
 
+    private String mapname;
+
+    private Integer relivetime;
+
+    private String futureBornTime;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -55,6 +61,30 @@ public class MonsterDie implements Serializable {
         this.dietime = dietime == null ? null : dietime.trim();
     }
 
+    public String getMapname() {
+        return mapname;
+    }
+
+    public void setMapname(String mapname) {
+        this.mapname = mapname;
+    }
+
+    public Integer getRelivetime() {
+        return relivetime;
+    }
+
+    public void setRelivetime(Integer relivetime) {
+        this.relivetime = relivetime;
+    }
+
+    public String getFutureBornTime() {
+        return futureBornTime;
+    }
+
+    public void setFutureBornTime(String futureBornTime) {
+        this.futureBornTime = futureBornTime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -66,6 +96,9 @@ public class MonsterDie implements Serializable {
         sb.append(", mobname=").append(mobname);
         sb.append(", killer=").append(killer);
         sb.append(", dietime=").append(dietime);
+        sb.append(", mapname=").append(mapname);
+        sb.append(", relivetime=").append(relivetime);
+        sb.append(", futureBornTime=").append(futureBornTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
