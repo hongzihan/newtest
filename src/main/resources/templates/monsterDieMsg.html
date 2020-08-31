@@ -41,18 +41,18 @@
           <div class="col-sm-6">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title"><span th:text="${mob.mobname}"/></h5>
-                <p class="card-text"><span th:text="'被' + ${mob.killer} + '在' + ${mob.mapname} + ' ' + ${mob.dietime} + '击杀'"/></p>
-                <a href="#" class="btn btn-primary">设置</a>
+                <h3 class="card-title"><span th:text="${mob.mobname}"/></h3>
+                <h4 style="color: #953b39" class="card-text"><span th:text="'被 ' + ${mob.killer} + ' 在 ' + ${mob.mapname} + ' ' + ${mob.dietime} + ' 击杀'"/></h4>
+                <h4 style="color: #46a546" class="card-text" th:if="${mob.futureBornTime}"><span th:text="'预计复活时间：' + ${mob.futureBornTime}"/></h4>
               </div>
             </div>
           </div>
           <div class="col-sm-6" th:if="${stats.index + 1 < stats.size}">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title"><span th:text="${mobList[stats.index + 1].mobname}"/></h5>
-                <p class="card-text"><span th:text="'被' + ${mobList[stats.index + 1].killer} + '在' + ${mobList[stats.index + 1].mapname} + ${mobList[stats.index + 1].dietime} + '击杀'"/></p>
-                <a href="#" class="btn btn-primary">设置</a>
+                <h3 class="card-title"><span th:text="${mobList[stats.index + 1].mobname}"/></h3>
+                <h4 style="color: #953b39" class="card-text"><span th:text="'被 ' + ${mobList[stats.index + 1].killer} + ' 在 ' + ${mobList[stats.index + 1].mapname} + ' ' + ${mobList[stats.index + 1].dietime} + ' 击杀'"/></h4>
+                <h4 style="color: #46a546" class="card-text" th:if="${mobList[stats.index + 1].futureBornTime}"><span th:text="'预计复活时间：' + ${mobList[stats.index + 1].futureBornTime}"/></h4>
               </div>
             </div>
           </div>

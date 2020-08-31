@@ -15,9 +15,9 @@
   </delete>
   <insert id="insert" parameterType="com.st.newtest.Entity.MonsterDie" >
     insert into monster_die (id, zonename, mobname,
-      killer, dietime, mapname)
+      killer, dietime, mapname, relivetime)
     values (#{id,jdbcType=INTEGER}, #{zonename,jdbcType=VARCHAR}, #{mobname,jdbcType=VARCHAR},
-      #{killer,jdbcType=VARCHAR}, #{dietime,jdbcType=VARCHAR}, #{mapname,jdbcType=VARCHAR})
+      #{killer,jdbcType=VARCHAR}, #{dietime,jdbcType=VARCHAR}, #{mapname,jdbcType=VARCHAR}), #{relivetime,jdbcType=INTEGER}
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.st.newtest.Entity.MonsterDie" >
     update monster_die
@@ -25,21 +25,22 @@
       mobname = #{mobname,jdbcType=VARCHAR},
       killer = #{killer,jdbcType=VARCHAR},
       dietime = #{dietime,jdbcType=VARCHAR},
-      mapname = #{mapname,jdbcType=VARCHAR}
+      mapname = #{mapname,jdbcType=VARCHAR},
+      relivetime = #{relivetime,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, zonename, mobname, killer, dietime
+    select id, zonename, mobname, killer, dietime, mapname, relivetime
     from monster_die
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByZoneName" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, zonename, mobname, killer, dietime, mapname
+    select id, zonename, mobname, killer, dietime, mapname, relivetime
     from monster_die
     where zonename = #{zonename,jdbcType=VARCHAR}
   </select>
   <select id="selectByZoneAndMobAndMapName" resultMap="BaseResultMap" parameterType="java.util.Map" >
-    select id, zonename, mobname, killer, dietime, mapname
+    select id, zonename, mobname, killer, dietime, mapname, relivetime
     from monster_die
     where zonename = #{zonename,jdbcType=VARCHAR} AND mobname = #{mobname,jdbcType=VARCHAR} AND mapname = #{mapname,jdbcType=VARCHAR}
   </select>
@@ -51,7 +52,7 @@
     WHERE a.id is not null
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, zonename, mobname, killer, dietime, mapname
+    select id, zonename, mobname, killer, dietime, mapname, relivetime
     from monster_die
   </select>
 </mapper>

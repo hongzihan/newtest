@@ -5,7 +5,10 @@ import com.st.newtest.Entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CommonUtil {
@@ -27,5 +30,15 @@ public class CommonUtil {
         modelAndView.setViewName(redirectPage);
         modelAndView.addObject("nickname", user.getNickname() );
         return modelAndView;
+    }
+
+    public static long calTimeInterval(String a, String b) throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date a1 = df.parse(a);
+        Date b1 = df.parse(b);
+        if (a1.getTime() - b1.getTime() < 0) {
+            return 0;
+        }
+        return (a1.getTime() - b1.getTime()) / (1 * 1000);
     }
 }

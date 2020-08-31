@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/st")
@@ -90,14 +93,21 @@ public class stController {
 
     @RequiresRoles("supermanager")
     @RequestMapping("/searchMonsterMsg")
-    public ModelAndView searchMonsterMsg(String zonename) {
-        System.out.println(zonename);
+    public ModelAndView searchMonsterMsg(String zonename) throws ParseException {
         List<MonsterDie> monsterDies = openStService.selectByZoneName(zonename);
         List<MonsterDie> auz = openStService.selectAllUniqueZoneName();
         ModelAndView mav = CommonUtil.getPage("monsterDieMsg");
         if (monsterDies != null) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            for (MonsterDie monsterDie : monsterDies) {
+                if (monsterDie.getRelivetime() != null) {
+                    Date x = df.parse(monsterDie.getDietime());
+                    monsterDie.setFutureBornTime(df.format(x.getTime() + monsterDie.getRelivetime() * 1000));
+                }
+            }
             mav.addObject("mobList", monsterDies);
         }
+
         mav.addObject("zoneList", auz);
         return mav;
     }
