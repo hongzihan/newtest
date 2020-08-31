@@ -17,7 +17,7 @@
     insert into monster_die (id, zonename, mobname,
       killer, dietime, mapname, relivetime)
     values (#{id,jdbcType=INTEGER}, #{zonename,jdbcType=VARCHAR}, #{mobname,jdbcType=VARCHAR},
-      #{killer,jdbcType=VARCHAR}, #{dietime,jdbcType=VARCHAR}, #{mapname,jdbcType=VARCHAR}), #{relivetime,jdbcType=INTEGER}
+      #{killer,jdbcType=VARCHAR}, #{dietime,jdbcType=VARCHAR}, #{mapname,jdbcType=VARCHAR}, #{relivetime,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.st.newtest.Entity.MonsterDie" >
     update monster_die
