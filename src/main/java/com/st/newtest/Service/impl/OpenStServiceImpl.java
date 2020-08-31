@@ -58,6 +58,7 @@ public class OpenStServiceImpl implements OpenStService {
                 }
                 mobDie.setRelivetime((int) timeIntervel);
             }
+            mobDie.setKiller(monsterDie.getKiller());
             mobDie.setDietime(monsterDie.getDietime());
             return monsterDieMapper.updateByPrimaryKey(mobDie);
         } else {
