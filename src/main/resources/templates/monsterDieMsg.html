@@ -27,7 +27,8 @@
       <form action="/st/searchMonsterMsg" method="post">
         <div class="input-group">
             <select class="custom-select" id="inputGroupSelect04" name="zonename" aria-label="Example select with button addon">
-              <option selected>Choose...</option>
+              <option selected th:unless="${zonename}">Choose...</option>
+              <option selected th:if="${zonename}" th:value="${zonename}" name="zonename"><span th:text="${zonename}"/></option>
               <option th:each="zone : ${zoneList}" th:value="${zone.zonename}" name="zonename"><span th:text="${zone.zonename}"/></option>
             </select>
             <div class="input-group-append">
@@ -41,18 +42,22 @@
           <div class="col-sm-6">
             <div class="card">
               <div class="card-body">
-                <h3 class="card-title"><span th:text="${mob.mobname}"/></h3>
-                <h4 style="color: #953b39" class="card-text"><span th:text="'被 ' + ${mob.killer} + ' 在 ' + ${mob.mapname} + ' ' + ${mob.dietime} + ' 击杀'"/></h4>
+                <h2 class="card-title"><span th:text="${mob.mobname}"/>&nbsp;&nbsp;<span class="badge badge-warning" th:text="${mob.mapname}"/></h2>
+                <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + ${mob.killer}"/></h4>
+                <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + ${mob.dietime}"/></h4>
                 <h4 style="color: #46a546" class="card-text" th:if="${mob.futureBornTime}"><span th:text="'预计复活时间：' + ${mob.futureBornTime}"/></h4>
+                <h4 style="color: #3a87ad" class="card-text" th:if="${mob.relivetime}"><span th:text="'预计复活间隔：' + ${mob.relivetime/60} + '分钟'"/></h4>
               </div>
             </div>
           </div>
           <div class="col-sm-6" th:if="${stats.index + 1 < stats.size}">
             <div class="card">
               <div class="card-body">
-                <h3 class="card-title"><span th:text="${mobList[stats.index + 1].mobname}"/></h3>
-                <h4 style="color: #953b39" class="card-text"><span th:text="'被 ' + ${mobList[stats.index + 1].killer} + ' 在 ' + ${mobList[stats.index + 1].mapname} + ' ' + ${mobList[stats.index + 1].dietime} + ' 击杀'"/></h4>
+                <h3 class="card-title"><span th:text="${mobList[stats.index + 1].mobname}"/>&nbsp;&nbsp;<span class="badge badge-warning" th:text="${mobList[stats.index + 1].mapname}"/></h3>
+                <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + ${mobList[stats.index + 1].killer}"/></h4>
+                <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + ${mobList[stats.index + 1].dietime}"/></h4>
                 <h4 style="color: #46a546" class="card-text" th:if="${mobList[stats.index + 1].futureBornTime}"><span th:text="'预计复活时间：' + ${mobList[stats.index + 1].futureBornTime}"/></h4>
+                <h4 style="color: #3a87ad" class="card-text" th:if="${mobList[stats.index + 1].relivetime}"><span th:text="'预计复活间隔：' + ${mobList[stats.index + 1].relivetime / 60} + '分钟'"/></h4>
               </div>
             </div>
           </div>

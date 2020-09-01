@@ -107,7 +107,7 @@ public class stController {
             }
             mav.addObject("mobList", monsterDies);
         }
-
+        mav.addObject("zonename", zonename);
         mav.addObject("zoneList", auz);
         return mav;
     }
