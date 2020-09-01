@@ -99,10 +99,19 @@ public class stController {
         ModelAndView mav = CommonUtil.getPage("monsterDieMsg");
         if (monsterDies != null) {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date dNow = new Date( ); // 当前时间
             for (MonsterDie monsterDie : monsterDies) {
                 if (monsterDie.getRelivetime() != null) {
                     Date x = df.parse(monsterDie.getDietime());
-                    monsterDie.setFutureBornTime(df.format(x.getTime() + monsterDie.getRelivetime() * 1000));
+                    long l = x.getTime() + monsterDie.getRelivetime() * 1000; // 未来出生时间
+                    monsterDie.setFutureBornTime(df.format(l));
+                    if (dNow.getTime() - l >= 0) {
+                        monsterDie.setMobStatus("存活");
+                    } else {
+                        monsterDie.setMobStatus("死亡");
+                    }
+                } else {
+                    monsterDie.setMobStatus("未知");
                 }
             }
             mav.addObject("mobList", monsterDies);

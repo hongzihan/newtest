@@ -42,7 +42,8 @@
           <div class="col-sm-4">
             <div class="card">
               <div class="card-body" th:object="${mob}">
-                <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-warning" th:text="*{mapname}"/></h2>
+                <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
+                <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
                 <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
                 <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + *{dietime}"/></h4>
                 <h4 style="color: #46a546" class="card-text" th:if="*{futureBornTime}"><span th:text="'预计复活时间：' + *{futureBornTime}"/></h4>
@@ -53,7 +54,8 @@
           <div class="col-sm-4" th:if="${stats.index + 1 < stats.size}">
             <div class="card">
               <div class="card-body" th:object="${mobList[stats.index + 1]}">
-                <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-warning" th:text="*{mapname}"/></h2>
+                <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
+                <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
                 <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
                 <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + *{dietime}"/></h4>
                 <h4 style="color: #46a546" class="card-text" th:if="*{futureBornTime}"><span th:text="'预计复活时间：' + *{futureBornTime}"/></h4>
@@ -64,7 +66,8 @@
           <div class="col-sm-4" th:if="${stats.index + 2 < stats.size}">
             <div class="card">
               <div class="card-body" th:object="${mobList[stats.index + 2]}">
-                <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-warning" th:text="*{mapname}"/></h2>
+                <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
+                <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
                 <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
                 <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + *{dietime}"/></h4>
                 <h4 style="color: #46a546" class="card-text" th:if="*{futureBornTime}"><span th:text="'预计复活时间：' + *{futureBornTime}"/></h4>
