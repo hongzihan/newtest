@@ -80,68 +80,93 @@
         </div>
       </div>
     </div>
+    <!-- 角色操作 -->
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-            <h5>Numeric validation</h5>
+            <h5>角色操作</h5>
           </div>
           <div class="widget-content nopadding">
-            <form class="form-horizontal" method="post" action="#" name="number_validate" id="number_validate" novalidate="novalidate">
+            <form class="form-horizontal" method="post" action="#" id="role_action_form">
               <div class="control-group">
-                <label class="control-label">Minimal Salary</label>
+                <label class="control-label">角色名</label>
                 <div class="controls">
-                  <input type="text" name="min" id="min" />
+                  <input type="text" name="username" id="role_action_username">
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">Maximum Salary</label>
+                <label class="control-label">角色描述</label>
                 <div class="controls">
-                  <input type="text" name="max" id="max" />
+                  <input type="text" name="password" id="role_action_password">
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">Only digit</label>
+                <label class="control-label">*操作类型 :</label>
                 <div class="controls">
-                  <input type="text" name="number" id="number" />
+                  <label>
+                    <input type="radio" name="type" value=1 checked/>
+                    增加</label>
+                  <label>
+                    <input type="radio" name="type" value=2 />
+                    删除</label>
+                  <label>
+                    <input type="radio" name="type" value=3 />
+                    修改</label>
                 </div>
               </div>
               <div class="form-actions">
-                <input type="submit" value="Validate" class="btn btn-success">
+                <input type="submit" value="保存" class="btn btn-success"  onclick="isvalid('角色操作')">
               </div>
             </form>
           </div>
         </div>
       </div>
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="widget-box">
-            <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-              <h5>Security validation</h5>
-            </div>
-            <div class="widget-content nopadding">
-              <form class="form-horizontal" method="post" action="#" name="password_validate" id="password_validate" novalidate="novalidate">
-                <div class="control-group">
-                  <label class="control-label">Password</label>
-                  <div class="controls">
-                    <input type="password" name="pwd" id="pwd" />
-                  </div>
+    </div>
+    <!-- 权限操作 -->
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
+            <h5>权限操作</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <form class="form-horizontal" method="post" action="#" id="permission_action_form">
+              <div class="control-group">
+                <label class="control-label">权限接口</label>
+                <div class="controls">
+                  <input type="text" name="username" id="permission_action_username">
                 </div>
-                <div class="control-group">
-                  <label class="control-label">Confirm password</label>
-                  <div class="controls">
-                    <input type="password" name="pwd2" id="pwd2" />
-                  </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">权限名</label>
+                <div class="controls">
+                  <input type="text" name="password" id="permission_action_password">
                 </div>
-                <div class="form-actions">
-                  <input type="submit" value="Validate" class="btn btn-success">
+              </div>
+              <div class="control-group">
+                <label class="control-label">*操作类型 :</label>
+                <div class="controls">
+                  <label>
+                    <input type="radio" name="type" value=1 checked/>
+                    增加</label>
+                  <label>
+                    <input type="radio" name="type" value=2 />
+                    删除</label>
+                  <label>
+                    <input type="radio" name="type" value=3 />
+                    修改</label>
                 </div>
-              </form>
-            </div>
+              </div>
+              <div class="form-actions">
+                <input type="submit" value="保存" class="btn btn-success"  onclick="isvalid('权限操作')">
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </div>
 <!--Footer-part-->
@@ -158,20 +183,47 @@
 <script type="text/javascript">
   function isvalid(data) {
     if (data === '用户操作') {
-      // let arr = ["user_action_username", "user_action_password", "user_action_nickname", "user_action_corepwd"]
-      // let arr2 = ["用户名", "密码", "昵称", "核心密码"]
-      // for (let i=0; i<arr.length; i++) {
-      //   let elementV = document.getElementById(arr[i]).value;
-      //   if (elementV === '') {
-      //     alert(arr2[i] + '不能为空！');
-      //     return false;
-      //   }
-      // }
       //表单异步提交
       $.ajax({
         type: 'post',
         data: $('#user_action_form').serialize(),
         url: '/user/userAction',
+        cache:false,
+        dataType:'text',
+        async:false,
+        success: function (msg) {
+          console.log(msg)
+          if (msg === "success") {
+            alert("提交成功！")
+          } else {
+            alert("提交失败！" + msg)
+          }
+        }
+      });
+    } else if (data === '角色操作') {
+      //表单异步提交
+      $.ajax({
+        type: 'post',
+        data: $('#role_action_form').serialize(),
+        url: '/user/roleAction',
+        cache:false,
+        dataType:'text',
+        async:false,
+        success: function (msg) {
+          console.log(msg)
+          if (msg === "success") {
+            alert("提交成功！")
+          } else {
+            alert("提交失败！" + msg)
+          }
+        }
+      });
+    } else if (data === '权限操作') {
+      //表单异步提交
+      $.ajax({
+        type: 'post',
+        data: $('#permission_action_form').serialize(),
+        url: '/user/permissionAction',
         cache:false,
         dataType:'text',
         async:false,
