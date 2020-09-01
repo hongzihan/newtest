@@ -1,5 +1,7 @@
 package com.st.newtest.Service.impl;
 
+import com.st.newtest.Entity.Permissions;
+import com.st.newtest.Entity.Role;
 import com.st.newtest.Entity.User;
 import com.st.newtest.Mapper.UserMapper;
 import com.st.newtest.Service.UserService;
@@ -79,7 +81,94 @@ public class UserServiceImpl implements UserService {
             }
 
         }
-        // 比对不同值并修改
+        return true;
+    }
+
+    @Override
+    public Boolean insertRole(Role role) {
+        if (role.getRolename() != null) {
+            Role newRole = userMapper.selectSingleRole(role.getRolename());
+            if (newRole == null) {
+                userMapper.insertRole(role);
+            } else { // 已经存在该角色，角色名不能相同
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean deleteRole(String rolename) {
+        // 根据rolename查找到该角色
+        if (rolename != null) {
+            Role role = userMapper.selectSingleRole(rolename);
+            // 通过查找到的角色获取id并通过id删除
+            if (role != null) {
+                userMapper.deleteRoleById(role.getId());
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean updateRole(Role role) {
+        // 根据username查找角色
+        if (role.getRolename() != null) {
+            Role roleT = userMapper.selectSingleRole(role.getRolename());
+            // roledesc
+            if (role.getRoledesc() != null && Pattern.matches("^[\u4E00-\u9FA5A-Za-z0-9_]{1,30}$", role.getRoledesc())) {
+                roleT.setRoledesc(role.getRoledesc());
+            }
+            if (userMapper.updateRole(roleT) <= 0) {
+                return false; // 无行数影响，代表无任何改变
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean insertPermission(Permissions permissions) {
+        if (permissions.getModelname() != null) {
+            Permissions newPermission = userMapper.selectSinglePermission(permissions.getModelname());
+            if (newPermission == null) {
+                userMapper.insertPermission(permissions);
+            } else { // 已经存在该权限，权限名不能相同
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean deletePermission(String modelname) {
+        // 根据modelname查找到该权限
+        if (modelname != null) {
+            Permissions permission = userMapper.selectSinglePermission(modelname);
+            // 通过查找到的权限获取id并通过id删除
+            if (permission != null) {
+                userMapper.deletePermissionById(permission.getId());
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean updatePermission(Permissions permissions) {
+        // 根据modelname查找权限
+        if (permissions.getPermission() != null) {
+            Permissions permissionT = userMapper.selectSinglePermission(permissions.getModelname());
+            // roledesc
+            if (permissions.getPermission() != null && Pattern.matches("^[\u4E00-\u9FA5A-Za-z0-9_]{1,30}$", permissions.getPermission())) {
+                permissionT.setPermission(permissions.getPermission());
+            }
+            if (userMapper.updatePermission(permissionT) <= 0) {
+                return false; // 无行数影响，代表无任何改变
+            }
+        }
         return true;
     }
 

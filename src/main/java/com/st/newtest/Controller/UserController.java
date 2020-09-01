@@ -1,5 +1,7 @@
 package com.st.newtest.Controller;
 
+import com.st.newtest.Entity.Permissions;
+import com.st.newtest.Entity.Role;
 import com.st.newtest.Entity.User;
 import com.st.newtest.Service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -66,7 +68,6 @@ public class UserController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/userAction")
     public String userAction(User user, Integer type) {
-
         // 所有操作都需要检测username
         if (!Pattern.matches("^[^0-9][\\w_]{3,9}$", user.getUsername())) {
             return "failed 用户名非法";
@@ -84,13 +85,74 @@ public class UserController {
             if (!userService.insertUser(user)) {
                 return "failed 用户名已经存在";
             }
-
         } else if (type.equals(2)) { // 删除一个用户
            if (!userService.deleteUser(user.getUsername())) {
                return "failed 不存在该用户";
            }
         } else if (type.equals(3)) { // 修改一个用户
             if (!userService.updateUser(user)) {
+                return "failed 更新失败（需更改内容相同或更新失败）";
+            }
+        }
+        return "success";
+    }
+
+    @RequiresRoles("supermanager")
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST, value = "/roleAction")
+    public String roleAction(Role role, Integer type) {
+        // 所有操作都需要检测username
+        if (!Pattern.matches("^[\u4E00-\u9FA5A-Za-z0-9_]{1,30}$", role.getRolename())) {
+            return "failed 角色名非法";
+        }
+        if (type.equals(1) && !role.getRolename().equals("")) { // 增加一个角色
+            if (!Pattern.matches("^[\u4E00-\u9FA5A-Za-z0-9_]{1,30}$", role.getRoledesc())) {
+                return "failed 角色描述非法";
+            }
+            if (!userService.insertRole(role)) {
+                return "failed 角色名已经存在";
+            }
+
+        } else if (type.equals(2)) { // 删除一个角色
+            if (!userService.deleteRole(role.getRolename())) {
+                return "failed 不存在该角色";
+            }
+        } else if (type.equals(3)) { // 修改一个角色
+            if (!Pattern.matches("^[\u4E00-\u9FA5A-Za-z0-9_]{1,30}$", role.getRoledesc())) {
+                return "failed 角色描述非法";
+            }
+            if (!userService.updateRole(role)) {
+                return "failed 更新失败（需更改内容相同或更新失败）";
+            }
+        }
+        return "success";
+    }
+
+    @RequiresRoles("supermanager")
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST, value = "/permissionAction")
+    public String permissionAction(Permissions permission, Integer type) {
+        // 所有操作都需要检测username
+        if (!Pattern.matches("^[\u4E00-\u9FA5A-Za-z0-9_]{1,30}$", permission.getModelname())) {
+            return "failed 权限接口非法";
+        }
+        if (type.equals(1) && !permission.getModelname().equals("")) { // 增加一个角色
+            if (!Pattern.matches("^[\u4E00-\u9FA5A-Za-z0-9_]{1,30}$", permission.getPermission())) {
+                return "failed 权限名非法";
+            }
+            if (!userService.insertPermission(permission)) {
+                return "failed 权限名已经存在";
+            }
+
+        } else if (type.equals(2)) { // 删除一个角色
+            if (!userService.deletePermission(permission.getModelname())) {
+                return "failed 不存在该权限";
+            }
+        } else if (type.equals(3)) { // 修改一个角色
+            if (!Pattern.matches("^[\u4E00-\u9FA5A-Za-z0-9_]{1,30}$", permission.getPermission())) {
+                return "failed 权限名非法";
+            }
+            if (!userService.updatePermission(permission)) {
                 return "failed 更新失败（需更改内容相同或更新失败）";
             }
         }

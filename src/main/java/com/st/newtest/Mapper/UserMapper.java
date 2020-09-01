@@ -50,9 +50,9 @@ public interface UserMapper {
 
     User selectSingleUser(String username);
 
-    User selectSingleRole(String rolename);
+    Role selectSingleRole(String rolename);
 
-    User selectSinglPermission(String modelname);
+    Permissions selectSinglePermission(String modelname);
 
     User findUserByName(String name);
 }

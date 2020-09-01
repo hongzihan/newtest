@@ -1,5 +1,7 @@
 package com.st.newtest.Service;
 
+import com.st.newtest.Entity.Permissions;
+import com.st.newtest.Entity.Role;
 import com.st.newtest.Entity.User;
 
 public interface UserService {
@@ -11,4 +13,16 @@ public interface UserService {
     Boolean deleteUser(String username); // 删除一个用户
 
     Boolean updateUser(User user); // 修改一个用户的信息
+
+    Boolean insertRole(Role role); // 往数据库中插入一个角色
+
+    Boolean deleteRole(String rolename); // 删除一个角色
+
+    Boolean updateRole(Role role); // 修改一个角色的信息
+
+    Boolean insertPermission(Permissions permissions); // 往数据库中插入一个角色
+
+    Boolean deletePermission(String modelname); // 删除一个角色
+
+    Boolean updatePermission(Permissions permissions); // 修改一个角色的信息
 }
