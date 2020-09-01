@@ -50,7 +50,7 @@ public class OpenStServiceImpl implements OpenStService {
                 return 0;
             }
             // 2.若数据库内该条数据已经存在刷新间隔，则比较两个刷新间隔，取小的一方
-            if (timeIntervel > 0) {
+            if (timeIntervel >= 60 * 20) { // 若boss触发鞭尸，则不加入预知时间计算
                 if (mobDie.getRelivetime() != null) {
                     if (timeIntervel > mobDie.getRelivetime()) {
                         timeIntervel = mobDie.getRelivetime();
