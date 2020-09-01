@@ -32,7 +32,7 @@
               <option th:each="zone : ${zoneList}" th:value="${zone.zonename}" name="zonename"><span th:text="${zone.zonename}"/></option>
             </select>
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="submit">搜索</button>
+              <button class="btn btn-outline-secondary" type="submit" id="search_mob">搜索</button>
             </div>
         </div>
       </form>
@@ -40,16 +40,17 @@
       <div class="jumbotron" th:if="${mobList != null}">
         <div class="row" th:each="mob,stats: ${mobList}" th:if="${stats.index % 3 == 0}" style="margin-bottom: 10px">
           <div class="col-sm-4">
-            <div class="card">
-              <div class="card-body" th:object="${mob}">
-                <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
-                <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
-                <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
-                <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + *{dietime}"/></h4>
-                <h4 style="color: #46a546" class="card-text" th:if="*{futureBornTime}"><span th:text="'预计复活时间：' + *{futureBornTime}"/></h4>
-                <h4 style="color: #3a87ad" class="card-text" th:if="*{relivetime}"><span th:text="'预计复活间隔：' + *{relivetime / 60} + '分钟'"/></h4>
+              <div class="card">
+                <div class="card-body" th:object="${mob}">
+                  <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
+                  <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
+                  <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
+                  <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + *{dietime}"/></h4>
+                  <h4 style="color: #46a546" class="card-text" th:if="*{futureBornTime}"><span th:text="'预计复活时间：' + *{futureBornTime}"/></h4>
+                  <h4 style="color: #3a87ad" class="card-text" th:if="*{relivetime}"><span th:text="'预计复活间隔：' + *{relivetime / 60} + '分钟'"/></h4>
+                  <a th:if="*{relivetime}" href="#" th:onclick="clearRT([[*{zonename}]], [[*{mobname}]], [[*{mapname}]])" class="btn btn-primary">重置重生时间</a>
+                </div>
               </div>
-            </div>
           </div>
           <div class="col-sm-4" th:if="${stats.index + 1 < stats.size}">
             <div class="card">
@@ -60,6 +61,7 @@
                 <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + *{dietime}"/></h4>
                 <h4 style="color: #46a546" class="card-text" th:if="*{futureBornTime}"><span th:text="'预计复活时间：' + *{futureBornTime}"/></h4>
                 <h4 style="color: #3a87ad" class="card-text" th:if="*{relivetime}"><span th:text="'预计复活间隔：' + *{relivetime / 60} + '分钟'"/></h4>
+                <a th:if="*{relivetime}" href="#" th:onclick="clearRT([[*{zonename}]], [[*{mobname}]], [[*{mapname}]])" class="btn btn-primary">重置重生时间</a>
               </div>
             </div>
           </div>
@@ -72,6 +74,7 @@
                 <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + *{dietime}"/></h4>
                 <h4 style="color: #46a546" class="card-text" th:if="*{futureBornTime}"><span th:text="'预计复活时间：' + *{futureBornTime}"/></h4>
                 <h4 style="color: #3a87ad" class="card-text" th:if="*{relivetime}"><span th:text="'预计复活间隔：' + *{relivetime / 60} + '分钟'"/></h4>
+                <a th:if="*{relivetime}" href="#" th:onclick="clearRT([[*{zonename}]], [[*{mobname}]], [[*{mapname}]])" class="btn btn-primary">重置重生时间</a>
               </div>
             </div>
           </div>
@@ -104,83 +107,23 @@
 <script>
 	$('.textarea_editor').wysihtml5();
 
-    function isvalid(msg) {
-      if (msg === '物品操作') {
-        let arr = ['item_action_zoneid', 'item_action_playername', 'item_action_keyname', 'item_action_count']
-        let arr2 = ['区名', '玩家名字', '物品索引名', '物品数量']
-        for (let i=0; i<arr.length; i++) {
-          let elementV = document.getElementById(arr[i]).value;
-          if (elementV === '') {
-            alert(arr2[i] + '不能为空！');
-            return false;
+    function clearRT(zonename, mobname, mapname) {
+      //表单异步提交
+      $.ajax({
+        type: 'post',
+        data: {zonename:zonename,mobname:mobname,mapname:mapname},
+        url: '/st/clearRelive',
+        cache:false,
+        dataType:'text',
+        async:false,
+        success: function (msg) {
+          if (msg === "success") {
+            document.getElementById("search_mob").click()
+          } else {
+            alert("修改失败！")
           }
         }
-        //表单异步提交
-        $.ajax({
-          type: 'post',
-          data: $('#form-action-item').serialize(),
-          url: '/webAction/saveActionData_item',
-          cache:false,
-          dataType:'text',
-          success: function (msg) {
-            if (msg === "{code:200, msg:'成功'}") {
-              alert("提交成功！")
-            } else {
-              alert("提交失败！")
-            }
-          }
-        })
-      } else if (msg === '变量操作') {
-        let arr = ["var_action_zoneid", "var_action_name", "var_action_value", "var_action_areatype"]
-        let arr2 = ["区名", "变量名", "变量值"]
-        for (let i=0; i<arr.length; i++) {
-          let elementV = document.getElementById(arr[i]).value;
-          if (elementV === '') {
-            alert(arr2[i] + '不能为空！');
-            return false;
-          }
-        }
-        //表单异步提交
-        $.ajax({
-          type: 'post',
-          data: $('#var_action_form').serialize(),
-          url: '/webAction/saveActionData_var',
-          cache:false,
-          dataType:'text',
-          success: function (msg) {
-            if (msg === "{code:200, msg:'成功'}") {
-              alert("提交成功！")
-            } else {
-              alert("提交失败！")
-            }
-          }
-        })
-      } else if(msg == "邮件操作") {
-        let arr = ["mail_action_zoneid", "mail_action_playername", "mail_action_title", "mail_action_gold", "mail_action_yuanbao", "mail_action_integral", "mail_action_templates"]
-        let arr2 = ["区名", "玩家名", "邮件标题", "金币", "元宝", "积分", "物品模板"]
-        for (let i=0; i<arr.length; i++) {
-          let elementV = document.getElementById(arr[i]).value;
-          if (elementV === '') {
-            alert(arr2[i] + '不能为空！');
-            return false;
-          }
-        }
-        //表单异步提交
-        $.ajax({
-          type: 'post',
-          data: $('#mail-action-form').serialize(),
-          url: '/webAction/saveActionData_mail',
-          cache:false,
-          dataType:'text',
-          success: function (msg) {
-            if (msg === "{code:200, msg:'成功'}") {
-              alert("提交成功！")
-            } else {
-              alert("提交失败！")
-            }
-          }
-        })
-      }
+      })
     }
 </script>
 </body>

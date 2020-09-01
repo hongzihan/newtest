@@ -6,13 +6,11 @@ import com.st.newtest.Entity.TbItem;
 import com.st.newtest.Service.OpenStService;
 import com.st.newtest.Service.TbItemService;
 import com.st.newtest.Util.CommonUtil;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
@@ -121,4 +119,13 @@ public class stController {
         return mav;
     }
 
+    @ResponseBody
+    @RequiresRoles("supermanager")
+    @RequestMapping("/clearRelive")
+    public String clearRelive(MonsterDie monsterDie) {
+        if (!openStService.clearTargetReliveTime(monsterDie)) {
+            return "failed";
+        }
+        return "success";
+    }
 }

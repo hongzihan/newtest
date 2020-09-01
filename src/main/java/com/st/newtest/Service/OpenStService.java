@@ -10,4 +10,6 @@ public interface OpenStService {
     List<MonsterDie> selectAllUniqueZoneName();
 
     int insertNewMonster(MonsterDie monsterDie);
+
+    Boolean clearTargetReliveTime(MonsterDie monsterDie);
 }

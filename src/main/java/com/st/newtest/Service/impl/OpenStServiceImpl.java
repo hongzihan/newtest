@@ -65,4 +65,22 @@ public class OpenStServiceImpl implements OpenStService {
             return monsterDieMapper.insert(monsterDie);
         }
     }
+
+    @Override
+    public Boolean clearTargetReliveTime(MonsterDie monsterDie) {
+        HashMap<String, String> hMap;
+        hMap = new HashMap<>();
+        hMap.put("zonename", monsterDie.getZonename());
+        hMap.put("mobname", monsterDie.getMobname());
+        hMap.put("mapname", monsterDie.getMapname());
+        List<MonsterDie> monsterDies = monsterDieMapper.selectByZoneAndMobAndMapName(hMap);
+        if (monsterDies != null && monsterDies.size() > 0) {
+            MonsterDie mobDie = monsterDies.get(0);
+            mobDie.setRelivetime(null);
+            monsterDieMapper.updateByPrimaryKey(mobDie);
+        } else {
+            return false;
+        }
+        return true;
+    }
 }
