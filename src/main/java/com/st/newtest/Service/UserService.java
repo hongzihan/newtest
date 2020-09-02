@@ -4,6 +4,8 @@ import com.st.newtest.Entity.Permissions;
 import com.st.newtest.Entity.Role;
 import com.st.newtest.Entity.User;
 
+import java.util.List;
+
 public interface UserService {
 
     User findUserByName(String name); // 根据名字查找用户
@@ -25,4 +27,10 @@ public interface UserService {
     Boolean deletePermission(String modelname); // 删除一个角色
 
     Boolean updatePermission(Permissions permissions); // 修改一个角色的信息
+
+    List<Role> selectAllSingleRole();
+
+    List<Permissions> selectAllSinglePermission();
+
+    Boolean giveRoleToUser(String username, List<String> roles);
 }

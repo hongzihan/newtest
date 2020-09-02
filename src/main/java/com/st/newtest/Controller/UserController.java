@@ -15,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @RequestMapping("/user")
@@ -155,6 +157,16 @@ public class UserController {
             if (!userService.updatePermission(permission)) {
                 return "failed 更新失败（需更改内容相同或更新失败）";
             }
+        }
+        return "success";
+    }
+
+    @ResponseBody
+    @RequiresRoles("supermanager")
+    @RequestMapping("/userRoleAction")
+    public String userRoleAction(User user, @RequestParam("preRole[]") List<String> preRole) {
+        if (!userService.giveRoleToUser(user.getUsername(), preRole)) {
+            return "failed 找不到该用户！";
         }
         return "success";
     }

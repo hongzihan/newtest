@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Service("userService")
@@ -58,6 +60,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean updateUser(User user) {
         // 根据username查找用户
@@ -84,6 +87,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean insertRole(Role role) {
         if (role.getRolename() != null) {
@@ -97,6 +101,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean deleteRole(String rolename) {
         // 根据rolename查找到该角色
@@ -112,6 +117,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean updateRole(Role role) {
         // 根据username查找角色
@@ -128,6 +134,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean insertPermission(Permissions permissions) {
         if (permissions.getModelname() != null) {
@@ -141,6 +148,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean deletePermission(String modelname) {
         // 根据modelname查找到该权限
@@ -156,6 +164,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean updatePermission(Permissions permissions) {
         // 根据modelname查找权限
@@ -167,6 +176,36 @@ public class UserServiceImpl implements UserService {
             }
             if (userMapper.updatePermission(permissionT) <= 0) {
                 return false; // 无行数影响，代表无任何改变
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public List<Role> selectAllSingleRole() {
+        return userMapper.selectAllSingleRole();
+    }
+
+    @Override
+    public List<Permissions> selectAllSinglePermission() {
+        return userMapper.selectAllSinglePermission();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Boolean giveRoleToUser(String username, List<String> roles) {
+        User user = userMapper.selectSingleUser(username);
+        if (user == null) {
+            return false;
+        }
+        HashMap<String, Integer> map = null;
+        for (String role : roles) {
+            Role roleNew = userMapper.selectSingleRole(role);
+            if (roleNew != null) {
+                map = new HashMap<>();
+                map.put("uid", user.getId());
+                map.put("rid", roleNew.getId());
+                userMapper.insertUserAndRoleId(map);
             }
         }
         return true;
