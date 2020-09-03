@@ -37,4 +37,6 @@ public interface UserService {
     Boolean deleteRoleToUser(String username, List<String> roles);
 
     Boolean givePermissionToRole(String rolename, List<String> permissions);
+
+    Boolean deletePermissionToRole(String rolename, List<String> permissions);
 }

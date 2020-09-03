@@ -351,6 +351,13 @@
         }
       });
     } else if (data === '权限分配') {
+      let obj = document.getElementById("role_permission_checkbox").getElementsByTagName("input");
+      let checkVal = 0
+      for (let k in obj) {
+        if (obj[k].checked) {
+          checkVal = obj[k].value
+        }
+      }
       let select = document.getElementById("role_permission_select_id")
       let att = []
       for (let i=0;i<select.length;i++) {
@@ -358,7 +365,7 @@
           att.push(select[i].value)
         }
       }
-      let data = {prePermission:att,rolename:document.getElementById("role_permission_action_rolename").value}
+      let data = {prePermission:att,rolename:document.getElementById("role_permission_action_rolename").value,type:checkVal}
       $.ajax({
         type: 'post',
         data: data,

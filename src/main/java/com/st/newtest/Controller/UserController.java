@@ -195,10 +195,19 @@ public class UserController {
     @ResponseBody
     @RequiresRoles("supermanager")
     @RequestMapping("/rolePermissionAction")
-    public String rolePermissionAction(Role role, @RequestParam("prePermission[]") List<String> prePermission) {
-        if (!userService.givePermissionToRole(role.getRolename(), prePermission)) {
-            return "failed 找不到该角色！";
+    public String rolePermissionAction(Role role, @RequestParam("prePermission[]") List<String> prePermission, Integer type) {
+        if (type == 1) {
+            if (!userService.givePermissionToRole(role.getRolename(), prePermission)) {
+                return "failed 找不到该角色！";
+            }
+        } else if (type == 2) {
+            if (!userService.deletePermissionToRole(role.getRolename(), prePermission)) {
+                return "failed 找不到该角色！";
+            }
+        } else {
+            return "failed 请至少选择一个操作类型";
         }
+
         return "success";
     }
 }

@@ -290,5 +290,30 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public Boolean deletePermissionToRole(String rolename, List<String> permissions) {
+        Role role = userMapper.selectSingleRole(rolename);
+        if (role == null) {
+            return false;
+        }
+        for (String permission : permissions) {
+            Permissions permissionNew = userMapper.selectSinglePermission(permission);
+            if (permissionNew != null) {
+                List<RolePermission> rolePermissions = userMapper.selectAllPermissionForRole(role.getId());
+                if (rolePermissions != null) {
+                    for (RolePermission rp : rolePermissions) {
+                        if (rp.getPid().equals(permissionNew.getId())) { // 该权限确实存在
+                            HashMap<String, Integer> map = new HashMap<>();
+                            map.put("rid", role.getId());
+                            map.put("pid", permissionNew.getId());
+                            userMapper.deleteRoleAndPermissionIdById(map);
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
 
 }
