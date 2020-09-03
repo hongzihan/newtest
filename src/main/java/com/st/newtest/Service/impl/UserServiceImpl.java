@@ -196,6 +196,7 @@ public class UserServiceImpl implements UserService {
                 if (roleList != null) {
                     HashMap<String, Integer> map = null;
                     for (Role role : roleList) {
+                        map = new HashMap<>();
                         map.put("rid", role.getId());
                         map.put("pid", permission.getId());
                         userMapper.deleteRoleAndPermissionIdById(map);
