@@ -341,57 +341,17 @@
   }
 
   function isvalid(actionMsg) {
+    let data = undefined;
+    let actionUrl = undefined;
     if (actionMsg === '用户操作') {
-      //表单异步提交
-      $.ajax({
-        type: 'post',
-        data: $('#user_action_form').serialize(),
-        url: '/user/userAction',
-        cache:false,
-        dataType:'text',
-        async:false,
-        success: function (msg) {
-          if (msg === "success") {
-            alert("提交成功！")
-          } else {
-            alert("提交失败！" + msg)
-          }
-        }
-      });
+      data = $('#user_action_form').serialize()
+      actionUrl = '/user/userAction'
     } else if (actionMsg === '角色操作') {
-      //表单异步提交
-      $.ajax({
-        type: 'post',
-        data: $('#role_action_form').serialize(),
-        url: '/user/roleAction',
-        cache:false,
-        dataType:'text',
-        async:false,
-        success: function (msg) {
-          if (msg === "success") {
-            alert("提交成功！")
-          } else {
-            alert("提交失败！" + msg)
-          }
-        }
-      });
+      data = $('#role_action_form').serialize()
+      actionUrl = '/user/roleAction'
     } else if (actionMsg === '权限操作') {
-      //表单异步提交
-      $.ajax({
-        type: 'post',
-        data: $('#permission_action_form').serialize(),
-        url: '/user/permissionAction',
-        cache:false,
-        dataType:'text',
-        async:false,
-        success: function (msg) {
-          if (msg === "success") {
-            alert("提交成功！")
-          } else {
-            alert("提交失败！" + msg)
-          }
-        }
-      });
+      data = $('#permission_action_form').serialize()
+      actionUrl = '/user/permissionAction'
     } else if (actionMsg === '角色分配') {
       let obj = document.getElementById("user_role_checkbox").getElementsByTagName("input");
       let checkVal = 0
@@ -407,22 +367,8 @@
           att.push(select[i].value)
         }
       }
-      let data = {preRole:att,username:document.getElementById("user_role_action_username").value,type:checkVal}
-      $.ajax({
-        type: 'post',
-        data: data,
-        url: '/user/userRoleAction',
-        cache:false,
-        dataType:'text',
-        async:false,
-        success: function (msg) {
-          if (msg === "success") {
-            alert("提交成功！")
-          } else {
-            alert("提交失败！" + msg)
-          }
-        }
-      });
+      data = {preRole:att,username:document.getElementById("user_role_action_username").value,type:checkVal}
+      actionUrl = '/user/userRoleAction'
     } else if (actionMsg === '权限分配') {
       let obj = document.getElementById("role_permission_checkbox").getElementsByTagName("input");
       let checkVal = 0
@@ -438,11 +384,14 @@
           att.push(select[i].value)
         }
       }
-      let data = {prePermission:att,rolename:document.getElementById("role_permission_action_rolename").value,type:checkVal}
+      data = {prePermission:att,rolename:document.getElementById("role_permission_action_rolename").value,type:checkVal}
+      actionUrl = '/user/rolePermissionAction'
+    }
+    if (data !== undefined && actionUrl !== undefined) {
       $.ajax({
         type: 'post',
         data: data,
-        url: '/user/rolePermissionAction',
+        url: actionUrl,
         cache:false,
         dataType:'text',
         async:false,
