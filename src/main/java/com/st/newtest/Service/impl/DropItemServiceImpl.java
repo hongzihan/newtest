@@ -6,6 +6,7 @@ import com.st.newtest.Service.DropItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("dropItemServiceImpl")
@@ -72,5 +73,18 @@ public class DropItemServiceImpl implements DropItemService {
     @Override
     public List<DropItem> selectAllByZoneid(String zoneid) {
         return dropItemMapper.selectAllByZoneid(zoneid);
+    }
+
+    @Override
+    public List<String> selectAllUniqueZoneName() {
+        List<DropItem> dropItems = dropItemMapper.selectAllUniqueZoneName();
+        List<String> list = null;
+        if (dropItems != null) {
+            list = new ArrayList<>();
+            for (DropItem di : dropItems) {
+                list.add(di.getZoneid());
+            }
+        }
+        return list;
     }
 }

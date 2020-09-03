@@ -20,4 +20,6 @@ public interface DropItemMapper {
     List<DropItem> selectByItemKey(String keyname);
 
     List<DropItem> selectAllByZoneid(String zoneid);
+
+    List<DropItem> selectAllUniqueZoneName();
 }

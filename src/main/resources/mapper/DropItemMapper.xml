@@ -45,4 +45,11 @@
     select id, keyname, itemname, `count`, zoneid
     from drop_item
   </select>
+  <select id="selectAllUniqueZoneName" resultMap="BaseResultMap">
+    select a.zoneid
+    from drop_item a
+    right join(select min(id) id from drop_item GROUP BY zoneid) b
+    on b.id = a.id
+    WHERE a.id is not null
+  </select>
 </mapper>

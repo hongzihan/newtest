@@ -20,4 +20,6 @@ public interface DropItemService {
     Boolean insertNewData(DropItem dropItem);
 
     List<DropItem> selectAllByZoneid(String zoneid);
+
+    List<String> selectAllUniqueZoneName();
 }

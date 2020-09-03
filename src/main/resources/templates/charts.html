@@ -18,7 +18,7 @@
 <div id="content">
   <div id="content-header">
     <div id="breadcrumb"><a href="/index" title="首页" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="/charts" class="current">数据统计</a></div>
-    <h1>数据统计</h1>
+    <h1>数据统计<span class="badge badge-success" th:if="${curZoneName}" th:text="${curZoneName}"/></h1>
   </div>
   <div class="container-fluid">
     <hr>
@@ -31,8 +31,8 @@
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Action</a></li>
+<!--              <li role="separator" class="divider"></li>-->
+              <li th:each="zoneName : ${zoneNameList}"><a th:href="'/charts?zoneid=' + ${zoneName}">[[${zoneName}]]</a></li>
             </ul>
           </div>
         </div>
