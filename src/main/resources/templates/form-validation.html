@@ -182,11 +182,22 @@
                   <input type="text" name="username" id="user_role_action_username">
                 </div>
               </div>
-              <div class="form-group">
+              <div class="control-group">
                 <label class="control-label">预分配角色</label>
                 <select multiple class="form-control" name="preRole" style="margin-left: 20px" id="user_role_select_id">
                   <option th:each="role : ${roleList}" th:value="${role.rolename}">[[${role.roledesc}]]</option>
                 </select>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*操作类型 :</label>
+                <div class="controls" id="user_role_checkbox">
+                  <label>
+                    <input type="radio" name="type" value=1 checked/>
+                    增加</label>
+                  <label>
+                    <input type="radio" name="type" value=2 />
+                    删除</label>
+                </div>
               </div>
               <div class="form-actions">
                 <input type="button" value="保存" class="btn btn-success"  onclick="isvalid('角色分配')">
@@ -212,11 +223,22 @@
                   <input type="text" name="rolename" id="role_permission_action_rolename">
                 </div>
               </div>
-              <div class="form-group">
+              <div class="control-group">
                 <label class="control-label">预分配权限</label>
                 <select multiple class="form-control" name="prePermission" style="margin-left: 20px" id="role_permission_select_id">
                   <option th:each="permission : ${permissionList}" th:value="${permission.modelname}">[[${permission.permission}]]</option>
                 </select>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*操作类型 :</label>
+                <div class="controls" id="role_permission_checkbox">
+                  <label>
+                    <input type="radio" name="type" value=1 checked/>
+                    增加</label>
+                  <label>
+                    <input type="radio" name="type" value=2 />
+                    删除</label>
+                </div>
               </div>
               <div class="form-actions">
                 <input type="button" value="保存" class="btn btn-success"  onclick="isvalid('权限分配')">
@@ -298,6 +320,13 @@
         }
       });
     } else if (data === '角色分配') {
+      let obj = document.getElementById("user_role_checkbox").getElementsByTagName("input");
+      let checkVal = 0
+      for (let k in obj) {
+        if (obj[k].checked) {
+          checkVal = obj[k].value
+        }
+      }
       let select = document.getElementById("user_role_select_id")
       let att = []
       for (let i=0;i<select.length;i++) {
@@ -305,7 +334,7 @@
           att.push(select[i].value)
         }
       }
-      let data = {preRole:att,username:document.getElementById("user_role_action_username").value}
+      let data = {preRole:att,username:document.getElementById("user_role_action_username").value,type:checkVal}
       $.ajax({
         type: 'post',
         data: data,

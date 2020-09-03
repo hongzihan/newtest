@@ -227,6 +227,31 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public Boolean deleteRoleToUser(String username, List<String> roles) {
+        User user = userMapper.selectSingleUser(username);
+        if (user == null) {
+            return false;
+        }
+        for (String role : roles) {
+            Role roleNew = userMapper.selectSingleRole(role);
+            if (roleNew != null) {
+                List<UserRole> userRoles = userMapper.selectAllRoleForUser(user.getId());
+                if (userRoles != null) {
+                    for (UserRole userRole : userRoles) {
+                        if (userRole.getRid().equals(roleNew.getId())) { // 该角色确实存在
+                            HashMap<String, Integer> map = new HashMap<>();
+                            map.put("uid", user.getId());
+                            map.put("rid", roleNew.getId());
+                            userMapper.deleteUserAndRoleIdById(map);
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     /**
      * 根据给定的角色和权限组，为角色分配权限
      * @param rolename 角色名

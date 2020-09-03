@@ -170,10 +170,19 @@ public class UserController {
     @ResponseBody
     @RequiresRoles("supermanager")
     @RequestMapping("/userRoleAction")
-    public String userRoleAction(User user, @RequestParam("preRole[]") List<String> preRole) {
-        if (!userService.giveRoleToUser(user.getUsername(), preRole)) {
-            return "failed 找不到该用户！";
+    public String userRoleAction(User user, @RequestParam("preRole[]") List<String> preRole, Integer type) {
+        if (type == 1) {
+            if (!userService.giveRoleToUser(user.getUsername(), preRole)) {
+                return "failed 找不到该用户！";
+            }
+        } else if (type == 2) {
+            if (!userService.deleteRoleToUser(user.getUsername(), preRole)) {
+                return "failed 找不到该用户！";
+            }
+        } else {
+            return "failed 请至少选择一个操作类型";
         }
+
         return "success";
     }
 
