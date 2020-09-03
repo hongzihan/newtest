@@ -22,21 +22,43 @@
   </div>
   <div class="container-fluid">
     <hr>
-    <div class="span12">
-<!--      <div class="widget-box">-->
+      <div class="span12">
+
         <div class="row-fluid">
-          <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              点我选区
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-<!--              <li role="separator" class="divider"></li>-->
-              <li th:each="zoneName : ${zoneNameList}"><a th:href="'/charts?zoneid=' + ${zoneName}">[[${zoneName}]]</a></li>
-            </ul>
-          </div>
+            <div class="span12">
+                <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  点我选区
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <!--              <li role="separator" class="divider"></li>-->
+                  <li th:each="zoneName : ${zoneNameList}"><a th:href="'/charts?zoneid=' + ${zoneName}">[[${zoneName}]]</a></li>
+                </ul>
+                </div>
+            </div>
         </div>
-<!--      </div>-->
+
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="row">
+                        <div class="col-md-3" id="main1" style="width: 450px;height:333px;"></div>
+                        <div class="col-md-3" id="main2" style="width: 450px;height:333px;"></div>
+                        <div class="col-md-3" id="main3" style="width: 450px;height:333px;"></div>
+                        <div class="col-md-3" id="main4" style="width: 450px;height:333px;"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3" id="main5" style="width: 450px;height:333px;"></div>
+                        <div class="col-md-3" id="main6" style="width: 450px;height:333px;"></div>
+                        <div class="col-md-3" id="main7" style="width: 450px;height:333px;"></div>
+                        <div class="col-md-3" id="main8" style="width: 450px;height:333px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
@@ -47,72 +69,78 @@
 
 <script src="../static/js/jquery.min.js"></script>
 <script src="../static/js/bootstrap.min.js"></script>
-<script src="../static/js/jquery.flot.min.js"></script>
-<script src="../static/js/jquery.flot.pie.min.js"></script>
-<script src="../static/js/matrix.charts.js"></script>
-<script src="../static/js/jquery.flot.resize.min.js"></script>
 <script src="../static/js/matrix.js"></script>
-<script src="../static/js/jquery.peity.min.js"></script>
+<script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
 <!--Real-time-chart-js-->
 <script type="text/javascript">
-$(function () {
-    // we use an inline data source in the example, usually data would
-    // be fetched from a server
-    var data = [], totalPoints = 300;
-    function getRandomData() {
-        if (data.length > 0)
-            data = data.slice(1);
+    refurbishIndex = () => {
+        $.ajax({
+            type:"post",
+            url:"/dropItem/showAll",
+            data:{},
+            async: false,
+            success: data => {
+                var optionJson= JSON.parse( data );
+                optionJson.sort(function(a, b){return a.count - b.count});
+                var dataAllLength = optionJson.length
+                var mainCount = 8
+                for (var chartCount = 0; chartCount < mainCount; chartCount++) {
+                    var hengdata = []
+                    var zongdata = []
+                    var piedata = []
+                    var preIndex = Math.floor(chartCount * (dataAllLength / mainCount))
+                    var sufIndex = Math.floor((chartCount + 1) * (dataAllLength / mainCount))
+                    var tempCount = 0
+                    for (var i=preIndex; i<sufIndex; i++) {
+                        [hengdata[i], zongdata[i]] = [optionJson[i].itemname, optionJson[i].count]
+                        piedata[i] = {};
+                        //let { foo: baz , bar: xxa} = { foo: 'aaa', bar: 'bbb' };
+                        //{xa: piedata[i]["name"] , xb: piedata[i]["value"]} = {xa: optionJson[i].itemname, xb: optionJson[i].count}
+                        piedata[i]["name"] = optionJson[i].itemname;
+                        piedata[i]["value"] = optionJson[i].count;
+                        tempCount = tempCount + 1;
+                    }
+                    if (piedata.length > 0) {
+                        // 基于准备好的dom，初始化echarts实例
+                        var myChart = echarts.init(document.getElementById('main' + (chartCount + 1)));
 
-        // do a random walk
-        while (data.length < totalPoints) {
-            var prev = data.length > 0 ? data[data.length - 1] : 50;
-            var y = prev + Math.random() * 10 - 5;
-            if (y < 0)
-                y = 0;
-            if (y > 100)
-                y = 100;
-            data.push(y);
-        }
-
-        // zip the generated y values with the x values
-        var res = [];
-        for (var i = 0; i < data.length; ++i)
-            res.push([i, data[i]])
-        return res;
+                        // 指定图表的配置项和数据
+                        var option = {
+                            title : {
+                                text: '国际三国 物品掉落统计 ' + mainCount + ' - ' + (chartCount + 1),
+                                x:'center'//水平居中
+                            },
+                            tooltip : {//提示框组件。
+                                trigger: 'item',  //'item' 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。
+                                formatter: "{a} <br/>{b} : {c} ({d}%)" //{a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）
+                            },
+                            series : [
+                                {
+                                    name: '物品概述',
+                                    type: 'pie',
+                                    radius : '55%',//饼图的半径
+                                    center: ['50%', '60%'],//饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。
+                                    data:piedata,
+                                    itemStyle: {//图形样式。
+                                        emphasis: {
+                                            shadowBlur: 10,
+                                            shadowOffsetX: 0,
+                                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                        }
+                                    }
+                                }
+                            ]
+                        };
+                        // 使用刚指定的配置项和数据显示图表。
+                        myChart.setOption(option);
+                    }
+                }
+            }
+        });
     }
-
-    // setup control widget
-    var updateInterval = 30;
-    $("#updateInterval").val(updateInterval).change(function () {
-        var v = $(this).val();
-        if (v && !isNaN(+v)) {
-            updateInterval = +v;
-            if (updateInterval < 1)
-                updateInterval = 1;
-            if (updateInterval > 2000)
-                updateInterval = 2000;
-            $(this).val("" + updateInterval);
-        }
-    });
-
-    // setup plot
-    var options = {
-        series: { shadowSize: 0 }, // drawing is faster without shadows
-        yaxis: { min: 0, max: 100 },
-        xaxis: { show: false }
-    };
-    var plot = $.plot($("#placeholder2"), [ getRandomData() ], options);
-
-    function update() {
-        plot.setData([ getRandomData() ]);
-        // since the axes don't change, we don't need to call plot.setupGrid()
-        plot.draw();
-        
-        setTimeout(update, updateInterval);
+    window.onload = () => {
+        refurbishIndex()
     }
-
-    update();
-});
 </script> 
 <!--Real-time-chart-js-end-->
 <!--Turning-series-chart-js-->
