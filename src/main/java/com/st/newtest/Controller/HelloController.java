@@ -57,12 +57,6 @@ public class HelloController {
         return mav;
     }
 
-    @RequiresPermissions("charts")
-    @RequestMapping("/charts")
-    public ModelAndView charts() {
-        return CommonUtil.getPage("charts");
-    }
-
     @RequiresPermissions("tables")
     @RequestMapping("/tables")
     public ModelAndView tables() {

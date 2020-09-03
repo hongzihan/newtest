@@ -2,11 +2,8 @@ package com.st.newtest.Controller;
 
 import com.alibaba.fastjson.JSON;
 import com.st.newtest.Entity.MonsterDie;
-import com.st.newtest.Entity.TbItem;
 import com.st.newtest.Service.OpenStService;
-import com.st.newtest.Service.TbItemService;
 import com.st.newtest.Util.CommonUtil;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -22,9 +19,6 @@ import java.util.List;
 @RequestMapping("/st")
 @RestController
 public class stController {
-
-    @Autowired
-    private TbItemService tbItemService;
 
     @Autowired
     private OpenStService openStService;
@@ -71,22 +65,6 @@ public class stController {
         modelMap.addAttribute("code", "200");
         modelMap.addAttribute("message", "hello" + name);
         return modelMap;
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/postHello")
-    public String postHello(String keyname, String username, Integer count) throws UnsupportedEncodingException {
-        TbItem tbItem = new TbItem();
-        tbItem.setId(0);
-        tbItem.setKeyname(keyname);
-        tbItem.setUsername(username);
-        tbItem.setCount(count);
-        tbItemService.insert(tbItem);
-        return "使用道具成功";
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/showAll")
-    public String showAll() {
-        return JSON.toJSONString(tbItemService.selectAll());
     }
 
     @RequiresRoles("supermanager")

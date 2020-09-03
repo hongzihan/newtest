@@ -53,6 +53,7 @@ public class ShiroConfig {
         map.put("/user/testuser", "anon");
         map.put("/static/**", "anon");
         map.put("/openSt/**", "anon");
+        map.put("/dropItem/insertNewData", "anon");
         map.put("/**", "authc");
 
         //登录
