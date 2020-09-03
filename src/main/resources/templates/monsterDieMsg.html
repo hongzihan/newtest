@@ -40,8 +40,9 @@
       <div class="jumbotron" th:if="${mobList != null}">
         <div class="row" th:each="mob,stats: ${mobList}" th:if="${stats.index % 3 == 0}" style="margin-bottom: 10px">
           <div class="col-sm-4">
-              <div class="card">
+              <div class="card" name="mobCard">
                 <div class="card-body" th:object="${mob}">
+                  <p hidden name="mobStatus">[[*{mobStatus}]]</p>
                   <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
                   <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
                   <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
@@ -53,8 +54,9 @@
               </div>
           </div>
           <div class="col-sm-4" th:if="${stats.index + 1 < stats.size}">
-            <div class="card">
+            <div class="card" name="mobCard">
               <div class="card-body" th:object="${mobList[stats.index + 1]}">
+                <p hidden name="mobStatus">[[*{mobStatus}]]</p>
                 <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
                 <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
                 <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
@@ -66,8 +68,9 @@
             </div>
           </div>
           <div class="col-sm-4" th:if="${stats.index + 2 < stats.size}">
-            <div class="card">
+            <div class="card" name="mobCard">
               <div class="card-body" th:object="${mobList[stats.index + 2]}">
+                <p hidden name="mobStatus">[[*{mobStatus}]]</p>
                 <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
                 <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
                 <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
@@ -87,10 +90,7 @@
   </div>
 </div>
 <div th:replace="common/frame-footer::frame-footer"/>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-<script src="../static/js/jquery.min.js"></script>
+
 <script src="../static/js/jquery.ui.custom.js"></script>
 <script src="../static/js/bootstrap.min.js"></script>
 <script src="../static/js/bootstrap-colorpicker.js"></script>
@@ -104,8 +104,27 @@
 <script src="../static/js/wysihtml5-0.3.0.js"></script>
 <script src="../static/js/jquery.peity.min.js"></script>
 <script src="../static/js/bootstrap-wysihtml5.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="../static/js/jquery.min.js"></script>
 <script>
-	$('.textarea_editor').wysihtml5();
+
+    window.onload=function(){
+      let obj = document.getElementsByName("mobCard")
+      let obj2 = document.getElementsByName("mobStatus")
+      for (let i=0; i < obj.length; i++) {
+        let className = document.createAttribute("style")
+        if (obj2[i].innerHTML === "死亡") {
+          className.nodeValue = "background-color:rgba(255,0,0,0.08);"
+        } else if (obj2[i].innerHTML === "存活") {
+          className.nodeValue = "background-color:rgba(0,255,0,0.08);"
+        } else {
+          className.nodeValue = "background-color:rgba(0,0,255,0.08);"
+        }
+        obj[i].setAttributeNode(className)
+      }
+    }
 
     function clearRT(zonename, mobname, mapname) {
       //表单异步提交
