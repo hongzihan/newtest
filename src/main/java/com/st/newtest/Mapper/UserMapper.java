@@ -1,8 +1,6 @@
 package com.st.newtest.Mapper;
 
-import com.st.newtest.Entity.Permissions;
-import com.st.newtest.Entity.Role;
-import com.st.newtest.Entity.User;
+import com.st.newtest.Entity.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -53,6 +51,10 @@ public interface UserMapper {
     Role selectSingleRole(String rolename);
 
     Permissions selectSinglePermission(String modelname);
+
+    List<UserRole> selectAllRoleForUser(Integer uid);
+
+    List<RolePermission> selectAllPermissionForRole(Integer rid);
 
     User findUserByName(String name);
 }

@@ -1,8 +1,6 @@
 package com.st.newtest.Service.impl;
 
-import com.st.newtest.Entity.Permissions;
-import com.st.newtest.Entity.Role;
-import com.st.newtest.Entity.User;
+import com.st.newtest.Entity.*;
 import com.st.newtest.Mapper.UserMapper;
 import com.st.newtest.Service.UserService;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -204,14 +202,26 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return false;
         }
-        HashMap<String, Integer> map = null;
         for (String role : roles) {
             Role roleNew = userMapper.selectSingleRole(role);
             if (roleNew != null) {
-                map = new HashMap<>();
-                map.put("uid", user.getId());
-                map.put("rid", roleNew.getId());
-                userMapper.insertUserAndRoleId(map);
+                List<UserRole> userRoles = userMapper.selectAllRoleForUser(user.getId());
+                Boolean isRepeat = false;
+                if (userRoles != null) {// 角色当前已经拥有至少一个权限
+                    for (UserRole ur : userRoles) {
+                        if (ur.getRid().equals(roleNew.getId())) {
+                            isRepeat = !isRepeat; // 该权限与已有权限重复
+                            break;
+                        }
+                    }
+                }
+                if (!isRepeat) { // 若权限无重复
+                    HashMap<String, Integer> map = null;
+                    map = new HashMap<>();
+                    map.put("uid", user.getId());
+                    map.put("rid", roleNew.getId());
+                    userMapper.insertUserAndRoleId(map);
+                }
             }
         }
         return true;
@@ -230,14 +240,26 @@ public class UserServiceImpl implements UserService {
         if (role == null) {
             return false;
         }
-        HashMap<String, Integer> map = null;
         for (String permission : permissions) {
             Permissions permissionNew = userMapper.selectSinglePermission(permission);
             if (permissionNew != null) {
-                map = new HashMap<>();
-                map.put("rid", role.getId());
-                map.put("pid", permissionNew.getId());
-                userMapper.insertRoleAndPermissionId(map);
+                List<RolePermission> rolePermissions = userMapper.selectAllPermissionForRole(role.getId());
+                Boolean isRepeat = false;
+                if (rolePermissions != null) {// 角色当前已经拥有至少一个权限
+                    for (RolePermission rp : rolePermissions) {
+                        if (rp.getPid().equals(permissionNew.getId())) {
+                            isRepeat = !isRepeat; // 该权限与已有权限重复
+                            break;
+                        }
+                    }
+                }
+                if (!isRepeat) { // 若权限无重复
+                    HashMap<String, Integer> map = null;
+                    map = new HashMap<>();
+                    map.put("rid", role.getId());
+                    map.put("pid", permissionNew.getId());
+                    userMapper.insertRoleAndPermissionId(map);
+                }
             }
         }
         return true;

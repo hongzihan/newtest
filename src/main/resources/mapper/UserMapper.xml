@@ -36,6 +36,16 @@
     <result column="permission" jdbcType="VARCHAR" property="permission"/>
   </resultMap>
 
+  <resultMap id="userRoleMap" type="com.st.newtest.Entity.UserRole">
+    <result column="uid" jdbcType="INTEGER" property="uid"/>
+    <result column="rid" jdbcType="INTEGER" property="rid"/>
+  </resultMap>
+
+  <resultMap id="rolePermissionMap" type="com.st.newtest.Entity.RolePermission">
+    <result column="rid" jdbcType="INTEGER" property="rid"/>
+    <result column="pid" jdbcType="INTEGER" property="pid"/>
+  </resultMap>
+
   <select id="findUserByName" parameterType="java.lang.String" resultMap="BaseResultMap" >
     select u.id id, username, password, corepwd, nickname, r.id roleid ,rolename ,roledesc , p.id permissionid ,modelname,permission from user u
     INNER JOIN user_role ur on u.id = ur.uid
@@ -181,6 +191,18 @@
     INNER JOIN role_permission rp ON r.id = rp.rid
     INNER JOIN permission p on rp.pid = p.id
     where r.rolename = #{rolename, jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAllRoleForUser" resultMap="userRoleMap" parameterType="java.lang.Integer">
+    select uid, rid
+    from user_role
+    where uid = #{uid, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllPermissionForRole" resultMap="rolePermissionMap" parameterType="java.lang.Integer">
+    select rid, pid
+    from role_permission
+    where rid = #{rid, jdbcType=INTEGER}
   </select>
 
 </mapper>
