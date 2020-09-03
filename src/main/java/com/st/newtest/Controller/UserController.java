@@ -161,12 +161,34 @@ public class UserController {
         return "success";
     }
 
+    /**
+     * 为用户分配角色接口
+     * @param user
+     * @param preRole
+     * @return
+     */
     @ResponseBody
     @RequiresRoles("supermanager")
     @RequestMapping("/userRoleAction")
     public String userRoleAction(User user, @RequestParam("preRole[]") List<String> preRole) {
         if (!userService.giveRoleToUser(user.getUsername(), preRole)) {
             return "failed 找不到该用户！";
+        }
+        return "success";
+    }
+
+    /**
+     * 为角色分配权限接口
+     * @param role
+     * @param prePermission
+     * @return
+     */
+    @ResponseBody
+    @RequiresRoles("supermanager")
+    @RequestMapping("/rolePermissionAction")
+    public String rolePermissionAction(Role role, @RequestParam("prePermission[]") List<String> prePermission) {
+        if (!userService.givePermissionToRole(role.getRolename(), prePermission)) {
+            return "failed 找不到该角色！";
         }
         return "success";
     }

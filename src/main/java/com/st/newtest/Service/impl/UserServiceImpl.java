@@ -191,6 +191,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectAllSinglePermission();
     }
 
+    /**
+     * 根据给定的用户名和角色组，为用户分配角色
+     * @param username 用户名
+     * @param roles 角色组
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean giveRoleToUser(String username, List<String> roles) {
@@ -206,6 +212,32 @@ public class UserServiceImpl implements UserService {
                 map.put("uid", user.getId());
                 map.put("rid", roleNew.getId());
                 userMapper.insertUserAndRoleId(map);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 根据给定的角色和权限组，为角色分配权限
+     * @param rolename 角色名
+     * @param permissions 权限组
+     * @return
+     */
+    @Transactional
+    @Override
+    public Boolean givePermissionToRole(String rolename, List<String> permissions) {
+        Role role = userMapper.selectSingleRole(rolename);
+        if (role == null) {
+            return false;
+        }
+        HashMap<String, Integer> map = null;
+        for (String permission : permissions) {
+            Permissions permissionNew = userMapper.selectSinglePermission(permission);
+            if (permissionNew != null) {
+                map = new HashMap<>();
+                map.put("rid", role.getId());
+                map.put("pid", permissionNew.getId());
+                userMapper.insertRoleAndPermissionId(map);
             }
         }
         return true;

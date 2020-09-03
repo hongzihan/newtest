@@ -33,4 +33,6 @@ public interface UserService {
     List<Permissions> selectAllSinglePermission();
 
     Boolean giveRoleToUser(String username, List<String> roles);
+
+    Boolean givePermissionToRole(String rolename, List<String> permissions);
 }

@@ -209,7 +209,7 @@
               <div class="control-group">
                 <label class="control-label">角色名</label>
                 <div class="controls">
-                  <input type="text" name="rolename" id="role_permission_action_username">
+                  <input type="text" name="rolename" id="role_permission_action_rolename">
                 </div>
               </div>
               <div class="form-group">
@@ -310,6 +310,30 @@
         type: 'post',
         data: data,
         url: '/user/userRoleAction',
+        cache:false,
+        dataType:'text',
+        async:false,
+        success: function (msg) {
+          if (msg === "success") {
+            alert("提交成功！")
+          } else {
+            alert("提交失败！" + msg)
+          }
+        }
+      });
+    } else if (data === '权限分配') {
+      let select = document.getElementById("role_permission_select_id")
+      let att = []
+      for (let i=0;i<select.length;i++) {
+        if (select.options[i].selected) {
+          att.push(select[i].value)
+        }
+      }
+      let data = {prePermission:att,rolename:document.getElementById("role_permission_action_rolename").value}
+      $.ajax({
+        type: 'post',
+        data: data,
+        url: '/user/rolePermissionAction',
         cache:false,
         dataType:'text',
         async:false,
