@@ -44,7 +44,7 @@ public interface UserMapper {
 
     List<Permissions> selectAllSinglePermission();
 
-    List<Role> selectAllPermissionIdByRoleId(String rolename);
+    Role findRoleByRolename(String rolename);
 
     User selectSingleUser(String username);
 
@@ -52,9 +52,11 @@ public interface UserMapper {
 
     Permissions selectSinglePermission(String modelname);
 
-    List<UserRole> selectAllRoleForUser(Integer uid);
+    List<UserRole> selectAllRoleIdForUser(Integer uid);
 
-    List<RolePermission> selectAllPermissionForRole(Integer rid);
+    List<RolePermission> selectAllPermissionIdForRole(Integer rid);
 
     User findUserByName(String name);
+
+    User findUserByNameWithoutPermission(String name);
 }

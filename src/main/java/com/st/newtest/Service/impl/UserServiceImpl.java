@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -205,7 +206,7 @@ public class UserServiceImpl implements UserService {
         for (String role : roles) {
             Role roleNew = userMapper.selectSingleRole(role);
             if (roleNew != null) {
-                List<UserRole> userRoles = userMapper.selectAllRoleForUser(user.getId());
+                List<UserRole> userRoles = userMapper.selectAllRoleIdForUser(user.getId());
                 Boolean isRepeat = false;
                 if (userRoles != null) {// 角色当前已经拥有至少一个权限
                     for (UserRole ur : userRoles) {
@@ -236,7 +237,7 @@ public class UserServiceImpl implements UserService {
         for (String role : roles) {
             Role roleNew = userMapper.selectSingleRole(role);
             if (roleNew != null) {
-                List<UserRole> userRoles = userMapper.selectAllRoleForUser(user.getId());
+                List<UserRole> userRoles = userMapper.selectAllRoleIdForUser(user.getId());
                 if (userRoles != null) {
                     for (UserRole userRole : userRoles) {
                         if (userRole.getRid().equals(roleNew.getId())) { // 该角色确实存在
@@ -268,7 +269,7 @@ public class UserServiceImpl implements UserService {
         for (String permission : permissions) {
             Permissions permissionNew = userMapper.selectSinglePermission(permission);
             if (permissionNew != null) {
-                List<RolePermission> rolePermissions = userMapper.selectAllPermissionForRole(role.getId());
+                List<RolePermission> rolePermissions = userMapper.selectAllPermissionIdForRole(role.getId());
                 Boolean isRepeat = false;
                 if (rolePermissions != null) {// 角色当前已经拥有至少一个权限
                     for (RolePermission rp : rolePermissions) {
@@ -299,7 +300,7 @@ public class UserServiceImpl implements UserService {
         for (String permission : permissions) {
             Permissions permissionNew = userMapper.selectSinglePermission(permission);
             if (permissionNew != null) {
-                List<RolePermission> rolePermissions = userMapper.selectAllPermissionForRole(role.getId());
+                List<RolePermission> rolePermissions = userMapper.selectAllPermissionIdForRole(role.getId());
                 if (rolePermissions != null) {
                     for (RolePermission rp : rolePermissions) {
                         if (rp.getPid().equals(permissionNew.getId())) { // 该权限确实存在
@@ -313,6 +314,44 @@ public class UserServiceImpl implements UserService {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> findAllRoleForUser(String username) {
+        User user = userMapper.findUserByNameWithoutPermission(username);
+        if (user == null || user.getRoleList() == null) {
+            return null;
+        }
+        List<Role> roleList = user.getRoleList();
+        List<String> roles = null;
+        for (Role role : roleList) {
+            if (roles != null) {
+                roles.add(role.getRolename());
+            } else {
+                roles = new ArrayList<>();
+                roles.add(role.getRolename());
+            }
+        }
+        return roles;
+    }
+
+    @Override
+    public List<String> findAllPermissionsForRole(String rolename) {
+        Role role = userMapper.findRoleByRolename(rolename);
+        if (role == null || role.getPermissionsList() == null) {
+            return null;
+        }
+        List<Permissions> permissionsList = role.getPermissionsList();
+        List<String> permissions = null;
+        for (Permissions permission : permissionsList) {
+            if (permissions != null) {
+                permissions.add(permission.getPermission());
+            } else {
+                permissions = new ArrayList<>();
+                permissions.add(permission.getPermission());
+            }
+        }
+        return permissions;
     }
 
 

@@ -184,9 +184,11 @@
               </div>
               <div class="control-group">
                 <label class="control-label">预分配角色</label>
-                <select multiple class="form-control" name="preRole" style="margin-left: 20px" id="user_role_select_id">
-                  <option th:each="role : ${roleList}" th:value="${role.rolename}">[[${role.roledesc}]]</option>
-                </select>
+                <div class="controls">
+                  <select multiple class="form-control" name="preRole" id="user_role_select_id">
+                    <option th:each="role : ${roleList}" th:value="${role.rolename}">[[${role.rolename}]]</option>
+                  </select>
+                </div>
               </div>
               <div class="control-group">
                 <label class="control-label">*操作类型 :</label>
@@ -199,8 +201,15 @@
                     删除</label>
                 </div>
               </div>
+              <div class="control-group">
+                <label class="control-label">*当前角色 :</label>
+                <div class="controls" id="user_role_controls_info">
+                  <span class="label label-info">未知</span>
+                </div>
+              </div>
               <div class="form-actions">
                 <input type="button" value="保存" class="btn btn-success"  onclick="isvalid('角色分配')">
+                <input type="button" value="查询角色" class="btn btn-info"  onclick="searchMsg('查询当前角色')">
               </div>
             </form>
           </div>
@@ -225,9 +234,11 @@
               </div>
               <div class="control-group">
                 <label class="control-label">预分配权限</label>
-                <select multiple class="form-control" name="prePermission" style="margin-left: 20px" id="role_permission_select_id">
-                  <option th:each="permission : ${permissionList}" th:value="${permission.modelname}">[[${permission.permission}]]</option>
-                </select>
+                <div class="controls">
+                  <select multiple class="form-control" name="prePermission" id="role_permission_select_id">
+                    <option th:each="permission : ${permissionList}" th:value="${permission.modelname}">[[${permission.permission}]]</option>
+                  </select>
+                </div>
               </div>
               <div class="control-group">
                 <label class="control-label">*操作类型 :</label>
@@ -240,8 +251,15 @@
                     删除</label>
                 </div>
               </div>
+              <div class="control-group">
+                <label class="control-label">*当前权限 :</label>
+                <div class="controls" id="role_permission_controls_info">
+                  <span class="label label-info">未知</span>
+                </div>
+              </div>
               <div class="form-actions">
                 <input type="button" value="保存" class="btn btn-success"  onclick="isvalid('权限分配')">
+                <input type="button" value="查询权限" class="btn btn-info"  onclick="searchMsg('查询当前权限')">
               </div>
             </form>
           </div>
@@ -267,8 +285,63 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <script src="../static/js/jquery.min.js"></script>
 <script type="text/javascript">
-  function isvalid(data) {
-    if (data === '用户操作') {
+  $("#user_role_action_username").blur(function() {
+    //进行相关操作
+    searchMsg('查询当前角色')
+  });
+  $("#role_permission_action_rolename").blur(function() {
+    //进行相关操作
+    searchMsg('查询当前权限')
+  });
+  function searchMsg(actionMsg) {
+    let data = {};
+    let actionUrl = '';
+    let curid = '';
+    if (actionMsg === '查询当前角色') {
+      data = {username:document.getElementById("user_role_action_username").value};
+      actionUrl = '/user/searchCurRoleForUser';
+      curid = "user_role_controls_info";
+    } else if (actionMsg === '查询当前权限') {
+      data = {rolename:document.getElementById("role_permission_action_rolename").value};
+      actionUrl = '/user/searchCurPermissionForRole';
+      curid = "role_permission_controls_info";
+    }
+    if (data !== {} && actionUrl !== '') {
+      $.ajax({
+        type: 'post',
+        data: data,
+        url: actionUrl,
+        cache:false,
+        dataType:'text',
+        async:false,
+        success: function (msg) {
+          let optionJson = []
+          if (msg === 'failed') {
+            optionJson = ["无"]
+          } else {
+            optionJson = JSON.parse( msg );
+          }
+          let element = document.getElementById(curid);
+          element.innerHTML = ""
+          for (let i=0; i<optionJson.length; i++) {
+            let span = document.createElement("span")
+            let className = document.createAttribute("class")
+            className.nodeValue = "label label-info"
+            span.setAttributeNode(className)
+            className = document.createAttribute("style")
+            className.nodeValue = "margin-right:5px"
+            span.setAttributeNode(className)
+            span.innerHTML = optionJson[i]
+
+            element.appendChild(span)
+          }
+        }
+      });
+    }
+  }
+
+  function isvalid(actionMsg) {
+    if (actionMsg === '用户操作') {
       //表单异步提交
       $.ajax({
         type: 'post',
@@ -285,7 +358,7 @@
           }
         }
       });
-    } else if (data === '角色操作') {
+    } else if (actionMsg === '角色操作') {
       //表单异步提交
       $.ajax({
         type: 'post',
@@ -302,7 +375,7 @@
           }
         }
       });
-    } else if (data === '权限操作') {
+    } else if (actionMsg === '权限操作') {
       //表单异步提交
       $.ajax({
         type: 'post',
@@ -319,7 +392,7 @@
           }
         }
       });
-    } else if (data === '角色分配') {
+    } else if (actionMsg === '角色分配') {
       let obj = document.getElementById("user_role_checkbox").getElementsByTagName("input");
       let checkVal = 0
       for (let k in obj) {
@@ -350,7 +423,7 @@
           }
         }
       });
-    } else if (data === '权限分配') {
+    } else if (actionMsg === '权限分配') {
       let obj = document.getElementById("role_permission_checkbox").getElementsByTagName("input");
       let checkVal = 0
       for (let k in obj) {

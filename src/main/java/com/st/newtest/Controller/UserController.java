@@ -1,5 +1,6 @@
 package com.st.newtest.Controller;
 
+import com.alibaba.fastjson.JSON;
 import com.st.newtest.Entity.Permissions;
 import com.st.newtest.Entity.Role;
 import com.st.newtest.Entity.User;
@@ -209,5 +210,27 @@ public class UserController {
         }
 
         return "success";
+    }
+
+    @ResponseBody
+    @RequiresRoles("supermanager")
+    @RequestMapping("/searchCurRoleForUser")
+    public String searchCurRoleForUser(User user) {
+        List<String> allRoleForUser = userService.findAllRoleForUser(user.getUsername());
+        if (allRoleForUser == null) {
+            return "failed";
+        }
+        return JSON.toJSONString(allRoleForUser);
+    }
+
+    @ResponseBody
+    @RequiresRoles("supermanager")
+    @RequestMapping("/searchCurPermissionForRole")
+    public String searchCurPermissionForRole(Role role) {
+        List<String> allPermissionsForRole = userService.findAllPermissionsForRole(role.getRolename());
+        if (allPermissionsForRole == null) {
+            return "failed";
+        }
+        return JSON.toJSONString(allPermissionsForRole);
     }
 }

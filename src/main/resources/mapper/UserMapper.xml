@@ -8,13 +8,13 @@
     <result column="corepwd" jdbcType="INTEGER" property="corepwd" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <collection property="roleList" ofType="com.st.newtest.Entity.Role">
-      <id column="roleid" property="id"></id>
-      <result column="rolename" property="rolename"></result>
-      <result column="roledesc" property="roledesc"></result>
+      <id column="roleid" property="id"/>
+      <result column="rolename" property="rolename"/>
+      <result column="roledesc" property="roledesc"/>
       <collection property="permissionsList" ofType="com.st.newtest.Entity.Permissions">
-        <id column="permissionid" property="id"></id>
-        <result column="modelname" property="modelname"></result>
-        <result column="permission" property="permission"></result>
+        <id column="permissionid" property="id"/>
+        <result column="modelname" property="modelname"/>
+        <result column="permission" property="permission"/>
       </collection>
     </collection>
   </resultMap>
@@ -24,9 +24,9 @@
     <result column="rolename" jdbcType="VARCHAR" property="rolename"/>
     <result column="roledesc" jdbcType="VARCHAR" property="roledesc"/>
     <collection property="permissionsList" ofType="com.st.newtest.Entity.Permissions">
-      <id column="permissionid" property="id"></id>
-      <result column="modelname" property="modelname"></result>
-      <result column="permission" property="permission"></result>
+      <id column="permissionid" property="id"/>
+      <result column="modelname" property="modelname"/>
+      <result column="permission" property="permission"/>
     </collection>
   </resultMap>
 
@@ -52,6 +52,13 @@
     INNER JOIN role r ON ur.rid = r.id
     INNER JOIN role_permission rp ON r.id = rp.rid
     INNER JOIN permission p on rp.pid = p.id
+    where u.username = #{name}
+  </select>
+
+  <select id="findUserByNameWithoutPermission" parameterType="java.lang.String" resultMap="BaseResultMap" >
+    select u.id id, username, password, corepwd, nickname, r.id roleid ,rolename ,roledesc from user u
+    INNER JOIN user_role ur on u.id = ur.uid
+    INNER JOIN role r ON ur.rid = r.id
     where u.username = #{name}
   </select>
 
@@ -186,20 +193,20 @@
     where modelname = #{modelname, jdbcType=VARCHAR}
   </select>
 
-  <select id="selectAllPermissionIdByRoleId" resultMap="roleMap" parameterType="java.lang.String">
-    select r.id roleid ,rolename ,roledesc , p.id permissionid ,modelname,permission from role r
+  <select id="findRoleByRolename" resultMap="roleMap" parameterType="java.lang.String">
+    select r.id id ,rolename ,roledesc , p.id permissionid ,modelname,permission from role r
     INNER JOIN role_permission rp ON r.id = rp.rid
     INNER JOIN permission p on rp.pid = p.id
     where r.rolename = #{rolename, jdbcType=VARCHAR}
   </select>
 
-  <select id="selectAllRoleForUser" resultMap="userRoleMap" parameterType="java.lang.Integer">
+  <select id="selectAllRoleIdForUser" resultMap="userRoleMap" parameterType="java.lang.Integer">
     select uid, rid
     from user_role
     where uid = #{uid, jdbcType=INTEGER}
   </select>
 
-  <select id="selectAllPermissionForRole" resultMap="rolePermissionMap" parameterType="java.lang.Integer">
+  <select id="selectAllPermissionIdForRole" resultMap="rolePermissionMap" parameterType="java.lang.Integer">
     select rid, pid
     from role_permission
     where rid = #{rid, jdbcType=INTEGER}
