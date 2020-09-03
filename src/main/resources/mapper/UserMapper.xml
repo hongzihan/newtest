@@ -212,4 +212,19 @@
     where rid = #{rid, jdbcType=INTEGER}
   </select>
 
+  <select id="selectRolesByModelName" resultMap="roleMap" parameterType="java.lang.String">
+    select p.id permissionid, modelname, permission, r.id id, r.rolename rolename, r.roledesc roledesc
+    from permission p
+    INNER JOIN role_permission rp ON rp.pid = p.id
+    INNER JOIN role r ON rp.rid = r.id
+    where modelname = #{modelname, jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectUsersByRoleName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select r.id roleid, rolename, roledesc, u.id id, u.username, u.password, u.nickname, u.corepwd
+    from role r
+    INNER JOIN user_role ur ON ur.rid = r.id
+    INNER JOIN user u ON u.id = ur.uid
+    where rolename = #{rolename, jdbcType=VARCHAR}
+  </select>
 </mapper>

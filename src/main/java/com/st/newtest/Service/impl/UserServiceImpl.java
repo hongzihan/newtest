@@ -51,6 +51,19 @@ public class UserServiceImpl implements UserService {
             User user = userMapper.selectSingleUser(username);
             // 通过查找到的用户获取id并通过id删除
             if (user != null) {
+                // 先找关联角色 并删除
+                User userByName = userMapper.findUserByNameWithoutPermission(username);
+                if (userByName != null) {
+                    List<Role> roleList = userByName.getRoleList();
+                    HashMap<String, Integer> map = null;
+                    for (Role role : roleList) {
+                        map = new HashMap<>();
+                        map.put("uid", user.getId());
+                        map.put("rid", role.getId());
+                        userMapper.deleteUserAndRoleIdById(map);
+                    }
+                }
+                // 删除用户
                 userMapper.deleteUserById(user.getId());
             } else {
                 return false;
@@ -100,14 +113,37 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean deleteRole(String rolename) {
         // 根据rolename查找到该角色
         if (rolename != null) {
             Role role = userMapper.selectSingleRole(rolename);
-            // 通过查找到的角色获取id并通过id删除
             if (role != null) {
+                // 因为关联表的问题，所以在删除角色的同时，需要删除角色所对应的所有权限和用户
+                HashMap<String, Integer> map = null;
+                // 第一步先查询该角色是否还有关联用户
+                List<User> users = userMapper.selectUsersByRoleName(rolename);
+                if (users != null) {
+                    for (User user : users) {
+                        map = new HashMap<>();
+                        map.put("uid", user.getId());
+                        map.put("rid", role.getId());
+                        userMapper.deleteUserAndRoleIdById(map);
+                    }
+                }
+                // 第二步查询该角色是否有关联权限
+                Role roleWithP = userMapper.findRoleByRolename(rolename);
+                if (roleWithP != null) { // 有关联权限才能查到该角色
+                    List<Permissions> permissionsList = roleWithP.getPermissionsList();
+                    for (Permissions permissions : permissionsList) {
+                        map = new HashMap<>();
+                        map.put("rid", role.getId());
+                        map.put("pid", permissions.getId());
+                        userMapper.deleteRoleAndPermissionIdById(map);
+                    }
+                }
+                // 删除用户
                 userMapper.deleteRoleById(role.getId());
             } else {
                 return false;
@@ -155,6 +191,17 @@ public class UserServiceImpl implements UserService {
             Permissions permission = userMapper.selectSinglePermission(modelname);
             // 通过查找到的权限获取id并通过id删除
             if (permission != null) {
+                // 先找关联角色 并删除关联
+                List<Role> roleList = userMapper.selectRolesByModelName(modelname);
+                if (roleList != null) {
+                    HashMap<String, Integer> map = null;
+                    for (Role role : roleList) {
+                        map.put("rid", role.getId());
+                        map.put("pid", permission.getId());
+                        userMapper.deleteRoleAndPermissionIdById(map);
+                    }
+                }
+                // 删除权限
                 userMapper.deletePermissionById(permission.getId());
             } else {
                 return false;

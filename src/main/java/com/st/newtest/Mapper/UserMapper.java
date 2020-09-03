@@ -59,4 +59,8 @@ public interface UserMapper {
     User findUserByName(String name);
 
     User findUserByNameWithoutPermission(String name);
+
+    List<Role> selectRolesByModelName(String modelname);
+
+    List<User> selectUsersByRoleName(String rolename);
 }
