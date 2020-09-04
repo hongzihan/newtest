@@ -389,3 +389,33 @@ end
 --|*-------------------------------------------------------|
 --|*   物品掉落统计区域  created by ken      END              |
 --|*-------------------------------------------------------|
+
+--|*-------------------------------------------------------|
+--|*   GS BOSS 击杀统计 created by ken       BEGIN          |
+--|*-------------------------------------------------------|
+
+function addRecordToServer(monster, killer)
+    local keyname = lualib:KeyName(monster)
+    if lualib:Monster_Type(keyname) ~= 4 then
+        return
+    end
+    if not lualib:Player_IsPlayer(killer) then
+        local killerName = lualib:Monster_GetMaster(killer)
+        if killerName ~= "" then
+            killer = lualib:Name2Guid(killerName)
+        end
+    end
+    local killername = lualib:Name(killer)
+    local mapname = lualib:Name(lualib:MapGuid(killer))
+    local dietime = lualib:Time2Str("%Y-%m-%d %H:%M:%S", lualib:GetAllTime())
+    local url = "http://120.78.216.226:8080/openSt/insertNewMonster"
+    local zonename = lualib:GetZoneName()
+    local data = "zonename="..tostring(zonename).."&mobname="..tostring(keyname).."&killer="..tostring(killername)
+    data = data.."&mapname="..tostring(mapname).."&dietime="..tostring(dietime)
+
+    lualib:PostURL(url, lualib:GBKToUTF8(data), "web_back_crud_action", "", 800)
+end
+
+--|*-------------------------------------------------------|
+--|*   GS BOSS 击杀统计  created by ken      END            |
+--|*-------------------------------------------------------|
