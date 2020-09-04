@@ -44,7 +44,7 @@
     <!--sidebar-menu-->
     <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 首页</a>
         <ul id="mainUl">
-            <li th:class="${curPage eq 'index' ? 'active' : ''}"><a href="index"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
+            <li th:class="${curPage eq 'index' ? 'active' : ''}"><a href="/index"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
             <li th:class="${curPage eq 'charts' ? 'active' : ''}"> <a href="/charts"><i class="icon icon-signal"></i> <span>掉落统计</span></a> </li>
             <li th:class="${curPage eq 'tables' ? 'active' : ''}"><a href="/tables"><i class="icon icon-th"></i> <span>数据表</span></a></li>
             <li th:class="${curPage eq 'monsterDieMsg' ? 'active' : ''}"><a href="/st/searchMonsterMsg"><i class="icon icon-th"></i> <span>怪物信息</span></a></li>
@@ -52,7 +52,7 @@
                 <ul>
                     <li th:class="${curPage eq 'form-common' ? 'active' : ''}"><a href="/form-common">一般操作</a></li>
                     <li th:class="${curPage eq 'form-validation' ? 'active' : ''}"><a href="/form-permission">权限管理</a></li>
-                    <li th:class="${curPage eq 'form-wizard' ? 'active' : ''}"><a href="form-wizard">制作中</a></li>
+                    <li th:class="${curPage eq 'form-wizard' ? 'active' : ''}"><a href="/form-wizard">制作中</a></li>
                 </ul>
             </li>
         </ul>
