@@ -1,5 +1,6 @@
 package com.st.newtest.Service;
 
+import com.st.newtest.Entity.Charge;
 import com.st.newtest.Entity.MonsterDie;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface OpenStService {
     int insertNewMonster(MonsterDie monsterDie);
 
     Boolean clearTargetReliveTime(MonsterDie monsterDie);
+
+    int insertNewChargeData(Charge charge);
 }

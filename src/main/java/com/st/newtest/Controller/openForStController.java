@@ -1,5 +1,6 @@
 package com.st.newtest.Controller;
 
+import com.st.newtest.Entity.Charge;
 import com.st.newtest.Entity.MonsterDie;
 import com.st.newtest.Service.OpenStService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,12 @@ public class openForStController {
     @RequestMapping("/insertNewMonster")
     public String insertNewMonster(MonsterDie monsterDie) {
         openStService.insertNewMonster(monsterDie);
+        return "success";
+    }
+
+    @RequestMapping("/insertNewChargeData")
+    public String insertNewChargeData(Charge charge) {
+        openStService.insertNewChargeData(charge);
         return "success";
     }
 }

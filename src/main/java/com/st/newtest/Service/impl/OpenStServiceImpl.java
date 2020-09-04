@@ -1,6 +1,8 @@
 package com.st.newtest.Service.impl;
 
+import com.st.newtest.Entity.Charge;
 import com.st.newtest.Entity.MonsterDie;
+import com.st.newtest.Mapper.ChargeMapper;
 import com.st.newtest.Mapper.MonsterDieMapper;
 import com.st.newtest.Service.OpenStService;
 import com.st.newtest.Util.CommonUtil;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +19,11 @@ import java.util.List;
 public class OpenStServiceImpl implements OpenStService {
     @Autowired(required = false)
     private MonsterDieMapper monsterDieMapper;
+
+    @Autowired(required = false)
+    private ChargeMapper chargeMapper;
+
+    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -82,5 +91,22 @@ public class OpenStServiceImpl implements OpenStService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int insertNewChargeData(Charge charge) {
+        String dateTime = df.format(new Date().getTime());
+        charge.setDateTime(dateTime);
+        charge.setChargeCount(1);
+        Charge chargeNew = chargeMapper.selectByKeyName(charge.getUsername());
+        if (chargeNew != null) {
+            chargeNew.setDateTime(dateTime);
+            chargeNew.setChargeCount(chargeNew.getChargeCount() + charge.getChargeCount());
+            chargeNew.setChargeNum(chargeNew.getChargeNum() + charge.getChargeNum());
+
+        } else {
+            chargeMapper.insert(charge);
+        }
+        return 0;
     }
 }
