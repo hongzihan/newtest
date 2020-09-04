@@ -41,9 +41,11 @@ INSERT INTO `count_item` VALUES (0, '无敌羊哒迪奥', '2');
 DROP TABLE IF EXISTS `drop_item`;
 CREATE TABLE `drop_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `keyname` varchar(255) DEFAULT NULL,
-  `itemname` varchar(255) DEFAULT NULL,
-  `count` int(11) DEFAULT NULL,
+  `keyname` varchar(255) NOT NULL,
+  `itemname` varchar(255) NOT NULL,
+  `count` int(11) NOT NULL,
+  `zoneid` varchar(63) not null,
+  `dateTime` varchar(63) not null,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
@@ -200,6 +202,8 @@ DELIMITER //
 CREATE PROCEDURE autodel()
      BEGIN
      delete From monster_die where DATE(dietime) <= DATE(DATE_SUB(NOW(),INTERVAL 2 day));
+     delete From drop_item where DATE(dateTime) <= DATE(DATE_SUB(NOW(),INTERVAL 30 day));
+     delete From drop_item where DATE(dateTime) <= DATE(DATE_SUB(NOW(),INTERVAL 5 day)) AND count > 1;
      END
      //
 DELIMITER ;
@@ -225,6 +229,8 @@ ALTER EVENT event_auto_del_memorydata ON COMPLETION PRESERVE DISABLE; //关闭�
 
 --删除存储过程：
 DROP PROCEDURE pro_clear_data;
+DROP PROCEDURE autodel;
 
 --删除Event:
 DROP EVENT IF EXISTS event_time_clear_data1
+DROP EVENT IF EXISTS event_auto_del_memorydata

@@ -1,3 +1,7 @@
+--|*-------------------------------------------------------|
+--|*   分发管理系统区域  created by ken         BEGIN         |
+--|*-------------------------------------------------------|
+
 function action_item_add(action_data, cur_action) -- 给角色增加物品操作函数 -- T==>1<==T
     local playerGUID = lualib:Name2Guid(action_data.playername)
     if playerGUID ~= "" then -- 玩家在线
@@ -236,3 +240,152 @@ function lualib:dispathcher_main()
     -- 主函数
     lualib:AddTimer("", 20190821, 30 * 1000, -1, "CRUD_CHECK_TIMER")
 end
+
+--|*-------------------------------------------------------|
+--|*   分发管理系统区域  created by ken         END           |
+--|*-------------------------------------------------------|
+
+--|*-------------------------------------------------------|
+--|*   物品掉落统计区域  created by ken         BEGIN         |
+--|*-------------------------------------------------------|
+local DROP_TABLE_DISJAVA_NUM = 300 -- 掉落计数总表数
+local DROP_TABLE_DISJAVA_MAX_NUM = 50 -- 每个表最大存储数量
+function saveDropData_disjava(item) -- 主函数，外界只需要在require该脚本后调用该函数即可
+    local indexstr = lualib:GetDBStr("drop_item_all_index")
+    local index_table = {}
+    if indexstr == "" then
+        local allIndex = {}
+        for i=1, DROP_TABLE_DISJAVA_NUM do
+            allIndex[i] = 0
+        end
+        lualib:SetDBStrEx("drop_item_all_index", json.encode(allIndex), 6)
+        index_table = json.decode(json.encode(allIndex))
+    else
+        index_table = json.decode(indexstr)
+    end
+
+    for i=1, DROP_TABLE_DISJAVA_NUM do
+        local isfull = lualib:GetDBStr("drop_item_table_dispatcher_isfull"..tostring(i))
+        if isfull ~= "true" then -- 如果该表还没满，那就可以继续操作咯
+            index_table[i] = 1
+            lualib:SetDBStrEx("drop_item_all_index", json.encode(index_table), 6)
+            local str = lualib:GetDBStr("drop_item_table_dispatcher_"..tostring(i))
+            if str == "" then -- 如果表是空的，则建新表，并存入第一个数据
+                local drop_item = {}
+                drop_item[1] = {keyname = lualib:KeyName(item), itemname = lualib:Name(item), count = 1}
+                lualib:SetDBStrEx("drop_item_table_dispatcher_"..tostring(i), json.encode(drop_item), 6)
+                break
+            else
+                local drop_item = json.decode(str)
+                local item_length = #drop_item
+                if item_length + 1 < DROP_TABLE_DISJAVA_MAX_NUM and item_length + 1 >= 1 then -- 如果表还没存满
+                    local isexist = 0
+                    local item_keyname = lualib:KeyName(item)
+                    for i=1, item_length do
+                        if drop_item[i].keyname == item_keyname then
+                            isexist = i
+                            break
+                        end
+                    end
+                    if isexist == 0 then
+                        drop_item[item_length + 1] = {keyname = lualib:KeyName(item), itemname = lualib:Name(item), count = 1}
+                    else
+                        if drop_item[isexist] ~= nil then
+                            drop_item[isexist].count = drop_item[isexist].count + 1
+                        end
+                    end
+
+                    lualib:SetDBStrEx("drop_item_table_dispatcher_"..tostring(i), json.encode(drop_item), 6)
+                    break
+                else -- 数据表在存入这一个以后就达到了最大
+                    drop_item[item_length + 1] = {keyname = lualib:KeyName(item), itemname = lualib:Name(item), count = 1}
+                    lualib:SetDBStrEx("drop_item_table_dispatcher_"..tostring(i), json.encode(drop_item), 6)
+                    lualib:SetDBStrEx("drop_item_table_dispatcher_isfull"..tostring(i), "true", 6)
+                    break
+                end
+            end
+        end
+    end
+end
+
+
+function dispatcherData_disjava()
+    local indexstr = lualib:GetDBStr("drop_item_all_index")
+    local itrNum = 0
+    local index_table = {}
+    if indexstr == "" then
+        local allIndex = {}
+        for i=1, DROP_TABLE_DISJAVA_NUM do
+            allIndex[i] = 0
+        end
+        lualib:SetDBStrEx("drop_item_all_index", json.encode(allIndex), 6)
+        index_table = json.decode(json.encode(allIndex))
+    else
+        index_table = json.decode(indexstr)
+        for i=1, #index_table do
+            if index_table[i] == 1 then
+                itrNum = i
+            end
+        end
+    end
+    for i=1, itrNum do
+
+        local isfull = lualib:GetDBStr("drop_item_table_dispatcher_isfull"..tostring(i))
+        local str = lualib:GetDBStr("drop_item_table_dispatcher_"..tostring(i))
+        if isfull == "true" then -- 如果表满了就可以开始post了
+            if not lualib:HasTimer("0", 90163) then
+                lualib:SetDBStrEx("now_dispatcher_data_java", str, 6)
+                lualib:SetDBStrEx("drop_item_table_dispatcher_"..tostring(i), "", 6)
+                lualib:SetDBStrEx("drop_item_table_dispatcher_isfull"..tostring(i), "", 6) -- 只要不是true就行
+                lualib:AddTimerEx("0", 90163, 333, DROP_TABLE_DISJAVA_MAX_NUM, "dispatcher_real_sender_disjava", "")
+                index_table[i] = 0
+                lualib:SetDBStrEx("drop_item_all_index", json.encode(index_table), 6)
+                break
+            else
+                -- 有数据在分发了，先不打扰了
+                break
+            end
+        elseif i > 1 then
+            if lualib:GetDBStr("drop_item_table_dispatcher_isfull" .. tostring(i - 1)) ~= "true" then
+                if str ~= "" and str ~= "{}" then
+                    local drop_item = json.decode(str)
+                    if not lualib:HasTimer("0", 90163) then
+                        lualib:SetDBStrEx("now_dispatcher_data_java", str, 6)
+                        lualib:SetDBStrEx("drop_item_table_dispatcher_"..tostring(i), "", 6)
+                        lualib:SetDBStrEx("drop_item_table_dispatcher_isfull"..tostring(i), "", 6) -- 只要不是true就行
+                        lualib:AddTimerEx("0", 90163, 333, #drop_item, "dispatcher_real_sender_disjava", "")
+                        index_table[i] = 0
+                        lualib:SetDBStrEx("drop_item_all_index", json.encode(index_table), 6)
+                        break
+                    else
+                        -- 有数据在分发了，先不打扰了
+                        break
+                    end
+                end
+            end
+
+        end
+    end
+end
+
+
+function dispatcher_real_sender_disjava()
+    local str = lualib:GetDBStr("now_dispatcher_data_java")
+    if str ~= "" then
+        local drop_item = json.decode(str)
+        local url = "http://120.78.216.226:8080/dropItem/insertNewData"
+        local data = "keyname="..tostring(drop_item[1].keyname).."&itemname="..tostring(drop_item[1].itemname).."&count="..tostring(drop_item[1].count).."&zoneid="..tostring(lualib:GetZoneId())
+        lualib:PostURL(url, lualib:GBKToUTF8(data), "web_back_useitem", "", 500)
+        table.remove(drop_item, 1)
+        if #drop_item == 0 then
+            lualib:SetDBStrEx("now_dispatcher_data_java", "", 6)
+        else
+            lualib:SetDBStrEx("now_dispatcher_data_java", json.encode(drop_item), 6)
+        end
+    end
+
+end
+
+--|*-------------------------------------------------------|
+--|*   物品掉落统计区域  created by ken      END              |
+--|*-------------------------------------------------------|
