@@ -6,13 +6,17 @@ import com.st.newtest.Service.DropItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("dropItemServiceImpl")
 public class DropItemServiceImpl implements DropItemService {
     @Autowired(required = false)
     private DropItemMapper dropItemMapper;
+
+    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public int deleteByPrimaryKey(Integer id) {
@@ -51,10 +55,15 @@ public class DropItemServiceImpl implements DropItemService {
         String itemname = dropItem.getItemname();
         Integer count = dropItem.getCount();
         String zoneid = dropItem.getZoneid();
+        // 获取当前日期
+        Date date = new Date();
+        String dateTime = df.format(date.getTime());
         List<DropItem> originDropItemList = dropItemMapper.selectByItemKey(keyname);
         for (DropItem originDropItem : originDropItemList) { // 如果表中存在完全相等的数据，则更新进数据表
             if (originDropItem.getKeyname().equals(keyname) && originDropItem.getZoneid().equals(zoneid)) {
                 originDropItem.setCount(originDropItem.getCount() + dropItem.getCount());
+
+                originDropItem.setDateTime(dateTime);
                 dropItemMapper.updateByPrimaryKey(originDropItem);
                 return true;
             }
@@ -65,6 +74,7 @@ public class DropItemServiceImpl implements DropItemService {
         newItem.setKeyname(keyname);
         newItem.setItemname(itemname);
         newItem.setZoneid(zoneid);
+        newItem.setDateTime(dateTime);
         newItem.setId(0);
         dropItemMapper.insert(newItem);
         return true;
