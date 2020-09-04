@@ -43,20 +43,33 @@
     <!--close-top-Header-menu-->
     <!--sidebar-menu-->
     <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 首页</a>
-        <ul>
-            <li class="active"><a href="index"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-            <li> <a href="/charts"><i class="icon icon-signal"></i> <span>掉落统计</span></a> </li>
-            <li><a href="/tables"><i class="icon icon-th"></i> <span>数据表</span></a></li>
-            <li><a href="/st/searchMonsterMsg"><i class="icon icon-th"></i> <span>怪物信息</span></a></li>
-            <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>表单操作</span> <span class="label label-important">3</span></a>
+        <ul id="mainUl">
+            <li th:class="${curPage eq 'index' ? 'active' : ''}"><a href="index"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
+            <li th:class="${curPage eq 'charts' ? 'active' : ''}"> <a href="/charts"><i class="icon icon-signal"></i> <span>掉落统计</span></a> </li>
+            <li th:class="${curPage eq 'tables' ? 'active' : ''}"><a href="/tables"><i class="icon icon-th"></i> <span>数据表</span></a></li>
+            <li th:class="${curPage eq 'monsterDieMsg' ? 'active' : ''}"><a href="/st/searchMonsterMsg"><i class="icon icon-th"></i> <span>怪物信息</span></a></li>
+            <li class="submenu" id="submenu_1"> <a href="#"><i class="icon icon-th-list"></i> <span>表单操作</span> <span class="label label-important">3</span></a>
                 <ul>
-                    <li><a href="/form-common">一般操作</a></li>
-                    <li><a href="/form-permission">权限管理</a></li>
-                    <li><a href="form-wizard.html">制作中</a></li>
+                    <li th:class="${curPage eq 'form-common' ? 'active' : ''}"><a href="/form-common">一般操作</a></li>
+                    <li th:class="${curPage eq 'form-validation' ? 'active' : ''}"><a href="/form-permission">权限管理</a></li>
+                    <li th:class="${curPage eq 'form-wizard' ? 'active' : ''}"><a href="form-wizard">制作中</a></li>
                 </ul>
             </li>
         </ul>
     </div>
     <!--sidebar-menu-->
+<script type="text/javascript" th:inline="javascript">
+
+    window.onload = () => {
+        let elements = document.getElementById("mainUl").getElementsByTagName("ul")[0].getElementsByTagName("li")
+        for (let i=0; i<elements.length; i++) {
+            if (elements[i].getAttribute("class") === "active") {
+                let element = document.getElementById("submenu_1")
+                element.setAttribute("class", "submenu active")
+                element.getElementsByTagName("a")[0].click()
+            }
+        }
+    }
+</script>
 </body>
 </html>

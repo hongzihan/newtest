@@ -29,6 +29,7 @@ public class CommonUtil {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(redirectPage);
         modelAndView.addObject("nickname", user.getNickname() );
+        modelAndView.addObject("curPage", redirectPage);
         return modelAndView;
     }
 
