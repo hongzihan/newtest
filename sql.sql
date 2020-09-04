@@ -74,13 +74,15 @@ CREATE TABLE `web_action` (
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `corepwd` int(11) NOT NULL,
+DROP TABLE IF EXISTS `charge`;
+CREATE TABLE `charge` (
+  `id` int(15) NOT NULL AUTO_INCREMENT,
+  `username` varchar(63) NOT NULL,
+  `accountName` varchar(63) NOT NULL,
+  `zoneName` varchar(63) NOT NULL,
+  `chargeNum` int(15) NOT NULL,
+  `dateTime` varchar(63) NOT NULL,
+  `chargeCount` int(15) DEFAULT NULL,
   PRIMARY KEY (`id`),
   unique key AK_nq_username (username)
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;

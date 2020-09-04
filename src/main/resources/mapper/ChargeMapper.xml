@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.newtest.Mapper.ChargeMapper" >
+  <resultMap id="BaseResultMap" type="com.st.newtest.Entity.Charge" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="accountName" property="accountName" jdbcType="VARCHAR" />
+    <result column="zoneName" property="zoneName" jdbcType="VARCHAR" />
+    <result column="chargeNum" property="chargeNum" jdbcType="INTEGER" />
+    <result column="dateTime" property="dateTime" jdbcType="VARCHAR" />
+    <result column="chargeCount" property="chargeCount" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from charge
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.st.newtest.Entity.Charge" >
+    insert into charge (id, username, accountName, 
+      zoneName, chargeNum, `dateTime`, 
+      chargeCount)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, 
+      #{zoneName,jdbcType=VARCHAR}, #{chargeNum,jdbcType=INTEGER}, #{dateTime,jdbcType=VARCHAR}, 
+      #{chargeCount,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.st.newtest.Entity.Charge" >
+    update charge
+    set username = #{username,jdbcType=VARCHAR},
+      accountName = #{accountName,jdbcType=VARCHAR},
+      zoneName = #{zoneName,jdbcType=VARCHAR},
+      chargeNum = #{chargeNum,jdbcType=INTEGER},
+      `dateTime` = #{dateTime,jdbcType=VARCHAR},
+      chargeCount = #{chargeCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, username, accountName, zoneName, chargeNum, `dateTime`, chargeCount
+    from charge
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, username, accountName, zoneName, chargeNum, `dateTime`, chargeCount
+    from charge
+  </select>
+</mapper>
