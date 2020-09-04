@@ -41,19 +41,8 @@
 
         <div class="row-fluid">
             <div class="span12">
-                <div class="widget-box">
-                    <div class="row">
-                        <div class="col-md-3" id="main1" style="width: 450px;height:333px;"></div>
-                        <div class="col-md-3" id="main2" style="width: 450px;height:333px;"></div>
-                        <div class="col-md-3" id="main3" style="width: 450px;height:333px;"></div>
-                        <div class="col-md-3" id="main4" style="width: 450px;height:333px;"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3" id="main5" style="width: 450px;height:333px;"></div>
-                        <div class="col-md-3" id="main6" style="width: 450px;height:333px;"></div>
-                        <div class="col-md-3" id="main7" style="width: 450px;height:333px;"></div>
-                        <div class="col-md-3" id="main8" style="width: 450px;height:333px;"></div>
-                    </div>
+                <div class="widget-box" style="width: 1500px">
+                    <div id="main" style="width: 1500px;height:5400px;"></div>
                 </div>
             </div>
         </div>
@@ -72,82 +61,63 @@
 <script src="../static/js/matrix.js"></script>
 <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
 <!--Real-time-chart-js-->
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
     refurbishIndex = () => {
-        $.ajax({
-            type:"post",
-            url:"/dropItem/showAll",
-            data:{},
-            async: false,
-            success: data => {
-                var optionJson= JSON.parse( data );
-                optionJson.sort(function(a, b){return a.count - b.count});
-                var dataAllLength = optionJson.length
-                var mainCount = 8
-                for (var chartCount = 0; chartCount < mainCount; chartCount++) {
-                    var hengdata = []
-                    var zongdata = []
-                    var piedata = []
-                    var preIndex = Math.floor(chartCount * (dataAllLength / mainCount))
-                    var sufIndex = Math.floor((chartCount + 1) * (dataAllLength / mainCount))
-                    var tempCount = 0
-                    for (var i=preIndex; i<sufIndex; i++) {
-                        [hengdata[i], zongdata[i]] = [optionJson[i].itemname, optionJson[i].count]
-                        piedata[i] = {};
-                        //let { foo: baz , bar: xxa} = { foo: 'aaa', bar: 'bbb' };
-                        //{xa: piedata[i]["name"] , xb: piedata[i]["value"]} = {xa: optionJson[i].itemname, xb: optionJson[i].count}
-                        piedata[i]["name"] = optionJson[i].itemname;
-                        piedata[i]["value"] = optionJson[i].count;
-                        tempCount = tempCount + 1;
-                    }
-                    if (piedata.length > 0) {
-                        // 基于准备好的dom，初始化echarts实例
-                        var myChart = echarts.init(document.getElementById('main' + (chartCount + 1)));
+        let obj = '[[${dropItemList}]]'
+        var optionJson= JSON.parse(obj)
+        optionJson.sort(function(a, b){return a.count - b.count});
+        let xData = []
+        let yData = []
+        for (let i=0; i<optionJson.length; i++) {
+            xData[i] = optionJson[i].count;
+            yData[i] = optionJson[i].keyname;
+        }
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
 
-                        // 指定图表的配置项和数据
-                        var option = {
-                            title : {
-                                text: '国际三国 物品掉落统计 ' + mainCount + ' - ' + (chartCount + 1),
-                                x:'center'//水平居中
-                            },
-                            tooltip : {//提示框组件。
-                                trigger: 'item',  //'item' 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。
-                                formatter: "{a} <br/>{b} : {c} ({d}%)" //{a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）
-                            },
-                            series : [
-                                {
-                                    name: '物品概述',
-                                    type: 'pie',
-                                    radius : '55%',//饼图的半径
-                                    center: ['50%', '60%'],//饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。
-                                    data:piedata,
-                                    itemStyle: {//图形样式。
-                                        emphasis: {
-                                            shadowBlur: 10,
-                                            shadowOffsetX: 0,
-                                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                        }
-                                    }
-                                }
-                            ]
-                        };
-                        // 使用刚指定的配置项和数据显示图表。
-                        myChart.setOption(option);
-                    }
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '[[${curZoneName}]]',
+                subtext: '数据来自游戏'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
                 }
-            }
-        });
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+                type: 'category',
+                data: yData
+            },
+            series: [
+                {
+                    name: '2011年',
+                    type: 'bar',
+                    data: xData
+                }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
     }
     window.onload = () => {
         refurbishIndex()
     }
 </script> 
 <!--Real-time-chart-js-end-->
-<!--Turning-series-chart-js-->
-<script type="text/javascript">
-
-</script> 
-<!--Turning-series-chart-js-->
 <script src="../static/js/matrix.dashboard.js"></script>
 </body>
 </html>
