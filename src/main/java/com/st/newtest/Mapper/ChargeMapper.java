@@ -4,6 +4,7 @@ import com.st.newtest.Entity.Charge;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ChargeMapper {
@@ -17,5 +18,5 @@ public interface ChargeMapper {
 
     int updateByPrimaryKey(Charge record);
 
-    Charge selectByKeyName(String username);
+    Charge selectByAccountAndZoneName(Map<String,String> map);
 }

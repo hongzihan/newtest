@@ -41,9 +41,9 @@
     select id, username, accountName, zoneName, chargeNum, `dateTime`, chargeCount
     from charge
   </select>
-  <select id="selectByKeyName" resultMap="BaseResultMap">
+  <select id="selectByAccountAndZoneName" resultMap="BaseResultMap">
     select id, username, accountName, zoneName, chargeNum, `dateTime`, chargeCount
     from charge
-    where username = #{username, jdbcType=VARCHAR}
+    where accountName = #{accountName, jdbcType=VARCHAR} and zoneName = #{zoneName,jdbcType=VARCHAR}
   </select>
 </mapper>

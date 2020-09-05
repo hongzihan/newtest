@@ -98,12 +98,16 @@ public class OpenStServiceImpl implements OpenStService {
         String dateTime = df.format(new Date().getTime());
         charge.setDateTime(dateTime);
         charge.setChargeCount(1);
-        Charge chargeNew = chargeMapper.selectByKeyName(charge.getUsername());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("accountName", charge.getAccountName());
+        map.put("zoneName", charge.getZoneName());
+        Charge chargeNew = chargeMapper.selectByAccountAndZoneName(map);
         if (chargeNew != null) {
             chargeNew.setDateTime(dateTime);
             chargeNew.setChargeCount(chargeNew.getChargeCount() + charge.getChargeCount());
             chargeNew.setChargeNum(chargeNew.getChargeNum() + charge.getChargeNum());
-
+            chargeNew.setUsername(charge.getUsername());
+            chargeMapper.updateByPrimaryKey(chargeNew);
         } else {
             chargeMapper.insert(charge);
         }
