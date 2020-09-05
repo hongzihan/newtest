@@ -266,7 +266,8 @@ end
 
 function lualib:dispathcher_main()
     -- 主函数
-    lualib:AddTimer("", 20190821, 30 * 1000, -1, "CRUD_CHECK_TIMER")
+    lualib:AddTimer("", 20190821, 30 * 1000, -1, "CRUD_CHECK_TIMER") -- 操作数据分发
+    lualib:AddTimerEx("0", 90162, 60 * 1000, -1, "dispatcherData_disjava", "") -- 掉落数据分发
 end
 
 --|*-------------------------------------------------------|
@@ -402,7 +403,7 @@ function dispatcher_real_sender_disjava()
     if str ~= "" then
         local drop_item = json.decode(str)
         local url = "http://120.78.216.226:8080/dropItem/insertNewData"
-        local data = "keyname="..tostring(drop_item[1].keyname).."&itemname="..tostring(drop_item[1].itemname).."&count="..tostring(drop_item[1].count).."&zoneid="..tostring(lualib:GetZoneId())
+        local data = "keyname="..tostring(drop_item[1].keyname).."&itemname="..tostring(drop_item[1].itemname).."&count="..tostring(drop_item[1].count).."&zoneid="..tostring(lualib:GetZoneName())
         lualib:PostURL(url, lualib:GBKToUTF8(data), "web_back_useitem", "", 500)
         table.remove(drop_item, 1)
         if #drop_item == 0 then
@@ -423,6 +424,9 @@ end
 --|*-------------------------------------------------------|
 
 function addRecordToServer(monster, killer)
+    if monster == "" or killer == "" or monster == nil or killer == nil then
+        return
+    end
     local keyname = lualib:KeyName(monster)
     if lualib:Monster_Type(keyname) ~= 4 then
         return
