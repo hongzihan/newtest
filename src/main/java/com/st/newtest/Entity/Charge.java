@@ -75,6 +75,17 @@ public class Charge implements Serializable {
         this.chargeCount = chargeCount;
     }
 
+    public Charge() {
+
+    }
+
+    public Charge(String username, String accountName, String zoneName, Integer chargeNum) {
+        this.username = username;
+        this.accountName = accountName;
+        this.zoneName = zoneName;
+        this.chargeNum = chargeNum;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
