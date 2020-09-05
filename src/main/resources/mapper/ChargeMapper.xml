@@ -41,9 +41,21 @@
     select id, username, accountName, zoneName, chargeNum, `dateTime`, chargeCount
     from charge
   </select>
-  <select id="selectByAccountAndZoneName" resultMap="BaseResultMap">
+  <select id="selectByAccountAndZoneName" resultMap="BaseResultMap" parameterType="java.util.Map">
     select id, username, accountName, zoneName, chargeNum, `dateTime`, chargeCount
     from charge
     where accountName = #{accountName, jdbcType=VARCHAR} and zoneName = #{zoneName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllUniqueZoneName" resultMap="BaseResultMap">
+    select a.zoneName
+    from charge a
+    right join(select min(id) id from charge GROUP BY zoneName) b
+    on b.id = a.id
+    WHERE a.id is not null
+  </select>
+  <select id="selectAllByZoneName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select id, username, accountName, zoneName, chargeNum, `dateTime`, chargeCount
+    from charge
+    where zoneName = #{zoneName,jdbcType=VARCHAR}
   </select>
 </mapper>

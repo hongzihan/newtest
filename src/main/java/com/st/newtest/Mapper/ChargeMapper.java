@@ -19,4 +19,8 @@ public interface ChargeMapper {
     int updateByPrimaryKey(Charge record);
 
     Charge selectByAccountAndZoneName(Map<String,String> map);
+
+    List<Charge> selectAllUniqueZoneName();
+
+    List<Charge> selectAllByZoneName(String zoneName);
 }

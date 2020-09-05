@@ -57,12 +57,6 @@ public class HelloController {
         return mav;
     }
 
-    @RequiresPermissions("tables")
-    @RequestMapping("/tables")
-    public ModelAndView tables() {
-        return CommonUtil.getPage("tables");
-    }
-
 //    @RequiresRoles("supermanager")
 //    @RequestMapping("/monsterDieMsg")
 //    public ModelAndView monsterDieMsg() {

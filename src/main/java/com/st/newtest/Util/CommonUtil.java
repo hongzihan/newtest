@@ -30,6 +30,7 @@ public class CommonUtil {
         modelAndView.setViewName(redirectPage);
         modelAndView.addObject("nickname", user.getNickname() );
         modelAndView.addObject("curPage", redirectPage);
+        modelAndView.addObject("yourRoles", user.getRoleList());
         return modelAndView;
     }
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -112,5 +113,23 @@ public class OpenStServiceImpl implements OpenStService {
             chargeMapper.insert(charge);
         }
         return 0;
+    }
+
+    @Override
+    public List<String> selectAllZoneNameForChargeTable() {
+        List<Charge> chargeList = chargeMapper.selectAllUniqueZoneName();
+        List<String> list = null;
+        if (chargeList != null) {
+            list = new ArrayList<>();
+            for (Charge charge : chargeList) {
+                list.add(charge.getZoneName());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<Charge> selectAllChargeInfoForChargeTable(String zoneName) {
+        return chargeMapper.selectAllByZoneName(zoneName);
     }
 }
