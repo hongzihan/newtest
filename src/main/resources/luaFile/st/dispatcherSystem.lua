@@ -1,52 +1,52 @@
 --|*-------------------------------------------------------|
---|*   Í¨ÓÃ·½·¨ÇøÓò  created by ken         BEGIN            |
+--|*   é€šç”¨æ–¹æ³•åŒºåŸŸ  created by ken         BEGIN            |
 --|*-------------------------------------------------------|
 _G.hzhlib = {}
 function no_useful_post_return() end
--- @Usage: ÓÃÓÚÏò·şÎñ¶Ë·¢ËÍ×¨ÊôÉñÍ¾ÇëÇó
+-- @Usage: ç”¨äºå‘æœåŠ¡ç«¯å‘é€ä¸“å±ç¥é€”è¯·æ±‚
 -- @Time: 2020/9/5 14:40
 -- @Author: Ken
--- @Param: postData ĞèÒªÂú×ã ¸ñÊ½ json ÇÒjsonÄÚĞè°üº¬actionType&²Ù×÷ÀàĞÍºÍactionData&²Ù×÷Êı¾İ
+-- @Param: postData éœ€è¦æ»¡è¶³ æ ¼å¼ json ä¸”jsonå†…éœ€åŒ…å«actionType&æ“ä½œç±»å‹å’ŒactionData&æ“ä½œæ•°æ®
 -- @Return: void
 function hzhlib:postData(postData)
-    -- ¼ì²â´«ÈëÀàĞÍ
+    -- æ£€æµ‹ä¼ å…¥ç±»å‹
     if not (type(postData) == "table" and postData.actionType ~= nil and postData.actionData ~= nil) then
         return
     end
-    -- ²åÈëÇøÃû
+    -- æ’å…¥åŒºå
     postData.actionData.zoneName = lualib:GetZoneName()
-    -- ½«´«ÈëµÄpostDataÊı¾İjson»¯
+    -- å°†ä¼ å…¥çš„postDataæ•°æ®jsonåŒ–
     local postData_json = json.encode(postData)
     local url = "http://120.78.216.226:8080/openSt/main"
     local data = lualib:GBKToUTF8("jsonMsg="..postData_json)
     lualib:PostURL(url, data, "no_useful_post_return", "", 606)
 end
 --|*-------------------------------------------------------|
---|*   Í¨ÓÃ·½·¨ÇøÓò  created by ken         END              |
+--|*   é€šç”¨æ–¹æ³•åŒºåŸŸ  created by ken         END              |
 --|*-------------------------------------------------------|
 
 
 --|*-------------------------------------------------------|
---|*   ·Ö·¢¹ÜÀíÏµÍ³ÇøÓò  created by ken         BEGIN         |
+--|*   åˆ†å‘ç®¡ç†ç³»ç»ŸåŒºåŸŸ  created by ken         BEGIN         |
 --|*-------------------------------------------------------|
 
-function action_item_add(action_data, cur_action) -- ¸ø½ÇÉ«Ôö¼ÓÎïÆ·²Ù×÷º¯Êı -- T==>1<==T
+function action_item_add(action_data, cur_action) -- ç»™è§’è‰²å¢åŠ ç‰©å“æ“ä½œå‡½æ•° -- T==>1<==T
     local playerGUID = lualib:Name2Guid(action_data.playername)
-    if playerGUID ~= "" then -- Íæ¼ÒÔÚÏß
+    if playerGUID ~= "" then -- ç©å®¶åœ¨çº¿
         local maxStack = lualib:Item_GetStack(action_data.keyname)
         local mailCount = math.floor(action_data.count / maxStack)
         local extraCount = action_data.count % maxStack
         if mailCount == 0 and extraCount > 0 then
-            lualib:Mail("ÏµÍ³", action_data.playername, "", 0, 0, {action_data.keyname, extraCount, 1}  )
+            lualib:Mail("ç³»ç»Ÿ", action_data.playername, "", 0, 0, {action_data.keyname, extraCount, 1}  )
         elseif mailCount > 0 and extraCount == 0 then
             for j=1, mailCount do
-                lualib:Mail("ÏµÍ³", action_data.playername, "", 0, 0, {action_data.keyname, maxStack, 1}  )
+                lualib:Mail("ç³»ç»Ÿ", action_data.playername, "", 0, 0, {action_data.keyname, maxStack, 1}  )
             end
         elseif mailCount > 0 and extraCount > 0 then
             for j=1, mailCount do
-                lualib:Mail("ÏµÍ³", action_data.playername, "", 0, 0, {action_data.keyname, maxStack, 1}  )
+                lualib:Mail("ç³»ç»Ÿ", action_data.playername, "", 0, 0, {action_data.keyname, maxStack, 1}  )
             end
-            lualib:Mail("ÏµÍ³", action_data.playername, "", 0, 0, {action_data.keyname, extraCount, 1}  )
+            lualib:Mail("ç³»ç»Ÿ", action_data.playername, "", 0, 0, {action_data.keyname, extraCount, 1}  )
         end
         return 0
     else
@@ -54,10 +54,10 @@ function action_item_add(action_data, cur_action) -- ¸ø½ÇÉ«Ôö¼ÓÎïÆ·²Ù×÷º¯Êı -- T
     end
 end
 
-function action_item_del(action_data, cur_action) -- É¾³ı½ÇÉ«ÎïÆ·²Ù×÷º¯Êı -- T==>2<==T
+function action_item_del(action_data, cur_action) -- åˆ é™¤è§’è‰²ç‰©å“æ“ä½œå‡½æ•° -- T==>2<==T
     local playerGUID = lualib:Name2Guid(action_data.playername)
     if playerGUID ~= "" then
-        if lualib:DelItem(playerGUID, action_data.keyname, action_data.count, 2, "web·Ö·¢É¾³ı", "web·Ö·¢É¾³ı") then
+        if lualib:DelItem(playerGUID, action_data.keyname, action_data.count, 2, "webåˆ†å‘åˆ é™¤", "webåˆ†å‘åˆ é™¤") then
             return 0
         else
             return cur_action
@@ -67,14 +67,14 @@ function action_item_del(action_data, cur_action) -- É¾³ı½ÇÉ«ÎïÆ·²Ù×÷º¯Êı -- T==
     end
 end
 
-function action_var_system_str(action_data, cur_action) -- ÉèÖÃÏµÍ³str±äÁ¿ -- T==>3<==T
+function action_var_system_str(action_data, cur_action) -- è®¾ç½®ç³»ç»Ÿstrå˜é‡ -- T==>3<==T
     local strKey = action_data.varname
     local dbValue = action_data.varvalue
     local byType = action_data.areatype
     if strKey == "" or dbValue == "" or type(strKey) ~= "string" or type(dbValue) ~= "string" or type(byType) ~= "number" then
-        return 0 -- Èç¹ûÀàĞÍ´íÎó£¬Ò²µÃÉ¾ÁË£¬²»È»»áÔì³ÉÊı¾İÈßÓà£¬ÓÀÔ¶ÎŞ·¨´¦Àí
+        return 0 -- å¦‚æœç±»å‹é”™è¯¯ï¼Œä¹Ÿå¾—åˆ äº†ï¼Œä¸ç„¶ä¼šé€ æˆæ•°æ®å†—ä½™ï¼Œæ°¸è¿œæ— æ³•å¤„ç†
     end
-    if byType <= 0 or byType >= 7 then -- Ä¬ÈÏÎª6
+    if byType <= 0 or byType >= 7 then -- é»˜è®¤ä¸º6
         lualib:SetDBStrEx(strKey, dbValue, 6)
     else
         lualib:SetDBStrEx(strKey, dbValue, byType)
@@ -82,16 +82,16 @@ function action_var_system_str(action_data, cur_action) -- ÉèÖÃÏµÍ³str±äÁ¿ -- T=
     return 0
 end
 
-function action_var_system_int(action_data, cur_action) -- ÉèÖÃÏµÍ³num±äÁ¿ -- T==>4<==T
+function action_var_system_int(action_data, cur_action) -- è®¾ç½®ç³»ç»Ÿnumå˜é‡ -- T==>4<==T
     local strKey = action_data.varname
     local dbValue = tonumber(action_data.varvalue)
     local byType = action_data.areatype
 
     if strKey == "" or type(strKey) ~= "string" or type(dbValue) ~= "number" or type(byType) ~= "number" then
-        return 0 -- Èç¹ûÀàĞÍ´íÎó£¬Ò²µÃÉ¾ÁË£¬²»È»»áÔì³ÉÊı¾İÈßÓà£¬ÓÀÔ¶ÎŞ·¨´¦Àí
+        return 0 -- å¦‚æœç±»å‹é”™è¯¯ï¼Œä¹Ÿå¾—åˆ äº†ï¼Œä¸ç„¶ä¼šé€ æˆæ•°æ®å†—ä½™ï¼Œæ°¸è¿œæ— æ³•å¤„ç†
     end
 
-    if byType <= 0 or byType >= 7 then -- Ä¬ÈÏÎª6
+    if byType <= 0 or byType >= 7 then -- é»˜è®¤ä¸º6
         lualib:SetDBNumEx(strKey, dbValue, 6)
     else
         lualib:SetDBNumEx(strKey, dbValue, byType)
@@ -99,7 +99,7 @@ function action_var_system_int(action_data, cur_action) -- ÉèÖÃÏµÍ³num±äÁ¿ -- T=
     return 0
 end
 
-function action_var_player_str(action_data, cur_action) -- ÉèÖÃÍæ¼Òstr±äÁ¿ -- T==>5<==T
+function action_var_player_str(action_data, cur_action) -- è®¾ç½®ç©å®¶strå˜é‡ -- T==>5<==T
     if action_data.playername == "" then
         return 0
     end
@@ -108,7 +108,7 @@ function action_var_player_str(action_data, cur_action) -- ÉèÖÃÍæ¼Òstr±äÁ¿ -- T=
         local strKey = action_data.varname
         local dbValue = action_data.varvalue
         if strKey == "" or type(strKey) ~= "string" or type(dbValue) ~= "string" then
-            return 0 -- Èç¹ûÀàĞÍ´íÎó£¬Ò²µÃÉ¾ÁË£¬²»È»»áÔì³ÉÊı¾İÈßÓà£¬ÓÀÔ¶ÎŞ·¨´¦Àí
+            return 0 -- å¦‚æœç±»å‹é”™è¯¯ï¼Œä¹Ÿå¾—åˆ äº†ï¼Œä¸ç„¶ä¼šé€ æˆæ•°æ®å†—ä½™ï¼Œæ°¸è¿œæ— æ³•å¤„ç†
         end
         lualib:SetStr(playerGUID, strKey, dbValue)
         return 0
@@ -117,7 +117,7 @@ function action_var_player_str(action_data, cur_action) -- ÉèÖÃÍæ¼Òstr±äÁ¿ -- T=
     end
 end
 
-function action_var_player_int(action_data, cur_action) -- ÉèÖÃÍæ¼Òint±äÁ¿ -- T==>6<==T
+function action_var_player_int(action_data, cur_action) -- è®¾ç½®ç©å®¶intå˜é‡ -- T==>6<==T
     if action_data.playername == "" then
         return 0
     end
@@ -126,7 +126,7 @@ function action_var_player_int(action_data, cur_action) -- ÉèÖÃÍæ¼Òint±äÁ¿ -- T=
         local strKey = action_data.varname
         local dbValue = tonumber(action_data.varvalue)
         if strKey == "" or type(strKey) ~= "string" or type(dbValue) ~= "number" then
-            return 0 -- Èç¹ûÀàĞÍ´íÎó£¬Ò²µÃÉ¾ÁË£¬²»È»»áÔì³ÉÊı¾İÈßÓà£¬ÓÀÔ¶ÎŞ·¨´¦Àí
+            return 0 -- å¦‚æœç±»å‹é”™è¯¯ï¼Œä¹Ÿå¾—åˆ äº†ï¼Œä¸ç„¶ä¼šé€ æˆæ•°æ®å†—ä½™ï¼Œæ°¸è¿œæ— æ³•å¤„ç†
         end
         lualib:SetInt(playerGUID, strKey, dbValue)
         return 0
@@ -135,14 +135,14 @@ function action_var_player_int(action_data, cur_action) -- ÉèÖÃÍæ¼Òint±äÁ¿ -- T=
     end
 end
 
-function action_mail_ex(action_data, cur_action) -- °´ÕÕÊı¾İÒªÇó¸øÍæ¼Ò·¢ÓÊ¼ş -- T==>7<==T
+function action_mail_ex(action_data, cur_action) -- æŒ‰ç…§æ•°æ®è¦æ±‚ç»™ç©å®¶å‘é‚®ä»¶ -- T==>7<==T
     local sender_name = action_data.title
     local receiver_name = action_data.playername
-    local text = action_data.text -- ¿ÉÒÔÎª""
+    local text = action_data.text -- å¯ä»¥ä¸º""
     local gold = action_data.gold
     local yuanbao = action_data.yuanbao
     local integral = action_data.integral
-    local templates = action_data.templates -- ¿ÉÒÔÎª{}
+    local templates = action_data.templates -- å¯ä»¥ä¸º{}
 
     local status,err = pcall(function ()
         templates = json.decode(templates)
@@ -150,7 +150,7 @@ function action_mail_ex(action_data, cur_action) -- °´ÕÕÊı¾İÒªÇó¸øÍæ¼Ò·¢ÓÊ¼ş -- 
     end)
 
     if not status then
-        return 0 -- ´íÁËÒ²ÒªÉ¾
+        return 0 -- é”™äº†ä¹Ÿè¦åˆ 
     end
 
     if sender_name == "" or receiver_name == "" then
@@ -165,11 +165,11 @@ function action_mail_ex(action_data, cur_action) -- °´ÕÕÊı¾İÒªÇó¸øÍæ¼Ò·¢ÓÊ¼ş -- 
     if lualib:MailEx(sender_name, receiver_name, text, gold, yuanbao, integral, templates) then
         return 0
     else
-        return cur_action -- ÆäÊµÒ²¿ÉÄÜÒòÎªtemplates¸ñÊ½´íÎóµ¼ÖÂÈßÓà
+        return cur_action -- å…¶å®ä¹Ÿå¯èƒ½å› ä¸ºtemplatesæ ¼å¼é”™è¯¯å¯¼è‡´å†—ä½™
     end
 end
 
-function remove_table_value_nil(extra_data) -- ÒÆ³ıÄ¿±êtableÄÚÎŞĞ§Öµ²¢·µ»ØÒ»¸öĞÂµÄtable
+function remove_table_value_nil(extra_data) -- ç§»é™¤ç›®æ ‡tableå†…æ— æ•ˆå€¼å¹¶è¿”å›ä¸€ä¸ªæ–°çš„table
     local extra_data_new = {}
     for i=1, #extra_data do
         if type(extra_data[i]) == "table" then
@@ -179,42 +179,42 @@ function remove_table_value_nil(extra_data) -- ÒÆ³ıÄ¿±êtableÄÚÎŞĞ§Öµ²¢·µ»ØÒ»¸öĞÂ
     return extra_data_new
 end
 
-function save_extra_msg(cType, extra_msg_table) -- ±£´æactionµÄÈßÓàÊı¾İ
+function save_extra_msg(cType, extra_msg_table) -- ä¿å­˜actionçš„å†—ä½™æ•°æ®
     if cType == "client" then
         if #extra_msg_table <= 0 then
-            lualib:SetDBStrEx("crud_action_extra_data", "", 6) -- ÖØĞÂ´æÈë
+            lualib:SetDBStrEx("crud_action_extra_data", "", 6) -- é‡æ–°å­˜å…¥
         else
-            lualib:SetDBStrEx("crud_action_extra_data", json.encode(extra_msg_table), 6) -- ÖØĞÂ´æÈë
+            lualib:SetDBStrEx("crud_action_extra_data", json.encode(extra_msg_table), 6) -- é‡æ–°å­˜å…¥
         end
-    else -- ·şÎñÆ÷Êı¾İ´¦Àí
+    else -- æœåŠ¡å™¨æ•°æ®å¤„ç†
         if #extra_msg_table <= 0 then
             return
         end
         local jsonStr = lualib:GetDBStr("crud_action_extra_data")
-        local extra_data = {} -- ¶¨ÒåÒ»¸ö¿Õtable
-        if jsonStr == "" then -- Èç¹ûÊı¾İ¿âÎŞÊı¾İ£¬Ôò¸³ÖµµÚÒ»¸öÊı¾İ
+        local extra_data = {} -- å®šä¹‰ä¸€ä¸ªç©ºtable
+        if jsonStr == "" then -- å¦‚æœæ•°æ®åº“æ— æ•°æ®ï¼Œåˆ™èµ‹å€¼ç¬¬ä¸€ä¸ªæ•°æ®
             extra_data[1] = extra_msg_table[1]
             table.remove(extra_msg_table, 1)
         else
             extra_data = json.decode(jsonStr)
         end
-        -- ½ÓÏÂÀ´ÊÇÊ£ÓàÊı¾İ´¦ÀíÁË
-        for i=1, #extra_msg_table do -- ÕâÀï²»ÄÜ´Ó2¿ªÊ¼£¬ÒòÎªÊı¾İ¿âÒ»¿ªÊ¼¿ÉÄÜÓĞÊı¾İ£¬ËùÒÔ²»Ò»¶¨»á·¢Éú¸³Öµ
-            table.insert(extra_data, 1, extra_msg_table[i]) -- Ñ­»·Ìí¼ÓÖµ
+        -- æ¥ä¸‹æ¥æ˜¯å‰©ä½™æ•°æ®å¤„ç†äº†
+        for i=1, #extra_msg_table do -- è¿™é‡Œä¸èƒ½ä»2å¼€å§‹ï¼Œå› ä¸ºæ•°æ®åº“ä¸€å¼€å§‹å¯èƒ½æœ‰æ•°æ®ï¼Œæ‰€ä»¥ä¸ä¸€å®šä¼šå‘ç”Ÿèµ‹å€¼
+            table.insert(extra_data, 1, extra_msg_table[i]) -- å¾ªç¯æ·»åŠ å€¼
         end
-        lualib:SetDBStrEx("crud_action_extra_data", json.encode(extra_data), 6) -- ÖØĞÂ´æÈë
+        lualib:SetDBStrEx("crud_action_extra_data", json.encode(extra_data), 6) -- é‡æ–°å­˜å…¥
     end
 end
 
-function super_old_horse_dispathtcher(extra_data) -- web·Ö·¢£¬Á÷Ë®Ïß²¿·Ö
+function super_old_horse_dispathtcher(extra_data) -- webåˆ†å‘ï¼Œæµæ°´çº¿éƒ¨åˆ†
     for i=1, #extra_data do
         local action_type = extra_data[i].actiontype
         local action_data_json = extra_data[i].actiondata
-        if action_data_json ~= "" and action_data_json ~= "{}" and action_data_json ~= nil then -- jsonÕı³£½âÎöºó½øĞĞ²Ù×÷·ÖÅÉ£¬Á÷Ë®Ïß
+        if action_data_json ~= "" and action_data_json ~= "{}" and action_data_json ~= nil then -- jsonæ­£å¸¸è§£æåè¿›è¡Œæ“ä½œåˆ†æ´¾ï¼Œæµæ°´çº¿
             local action_data = json.decode(action_data_json)
-            if action_type == 1 then -- ÎïÆ·Ôö¼Ó²Ù×÷
+            if action_type == 1 then -- ç‰©å“å¢åŠ æ“ä½œ
                 extra_data[i] = action_item_add(action_data, extra_data[i])
-            elseif action_type == 2 then -- ÎïÆ·É¾³ı²Ù×÷
+            elseif action_type == 2 then -- ç‰©å“åˆ é™¤æ“ä½œ
                 extra_data[i] = action_item_del(action_data, extra_data[i])
             elseif action_type == 3 then
                 extra_data[i] = action_var_system_str(action_data, extra_data[i])
@@ -227,24 +227,24 @@ function super_old_horse_dispathtcher(extra_data) -- web·Ö·¢£¬Á÷Ë®Ïß²¿·Ö
             elseif action_type == 7 then
                 extra_data[i] = action_mail_ex(action_data, extra_data[i])
             end
-        else -- jsonÊı¾İÒì³££¬Ö±½ÓÒÆ³ı£¬·ÀÖ¹ÏµÍ³³ö´í
+        else -- jsonæ•°æ®å¼‚å¸¸ï¼Œç›´æ¥ç§»é™¤ï¼Œé˜²æ­¢ç³»ç»Ÿå‡ºé”™
             extra_data[i] = 0
         end
     end
     return extra_data
 end
 
-function super_old_horse_dispathtcher_main(cType, content) -- web·Ö·¢Ö÷Ìå
+function super_old_horse_dispathtcher_main(cType, content) -- webåˆ†å‘ä¸»ä½“
     local json_data = content
-    if json_data ~= "" and json_data ~= "{}" and json_data ~= nil then -- Êı¾İÑéÖ¤
-        local item_action_data = json.decode(json_data) -- Êı¾İ½âÎö
-        item_action_data = super_old_horse_dispathtcher(item_action_data) -- Êı¾İ²Ù×÷
-        local newTable = remove_table_value_nil(item_action_data) -- ÒÆ³ı¿ÕÊı¾İ
-        save_extra_msg(cType, newTable) -- ±£Áô¶àÓàÊı¾İ½øÈëÈßÓà³Ø
+    if json_data ~= "" and json_data ~= "{}" and json_data ~= nil then -- æ•°æ®éªŒè¯
+        local item_action_data = json.decode(json_data) -- æ•°æ®è§£æ
+        item_action_data = super_old_horse_dispathtcher(item_action_data) -- æ•°æ®æ“ä½œ
+        local newTable = remove_table_value_nil(item_action_data) -- ç§»é™¤ç©ºæ•°æ®
+        save_extra_msg(cType, newTable) -- ä¿ç•™å¤šä½™æ•°æ®è¿›å…¥å†—ä½™æ± 
     end
 end
 
-function web_back_crud_action(a, b, content) -- ÍøÂç·µ»Ø»Øµ÷
+function web_back_crud_action(a, b, content) -- ç½‘ç»œè¿”å›å›è°ƒ
     local status,err = pcall(function ()
         xx = json.decode(lualib:UTF8ToGBK(content))
         return "success"
@@ -253,8 +253,8 @@ function web_back_crud_action(a, b, content) -- ÍøÂç·µ»Ø»Øµ÷
     if not status then
         return
     end
-    super_old_horse_dispathtcher_main("server", lualib:UTF8ToGBK(content)) -- ´¦ÀíÀ´×Ô·şÎñ¶ËµÄÊı¾İ
-    super_old_horse_dispathtcher_main("client", lualib:GetDBStr("crud_action_extra_data")) -- ´¦ÀíÀ´×ÔÓÎÏ·±¾ÉíµÄÒòÍæ¼ÒÀëÏßÔì³ÉµÄÊı¾İÈßÓà
+    super_old_horse_dispathtcher_main("server", lualib:UTF8ToGBK(content)) -- å¤„ç†æ¥è‡ªæœåŠ¡ç«¯çš„æ•°æ®
+    super_old_horse_dispathtcher_main("client", lualib:GetDBStr("crud_action_extra_data")) -- å¤„ç†æ¥è‡ªæ¸¸æˆæœ¬èº«çš„å› ç©å®¶ç¦»çº¿é€ æˆçš„æ•°æ®å†—ä½™
 end
 
 function CRUD_CHECK_TIMER()
@@ -265,21 +265,21 @@ function CRUD_CHECK_TIMER()
 end
 
 function lualib:dispathcher_main()
-    -- Ö÷º¯Êı
-    lualib:AddTimer("", 20190821, 30 * 1000, -1, "CRUD_CHECK_TIMER") -- ²Ù×÷Êı¾İ·Ö·¢
-    lualib:AddTimerEx("0", 90162, 60 * 1000, -1, "dispatcherData_disjava", "") -- µôÂäÊı¾İ·Ö·¢
+    -- ä¸»å‡½æ•°
+    lualib:AddTimer("", 20190821, 30 * 1000, -1, "CRUD_CHECK_TIMER") -- æ“ä½œæ•°æ®åˆ†å‘
+    lualib:AddTimerEx("0", 90162, 60 * 1000, -1, "dispatcherData_disjava", "") -- æ‰è½æ•°æ®åˆ†å‘
 end
 
 --|*-------------------------------------------------------|
---|*   ·Ö·¢¹ÜÀíÏµÍ³ÇøÓò  created by ken         END           |
+--|*   åˆ†å‘ç®¡ç†ç³»ç»ŸåŒºåŸŸ  created by ken         END           |
 --|*-------------------------------------------------------|
 
 --|*-------------------------------------------------------|
---|*   ÎïÆ·µôÂäÍ³¼ÆÇøÓò  created by ken         BEGIN         |
+--|*   ç‰©å“æ‰è½ç»Ÿè®¡åŒºåŸŸ  created by ken         BEGIN         |
 --|*-------------------------------------------------------|
-local DROP_TABLE_DISJAVA_NUM = 300 -- µôÂä¼ÆÊı×Ü±íÊı
-local DROP_TABLE_DISJAVA_MAX_NUM = 50 -- Ã¿¸ö±í×î´ó´æ´¢ÊıÁ¿
-function saveDropData_disjava(item) -- Ö÷º¯Êı£¬Íâ½çÖ»ĞèÒªÔÚrequire¸Ã½Å±¾ºóµ÷ÓÃ¸Ãº¯Êı¼´¿É
+local DROP_TABLE_DISJAVA_NUM = 300 -- æ‰è½è®¡æ•°æ€»è¡¨æ•°
+local DROP_TABLE_DISJAVA_MAX_NUM = 50 -- æ¯ä¸ªè¡¨æœ€å¤§å­˜å‚¨æ•°é‡
+function saveDropData_disjava(item) -- ä¸»å‡½æ•°ï¼Œå¤–ç•Œåªéœ€è¦åœ¨requireè¯¥è„šæœ¬åè°ƒç”¨è¯¥å‡½æ•°å³å¯
     local indexstr = lualib:GetDBStr("drop_item_all_index")
     local index_table = {}
     if indexstr == "" then
@@ -295,11 +295,11 @@ function saveDropData_disjava(item) -- Ö÷º¯Êı£¬Íâ½çÖ»ĞèÒªÔÚrequire¸Ã½Å±¾ºóµ÷ÓÃ¸Ã
 
     for i=1, DROP_TABLE_DISJAVA_NUM do
         local isfull = lualib:GetDBStr("drop_item_table_dispatcher_isfull"..tostring(i))
-        if isfull ~= "true" then -- Èç¹û¸Ã±í»¹Ã»Âú£¬ÄÇ¾Í¿ÉÒÔ¼ÌĞø²Ù×÷¿©
+        if isfull ~= "true" then -- å¦‚æœè¯¥è¡¨è¿˜æ²¡æ»¡ï¼Œé‚£å°±å¯ä»¥ç»§ç»­æ“ä½œå’¯
             index_table[i] = 1
             lualib:SetDBStrEx("drop_item_all_index", json.encode(index_table), 6)
             local str = lualib:GetDBStr("drop_item_table_dispatcher_"..tostring(i))
-            if str == "" then -- Èç¹û±íÊÇ¿ÕµÄ£¬Ôò½¨ĞÂ±í£¬²¢´æÈëµÚÒ»¸öÊı¾İ
+            if str == "" then -- å¦‚æœè¡¨æ˜¯ç©ºçš„ï¼Œåˆ™å»ºæ–°è¡¨ï¼Œå¹¶å­˜å…¥ç¬¬ä¸€ä¸ªæ•°æ®
                 local drop_item = {}
                 drop_item[1] = {keyname = lualib:KeyName(item), itemname = lualib:Name(item), count = 1}
                 lualib:SetDBStrEx("drop_item_table_dispatcher_"..tostring(i), json.encode(drop_item), 6)
@@ -307,7 +307,7 @@ function saveDropData_disjava(item) -- Ö÷º¯Êı£¬Íâ½çÖ»ĞèÒªÔÚrequire¸Ã½Å±¾ºóµ÷ÓÃ¸Ã
             else
                 local drop_item = json.decode(str)
                 local item_length = #drop_item
-                if item_length + 1 < DROP_TABLE_DISJAVA_MAX_NUM and item_length + 1 >= 1 then -- Èç¹û±í»¹Ã»´æÂú
+                if item_length + 1 < DROP_TABLE_DISJAVA_MAX_NUM and item_length + 1 >= 1 then -- å¦‚æœè¡¨è¿˜æ²¡å­˜æ»¡
                     local isexist = 0
                     local item_keyname = lualib:KeyName(item)
                     for i=1, item_length do
@@ -326,7 +326,7 @@ function saveDropData_disjava(item) -- Ö÷º¯Êı£¬Íâ½çÖ»ĞèÒªÔÚrequire¸Ã½Å±¾ºóµ÷ÓÃ¸Ã
 
                     lualib:SetDBStrEx("drop_item_table_dispatcher_"..tostring(i), json.encode(drop_item), 6)
                     break
-                else -- Êı¾İ±íÔÚ´æÈëÕâÒ»¸öÒÔºó¾Í´ïµ½ÁË×î´ó
+                else -- æ•°æ®è¡¨åœ¨å­˜å…¥è¿™ä¸€ä¸ªä»¥åå°±è¾¾åˆ°äº†æœ€å¤§
                     drop_item[item_length + 1] = {keyname = lualib:KeyName(item), itemname = lualib:Name(item), count = 1}
                     lualib:SetDBStrEx("drop_item_table_dispatcher_"..tostring(i), json.encode(drop_item), 6)
                     lualib:SetDBStrEx("drop_item_table_dispatcher_isfull"..tostring(i), "true", 6)
@@ -361,17 +361,17 @@ function dispatcherData_disjava()
 
         local isfull = lualib:GetDBStr("drop_item_table_dispatcher_isfull"..tostring(i))
         local str = lualib:GetDBStr("drop_item_table_dispatcher_"..tostring(i))
-        if isfull == "true" then -- Èç¹û±íÂúÁË¾Í¿ÉÒÔ¿ªÊ¼postÁË
+        if isfull == "true" then -- å¦‚æœè¡¨æ»¡äº†å°±å¯ä»¥å¼€å§‹postäº†
             if not lualib:HasTimer("0", 90163) then
                 lualib:SetDBStrEx("now_dispatcher_data_java", str, 6)
                 lualib:SetDBStrEx("drop_item_table_dispatcher_"..tostring(i), "", 6)
-                lualib:SetDBStrEx("drop_item_table_dispatcher_isfull"..tostring(i), "", 6) -- Ö»Òª²»ÊÇtrue¾ÍĞĞ
+                lualib:SetDBStrEx("drop_item_table_dispatcher_isfull"..tostring(i), "", 6) -- åªè¦ä¸æ˜¯trueå°±è¡Œ
                 lualib:AddTimerEx("0", 90163, 333, DROP_TABLE_DISJAVA_MAX_NUM, "dispatcher_real_sender_disjava", "")
                 index_table[i] = 0
                 lualib:SetDBStrEx("drop_item_all_index", json.encode(index_table), 6)
                 break
             else
-                -- ÓĞÊı¾İÔÚ·Ö·¢ÁË£¬ÏÈ²»´òÈÅÁË
+                -- æœ‰æ•°æ®åœ¨åˆ†å‘äº†ï¼Œå…ˆä¸æ‰“æ‰°äº†
                 break
             end
         elseif i > 1 then
@@ -381,13 +381,13 @@ function dispatcherData_disjava()
                     if not lualib:HasTimer("0", 90163) then
                         lualib:SetDBStrEx("now_dispatcher_data_java", str, 6)
                         lualib:SetDBStrEx("drop_item_table_dispatcher_"..tostring(i), "", 6)
-                        lualib:SetDBStrEx("drop_item_table_dispatcher_isfull"..tostring(i), "", 6) -- Ö»Òª²»ÊÇtrue¾ÍĞĞ
+                        lualib:SetDBStrEx("drop_item_table_dispatcher_isfull"..tostring(i), "", 6) -- åªè¦ä¸æ˜¯trueå°±è¡Œ
                         lualib:AddTimerEx("0", 90163, 333, #drop_item, "dispatcher_real_sender_disjava", "")
                         index_table[i] = 0
                         lualib:SetDBStrEx("drop_item_all_index", json.encode(index_table), 6)
                         break
                     else
-                        -- ÓĞÊı¾İÔÚ·Ö·¢ÁË£¬ÏÈ²»´òÈÅÁË
+                        -- æœ‰æ•°æ®åœ¨åˆ†å‘äº†ï¼Œå…ˆä¸æ‰“æ‰°äº†
                         break
                     end
                 end
@@ -416,11 +416,11 @@ function dispatcher_real_sender_disjava()
 end
 
 --|*-------------------------------------------------------|
---|*   ÎïÆ·µôÂäÍ³¼ÆÇøÓò  created by ken      END              |
+--|*   ç‰©å“æ‰è½ç»Ÿè®¡åŒºåŸŸ  created by ken      END              |
 --|*-------------------------------------------------------|
 
 --|*-------------------------------------------------------|
---|*   GS BOSS »÷É±Í³¼Æ created by ken       BEGIN          |
+--|*   GS BOSS å‡»æ€ç»Ÿè®¡ created by ken       BEGIN          |
 --|*-------------------------------------------------------|
 
 function addRecordToServer(monster, killer)
@@ -449,11 +449,11 @@ function addRecordToServer(monster, killer)
 end
 
 --|*-------------------------------------------------------|
---|*   GS BOSS »÷É±Í³¼Æ  created by ken      END            |
+--|*   GS BOSS å‡»æ€ç»Ÿè®¡  created by ken      END            |
 --|*-------------------------------------------------------|
 
 --|*-------------------------------------------------------|
---|*   Ôª±¦³äÖµÍ³¼Æ created by ken       BEGIN               |
+--|*   å…ƒå®å……å€¼ç»Ÿè®¡ created by ken       BEGIN               |
 --|*-------------------------------------------------------|
 
 function insertChargeData(player, yb)
@@ -462,10 +462,10 @@ function insertChargeData(player, yb)
     postData.actionData.chargeNum = yb
     postData.actionData.accountName = lualib:AccountName(player)
     postData.actionData.username = lualib:Name(player)
-    postData.actionType = "²åÈë³äÖµÊı¾İ"
+    postData.actionType = "æ’å…¥å……å€¼æ•°æ®"
     hzhlib:postData(postData)
 end
 
 --|*-------------------------------------------------------|
---|*   Ôª±¦³äÖµÍ³¼Æ created by ken       END                 |
+--|*   å…ƒå®å……å€¼ç»Ÿè®¡ created by ken       END                 |
 --|*-------------------------------------------------------|
