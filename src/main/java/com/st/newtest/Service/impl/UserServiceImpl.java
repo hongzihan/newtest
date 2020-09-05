@@ -78,9 +78,9 @@ public class UserServiceImpl implements UserService {
         // 根据username查找用户
         if (user.getUsername() != null) {
             User userT = userMapper.selectSingleUser(user.getUsername());
-            user.setPassword(new Md5Hash(user.getPassword(), user.getUsername(), 3).toString());
             // password
             if (user.getPassword() != null && Pattern.matches("^[\\w_]{6,20}$", user.getPassword())) {
+                user.setPassword(new Md5Hash(user.getPassword(), user.getUsername(), 3).toString());
                 userT.setPassword(user.getPassword());
             }
             // nickname
