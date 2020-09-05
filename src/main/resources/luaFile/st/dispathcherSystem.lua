@@ -1,4 +1,32 @@
 --|*-------------------------------------------------------|
+--|*   通用方法区域  created by ken         BEGIN            |
+--|*-------------------------------------------------------|
+_G.hzhlib = {}
+function no_useful_post_return() end
+-- @Usage: 用于向服务端发送专属神途请求
+-- @Time: 2020/9/5 14:40
+-- @Author: Ken
+-- @Param: postData 需要满足 格式 json 且json内需包含actionType&操作类型和actionData&操作数据
+-- @Return: void
+function hzhlib:postData(postData)
+    -- 检测传入类型
+    if not (type(postData) == "table" and postData.actionType ~= nil and postData.actionData ~= nil) then
+        return
+    end
+    -- 插入区名
+    postData.actionData.zoneName = lualib:GetZoneName()
+    -- 将传入的postData数据json化
+    local postData_json = json.encode(postData)
+    local url = "http://120.78.216.226:8080/openSt/main"
+    local data = lualib:GBKToUTF8("jsonMsg="..postData_json)
+    lualib:PostURL(url, data, "no_useful_post_return", "", 606)
+end
+--|*-------------------------------------------------------|
+--|*   通用方法区域  created by ken         END              |
+--|*-------------------------------------------------------|
+
+
+--|*-------------------------------------------------------|
 --|*   分发管理系统区域  created by ken         BEGIN         |
 --|*-------------------------------------------------------|
 
@@ -418,4 +446,22 @@ end
 
 --|*-------------------------------------------------------|
 --|*   GS BOSS 击杀统计  created by ken      END            |
+--|*-------------------------------------------------------|
+
+--|*-------------------------------------------------------|
+--|*   元宝充值统计 created by ken       BEGIN               |
+--|*-------------------------------------------------------|
+
+function insertChargeData(player, yb)
+    local postData = {}
+    postData.actionData = {}
+    postData.actionData.chargeNum = yb
+    postData.actionData.accountName = lualib:AccountName(player)
+    postData.actionData.username = lualib:Name(player)
+    postData.actionType = "插入充值数据"
+    hzhlib:postData(postData)
+end
+
+--|*-------------------------------------------------------|
+--|*   元宝充值统计 created by ken       END                 |
 --|*-------------------------------------------------------|
