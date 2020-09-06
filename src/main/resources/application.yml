@@ -43,3 +43,5 @@ logging:
   config: classpath:log4j2.xml
   level:
     com.st.newtest.Mapper: TRACE
+server:
+  port: 8080
