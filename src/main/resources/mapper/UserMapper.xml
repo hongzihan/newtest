@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.st.newtest.Mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.st.newtest.Entity.User">
+<mapper namespace="com.st.newtest.systemManage.Mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.st.newtest.systemManage.Entity.User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="corepwd" jdbcType="INTEGER" property="corepwd" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
-    <collection property="roleList" ofType="com.st.newtest.Entity.Role">
+    <collection property="roleList" ofType="com.st.newtest.systemManage.Entity.Role">
       <id column="roleid" property="id"/>
       <result column="rolename" property="rolename"/>
       <result column="roledesc" property="roledesc"/>
-      <collection property="permissionsList" ofType="com.st.newtest.Entity.Permissions">
+      <collection property="permissionsList" ofType="com.st.newtest.systemManage.Entity.Permissions">
         <id column="permissionid" property="id"/>
         <result column="modelname" property="modelname"/>
         <result column="permission" property="permission"/>
@@ -19,29 +19,29 @@
     </collection>
   </resultMap>
 
-  <resultMap id="roleMap" type="com.st.newtest.Entity.Role">
+  <resultMap id="roleMap" type="com.st.newtest.systemManage.Entity.Role">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="rolename" jdbcType="VARCHAR" property="rolename"/>
     <result column="roledesc" jdbcType="VARCHAR" property="roledesc"/>
-    <collection property="permissionsList" ofType="com.st.newtest.Entity.Permissions">
+    <collection property="permissionsList" ofType="com.st.newtest.systemManage.Entity.Permissions">
       <id column="permissionid" property="id"/>
       <result column="modelname" property="modelname"/>
       <result column="permission" property="permission"/>
     </collection>
   </resultMap>
 
-  <resultMap id="permissionMap" type="com.st.newtest.Entity.Permissions">
+  <resultMap id="permissionMap" type="com.st.newtest.systemManage.Entity.Permissions">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="modelname" jdbcType="VARCHAR" property="modelname"/>
     <result column="permission" jdbcType="VARCHAR" property="permission"/>
   </resultMap>
 
-  <resultMap id="userRoleMap" type="com.st.newtest.Entity.UserRole">
+  <resultMap id="userRoleMap" type="com.st.newtest.systemManage.Entity.UserRole">
     <result column="uid" jdbcType="INTEGER" property="uid"/>
     <result column="rid" jdbcType="INTEGER" property="rid"/>
   </resultMap>
 
-  <resultMap id="rolePermissionMap" type="com.st.newtest.Entity.RolePermission">
+  <resultMap id="rolePermissionMap" type="com.st.newtest.systemManage.Entity.RolePermission">
     <result column="rid" jdbcType="INTEGER" property="rid"/>
     <result column="pid" jdbcType="INTEGER" property="pid"/>
   </resultMap>
@@ -64,7 +64,7 @@
 
   <!-- 插入部分 -->
   <!-- 用户插入 -->
-  <insert id="insertUser" parameterType="com.st.newtest.Entity.User" >
+  <insert id="insertUser" parameterType="com.st.newtest.systemManage.Entity.User" >
     insert into user (id, username, password,
       nickname, corepwd)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
@@ -72,13 +72,13 @@
   </insert>
 
   <!-- 角色插入 -->
-  <insert id="insertRole" parameterType="com.st.newtest.Entity.Role">
+  <insert id="insertRole" parameterType="com.st.newtest.systemManage.Entity.Role">
     insert into role (id, rolename, roledesc)
     values (#{id,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{roledesc,jdbcType=VARCHAR})
   </insert>
 
   <!-- 权限插入 -->
-  <insert id="insertPermission" parameterType="com.st.newtest.Entity.Permissions">
+  <insert id="insertPermission" parameterType="com.st.newtest.systemManage.Entity.Permissions">
     insert into permission (id, modelname, permission)
     values (#{id,jdbcType=INTEGER}, #{modelname,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR})
   </insert>
@@ -122,7 +122,7 @@
   </delete>
 
   <!-- 更新部分 -->
-  <update id="updateUser" parameterType="com.st.newtest.Entity.User" >
+  <update id="updateUser" parameterType="com.st.newtest.systemManage.Entity.User" >
     update user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -131,14 +131,14 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updateRole" parameterType="com.st.newtest.Entity.Role" >
+  <update id="updateRole" parameterType="com.st.newtest.systemManage.Entity.Role" >
       update role
       set rolename = #{rolename,jdbcType=VARCHAR},
         roledesc = #{roledesc,jdbcType=VARCHAR}
       where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updatePermission" parameterType="com.st.newtest.Entity.Permissions" >
+  <update id="updatePermission" parameterType="com.st.newtest.systemManage.Entity.Permissions" >
       update permission
       set modelname = #{modelname,jdbcType=VARCHAR},
         permission = #{permission,jdbcType=VARCHAR}

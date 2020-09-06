@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.st.newtest.Mapper.ChargeMapper" >
-  <resultMap id="BaseResultMap" type="com.st.newtest.Entity.Charge" >
+<mapper namespace="com.st.newtest.stGame.Mapper.ChargeMapper" >
+  <resultMap id="BaseResultMap" type="com.st.newtest.stGame.Entity.Charge" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="accountName" property="accountName" jdbcType="VARCHAR" />
@@ -14,7 +14,7 @@
     delete from charge
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.st.newtest.Entity.Charge" >
+  <insert id="insert" parameterType="com.st.newtest.stGame.Entity.Charge" >
     insert into charge (id, username, accountName, 
       zoneName, chargeNum, `dateTime`, 
       chargeCount)
@@ -22,7 +22,7 @@
       #{zoneName,jdbcType=VARCHAR}, #{chargeNum,jdbcType=INTEGER}, #{dateTime,jdbcType=VARCHAR}, 
       #{chargeCount,jdbcType=INTEGER})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.st.newtest.Entity.Charge" >
+  <update id="updateByPrimaryKey" parameterType="com.st.newtest.stGame.Entity.Charge" >
     update charge
     set username = #{username,jdbcType=VARCHAR},
       accountName = #{accountName,jdbcType=VARCHAR},

@@ -1,10 +1,9 @@
 package com.st.newtest.Controller;
 
-import com.st.newtest.Entity.MonsterDie;
-import com.st.newtest.Entity.Permissions;
-import com.st.newtest.Entity.Role;
-import com.st.newtest.Entity.User;
-import com.st.newtest.Service.UserService;
+import com.st.newtest.systemManage.Entity.Permissions;
+import com.st.newtest.systemManage.Entity.Role;
+import com.st.newtest.systemManage.Entity.User;
+import com.st.newtest.systemManage.Service.UserService;
 import com.st.newtest.Util.CommonUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

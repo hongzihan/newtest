@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.st.newtest.Mapper.MonsterDieMapper" >
-  <resultMap id="BaseResultMap" type="com.st.newtest.Entity.MonsterDie" >
+<mapper namespace="com.st.newtest.stGame.Mapper.MonsterDieMapper" >
+  <resultMap id="BaseResultMap" type="com.st.newtest.stGame.Entity.MonsterDie" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="zonename" property="zonename" jdbcType="VARCHAR" />
     <result column="mobname" property="mobname" jdbcType="VARCHAR" />
@@ -13,13 +13,13 @@
     delete from monster_die
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.st.newtest.Entity.MonsterDie" >
+  <insert id="insert" parameterType="com.st.newtest.stGame.Entity.MonsterDie" >
     insert into monster_die (id, zonename, mobname,
       killer, dietime, mapname, relivetime)
     values (#{id,jdbcType=INTEGER}, #{zonename,jdbcType=VARCHAR}, #{mobname,jdbcType=VARCHAR},
       #{killer,jdbcType=VARCHAR}, #{dietime,jdbcType=VARCHAR}, #{mapname,jdbcType=VARCHAR}, #{relivetime,jdbcType=INTEGER})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.st.newtest.Entity.MonsterDie" >
+  <update id="updateByPrimaryKey" parameterType="com.st.newtest.stGame.Entity.MonsterDie" >
     update monster_die
     set zonename = #{zonename,jdbcType=VARCHAR},
       mobname = #{mobname,jdbcType=VARCHAR},

@@ -1,9 +1,9 @@
 package com.st.newtest.shiro;
 
-import com.st.newtest.Entity.Permissions;
-import com.st.newtest.Entity.Role;
-import com.st.newtest.Entity.User;
-import com.st.newtest.Service.UserService;
+import com.st.newtest.systemManage.Entity.Permissions;
+import com.st.newtest.systemManage.Entity.Role;
+import com.st.newtest.systemManage.Entity.User;
+import com.st.newtest.systemManage.Service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

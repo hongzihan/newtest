@@ -1,7 +1,7 @@
 package com.st.newtest.Util;
 
-import com.st.newtest.Entity.DropItem;
-import com.st.newtest.Entity.User;
+import com.st.newtest.stGame.Entity.DropItem;
+import com.st.newtest.systemManage.Entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.web.servlet.ModelAndView;
 
