@@ -33,7 +33,7 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                 <!--              <li role="separator" class="divider"></li>-->
-                  <li th:each="zoneName : ${zoneNameList}"><a th:href="'/charts?zoneid=' + ${zoneName}">[[${zoneName}]]</a></li>
+                  <li th:each="zoneName : ${zoneNameList}"><a th:href="'/chart/charts?zoneid=' + ${zoneName}">[[${zoneName}]]</a></li>
                 </ul>
                 </div>
             </div>
