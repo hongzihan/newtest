@@ -45,7 +45,7 @@
     <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 首页</a>
         <ul id="mainUl">
             <li th:class="${curPage eq 'index' ? 'active' : ''}"><a href="/index"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-            <li th:class="${curPage eq 'charts' ? 'active' : ''}"> <a href="/charts"><i class="icon icon-signal"></i> <span>掉落统计</span></a> </li>
+            <li th:class="${curPage eq 'charts' ? 'active' : ''}"> <a href="/chart/charts"><i class="icon icon-signal"></i> <span>掉落统计</span></a> </li>
             <li th:class="${curPage eq 'chargeTable' ? 'active' : ''}" id="admin_private_1"><a href="/table/chargeTable"><i class="icon icon-th"></i> <span>充值统计</span></a></li>
             <li th:class="${curPage eq 'monsterDieMsg' ? 'active' : ''}"><a href="/st/searchMonsterMsg"><i class="icon icon-th"></i> <span>怪物信息</span></a></li>
             <li class="submenu" id="submenu_1"> <a href="#"><i class="icon icon-th-list"></i> <span>表单操作</span> <span class="label label-important">3</span></a>

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+@RequestMapping("chart")
 @Controller
 public class ChartController {
 
