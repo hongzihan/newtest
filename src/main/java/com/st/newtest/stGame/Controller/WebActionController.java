@@ -1,6 +1,7 @@
 package com.st.newtest.stGame.Controller;
 
 import com.alibaba.fastjson.JSON;
+import com.st.newtest.Util.stUtil;
 import com.st.newtest.stGame.Entity.WebAction;
 import com.st.newtest.stGame.Service.WebActionService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -31,7 +32,10 @@ public class WebActionController {
         objMap.put("playername", playername);
         objMap.put("keyname", keyname);
         objMap.put("count", count);
-
+        type = stUtil.getWebActionTypeMap().get("wat_物品操作" + type);
+        if (type == null) {
+            return "{code:404, msg:'失败'}";
+        }
         WebAction webAction = new WebAction();
         webAction.setZoneid(zoneid);
         webAction.setActiontype(type);
@@ -47,16 +51,8 @@ public class WebActionController {
         if (zoneid == "" || targetobj == "" || vartype == "" || varname == "" || varvalue == "") {
             return "{code:404, msg:'失败'}";
         }
-        Integer type = 0;
-        if (targetobj.equals("系统") && vartype.equals("str")) {
-            type = 3;
-        } else if(targetobj.equals("系统") && vartype.equals("int")) {
-            type = 4;
-        } else if(targetobj.equals("玩家") && vartype.equals("str")) {
-            type = 5;
-        } else if(targetobj.equals("玩家") && vartype.equals("int")) {
-            type = 6;
-        } else {
+        Integer type = stUtil.getWebActionTypeMap().get("wat_" + targetobj + vartype);
+        if (type == null) {
             return "{code:404, msg:'失败'}";
         }
         if ((type == 5 || type == 6) && playername == "") {
@@ -97,8 +93,34 @@ public class WebActionController {
         hmap.put("templates", templates);
         WebAction webAction = new WebAction();
         webAction.setActiondata(JSON.toJSONString(hmap));
-        webAction.setActiontype(7);
+        Integer type = stUtil.getWebActionTypeMap().get("wat_邮件操作");
+        if (type == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        webAction.setActiontype(type);
         webAction.setZoneid(zoneid);
+        webActionService.insert(webAction);
+        return "{code:200, msg:'成功'}";
+    }
+
+    @RequiresPermissions("saveActionData_give")
+    @ResponseBody
+    @RequestMapping("saveActionData_give")
+    public String saveActionData_give(WebAction webAction, String username, Integer num) {
+        if (username == null || webAction.getZoneid() == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        // actionType
+        Integer type = stUtil.getWebActionTypeMap().get("wat_给予操作");
+        if (type == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        webAction.setActiontype(type);
+        // actionData
+        HashMap<String, Object> hmap = new HashMap<>();
+        hmap.put("username", username);
+        hmap.put("num", num);
+        webAction.setActiondata(JSON.toJSONString(hmap));
         webActionService.insert(webAction);
         return "{code:200, msg:'成功'}";
     }

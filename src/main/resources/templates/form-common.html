@@ -154,7 +154,7 @@ item_templates 格式：
             <h5>变量操作</h5>
           </div>
           <div class="widget-content nopadding">
-            <form action="#" method="get" class="form-horizontal"  id="var_action_form">
+            <form action="#" method="post" class="form-horizontal"  id="var_action_form">
               <div class="control-group">
                 <label class="control-label">*区名 :</label>
                 <div class="controls">
@@ -220,6 +220,62 @@ item_templates 格式：
             </form>
           </div>
         </div>
+
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+            <h5>给予操作</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <form action="#" method="post" class="form-horizontal"  id="give_action_form">
+              <div class="control-group">
+                <label class="control-label">*区名 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="天龙八部六派轻变" name="zoneid" id="give_action_zoneid" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*玩家名 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="小小白" name="username" id="give_action_username"/>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*操作类型 :</label>
+                <div class="controls">
+                  <label>
+                    <input type="radio" name="targetobj" value='非绑金币' checked/>
+                    非绑金币</label>
+                  <label>
+                    <input type="radio" name="targetobj" value='非绑元宝' />
+                    非绑元宝</label>
+                  <label>
+                    <input type="radio" name="targetobj" value='积分' />
+                    积分</label>
+                  <label>
+                    <input type="radio" name="targetobj" value='经验' />
+                    经验</label>
+                  <label>
+                    <input type="radio" name="targetobj" value='绑定金币' checked/>
+                    绑定金币</label>
+                  <label>
+                    <input type="radio" name="targetobj" value='绑定元宝' />
+                    绑定元宝</label>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*数量 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="100" name="num" id="give_action_num"/>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-success" onclick="isvalid('给予操作')">保存</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
       </div> <!--/span6-->
 
     </div>
@@ -257,8 +313,8 @@ item_templates 格式：
 <script src="../static/js/jquery.peity.min.js"></script>
 <script src="../static/js/bootstrap-wysihtml5.js"></script>
 <script>
-	$('.textarea_editor').wysihtml5();
-
+    let data = undefined
+    let url = undefined
     function isvalid(msg) {
       if (msg === '物品操作') {
         let arr = ['item_action_zoneid', 'item_action_playername', 'item_action_keyname', 'item_action_count']
@@ -270,21 +326,8 @@ item_templates 格式：
             return false;
           }
         }
-        //表单异步提交
-        $.ajax({
-          type: 'post',
-          data: $('#form-action-item').serialize(),
-          url: '/webAction/saveActionData_item',
-          cache:false,
-          dataType:'text',
-          success: function (msg) {
-            if (msg === "{code:200, msg:'成功'}") {
-              alert("提交成功！")
-            } else {
-              alert("提交失败！")
-            }
-          }
-        })
+        data = $('#form-action-item').serialize()
+        url = '/webAction/saveActionData_item'
       } else if (msg === '变量操作') {
         let arr = ["var_action_zoneid", "var_action_name", "var_action_value", "var_action_areatype"]
         let arr2 = ["区名", "变量名", "变量值"]
@@ -295,21 +338,8 @@ item_templates 格式：
             return false;
           }
         }
-        //表单异步提交
-        $.ajax({
-          type: 'post',
-          data: $('#var_action_form').serialize(),
-          url: '/webAction/saveActionData_var',
-          cache:false,
-          dataType:'text',
-          success: function (msg) {
-            if (msg === "{code:200, msg:'成功'}") {
-              alert("提交成功！")
-            } else {
-              alert("提交失败！")
-            }
-          }
-        })
+        data = $('#var_action_form').serialize()
+        url = '/webAction/saveActionData_var'
       } else if(msg == "邮件操作") {
         let arr = ["mail_action_zoneid", "mail_action_playername", "mail_action_title", "mail_action_gold", "mail_action_yuanbao", "mail_action_integral", "mail_action_templates"]
         let arr2 = ["区名", "玩家名", "邮件标题", "金币", "元宝", "积分", "物品模板"]
@@ -320,22 +350,37 @@ item_templates 格式：
             return false;
           }
         }
-        //表单异步提交
-        $.ajax({
-          type: 'post',
-          data: $('#mail-action-form').serialize(),
-          url: '/webAction/saveActionData_mail',
-          cache:false,
-          dataType:'text',
-          success: function (msg) {
-            if (msg === "{code:200, msg:'成功'}") {
-              alert("提交成功！")
-            } else {
-              alert("提交失败！")
-            }
+        data = $('#mail-action-form').serialize()
+        url = '/webAction/saveActionData_mail'
+      } else if(msg == "给予操作") {
+        let arr = ["give_action_zoneid", "give_action_username", "give_action_num"]
+        let arr2 = ["区名", "玩家名", "数量"]
+        for (let i=0; i<arr.length; i++) {
+          let elementV = document.getElementById(arr[i]).value;
+          if (elementV === '') {
+            alert(arr2[i] + '不能为空！');
+            return false;
           }
-        })
+        }
+        data = $('#give_action_form').serialize()
+        url = '/webAction/saveActionData_give'
       }
+
+      //表单异步提交
+      $.ajax({
+        type: 'post',
+        data: data,
+        url: url,
+        cache:false,
+        dataType:'text',
+        success: function (msg) {
+          if (msg === "{code:200, msg:'成功'}") {
+            alert("提交成功！")
+          } else {
+            alert("提交失败！")
+          }
+        }
+      })
     }
 </script>
 </body>

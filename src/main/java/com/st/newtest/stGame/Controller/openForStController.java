@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.st.newtest.stGame.Entity.Charge;
 import com.st.newtest.stGame.Entity.MonsterDie;
 import com.st.newtest.stGame.Service.OpenStService;
-import com.st.newtest.Util.stForwardUtil;
+import com.st.newtest.Util.stUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,7 +56,7 @@ public class openForStController {
             // 获取json内的actionType属性值
             String actionType = (String) parse.get("actionType");
             // 获取转发map
-            Map<String, String> forwardMap = stForwardUtil.getForwardMap();
+            Map<String, String> forwardMap = stUtil.getForwardMap();
             // 通过转发map获取到转发的请求url
             if (forwardMap.get(actionType) != null) {
                 forwarUrl = forwardMap.get(actionType);
