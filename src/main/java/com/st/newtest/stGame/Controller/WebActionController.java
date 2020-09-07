@@ -126,6 +126,28 @@ public class WebActionController {
         return "{code:200, msg:'成功'}";
     }
 
+    @RequiresPermissions("saveActionData_charge")
+    @ResponseBody
+    @RequestMapping("saveActionData_charge")
+    public String saveActionData_charge(WebAction webAction, String username, Integer num) {
+        if (username == null || webAction.getZoneid() == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        // actionType
+        Integer type = stUtil.getWebActionTypeMap().get("wat_模拟充值");
+        if (type == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        webAction.setActiontype(type);
+        // actionData
+        HashMap<String, Object> hmap = new HashMap<>();
+        hmap.put("username", username);
+        hmap.put("num", num);
+        webAction.setActiondata(JSON.toJSONString(hmap));
+        webActionService.insert(webAction);
+        return "{code:200, msg:'成功'}";
+    }
+
     /**
      * 用于神途客户端来获取数据库数据使用，无需进行用户验证
      * @param zoneid

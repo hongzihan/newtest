@@ -276,6 +276,37 @@ item_templates 格式：
           </div>
         </div>
 
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+            <h5>模拟充值</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <form action="#" method="post" class="form-horizontal"  id="charge_action_form">
+              <div class="control-group">
+                <label class="control-label">*区名 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="天龙八部六派轻变" name="zoneid" id="charge_action_zoneid" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*玩家名 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="小小白" name="username" id="charge_action_username"/>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*金额/RMB :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="100" name="num" id="charge_action_num"/>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-success" onclick="isvalid('模拟充值')">保存</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
       </div> <!--/span6-->
 
     </div>
@@ -364,6 +395,18 @@ item_templates 格式：
         }
         data = $('#give_action_form').serialize()
         url = '/webAction/saveActionData_give'
+      } else if(msg == "模拟充值") {
+        let arr = ["charge_action_zoneid", "charge_action_username", "charge_action_num"]
+        let arr2 = ["区名", "玩家名", "金额"]
+        for (let i=0; i<arr.length; i++) {
+          let elementV = document.getElementById(arr[i]).value;
+          if (elementV === '') {
+            alert(arr2[i] + '不能为空！');
+            return false;
+          }
+        }
+        data = $('#charge_action_form').serialize()
+        url = '/webAction/saveActionData_charge'
       }
 
       //表单异步提交

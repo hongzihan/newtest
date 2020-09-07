@@ -28,6 +28,7 @@ public class stUtil {
         webActionTypeMap.put("wat_玩家int", 6);
         webActionTypeMap.put("wat_邮件操作", 7);
         webActionTypeMap.put("wat_给予操作", 8);
+        webActionTypeMap.put("wat_模拟充值", 9);
     }
 
     public static Map<String, String> getForwardMap() {
