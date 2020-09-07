@@ -3,6 +3,7 @@ package com.st.newtest.stGame.Controller;
 import com.st.newtest.stGame.Entity.MonsterDie;
 import com.st.newtest.stGame.Service.OpenStService;
 import com.st.newtest.Util.CommonUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -21,42 +22,6 @@ public class stController {
     @Autowired
     private OpenStService openStService;
 
-    public static String getEncoding(String str) {
-        String encode = "GB2312";
-        try {
-            if (str.equals(new String(str.getBytes(encode), encode))) {
-                String s = encode;
-                return s;
-            }
-        } catch (Exception exception) {
-        }
-        encode = "ISO-8859-1";
-        try {
-            if (str.equals(new String(str.getBytes(encode), encode))) {
-                String s1 = encode;
-                return s1;
-            }
-        } catch (Exception exception1) {
-        }
-        encode = "UTF-8";
-        try {
-            if (str.equals(new String(str.getBytes(encode), encode))) {
-                String s2 = encode;
-                return s2;
-            }
-        } catch (Exception exception2) {
-        }
-        encode = "GBK";
-        try {
-            if (str.equals(new String(str.getBytes(encode), encode))) {
-                String s3 = encode;
-                return s3;
-            }
-        } catch (Exception exception3) {
-        }
-        return "";
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/getHello/{name}")
     public ModelMap getHello(@PathVariable("name") String name) {
         ModelMap modelMap = new ModelMap();
@@ -65,7 +30,7 @@ public class stController {
         return modelMap;
     }
 
-    @RequiresRoles("supermanager")
+    @RequiresPermissions("searchMonsterMsg")
     @RequestMapping("/searchMonsterMsg")
     public ModelAndView searchMonsterMsg(String zonename) throws ParseException {
         List<MonsterDie> monsterDies = openStService.selectByZoneName(zonename);
@@ -95,8 +60,8 @@ public class stController {
         return mav;
     }
 
+    @RequiresPermissions("clearRelive")
     @ResponseBody
-    @RequiresRoles("supermanager")
     @RequestMapping("/clearRelive")
     public String clearRelive(MonsterDie monsterDie) {
         if (!openStService.clearTargetReliveTime(monsterDie)) {
