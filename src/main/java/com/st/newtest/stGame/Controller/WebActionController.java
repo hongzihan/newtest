@@ -106,7 +106,7 @@ public class WebActionController {
     @RequiresPermissions("saveActionData_give")
     @ResponseBody
     @RequestMapping("saveActionData_give")
-    public String saveActionData_give(WebAction webAction, String username, Integer num) {
+    public String saveActionData_give(WebAction webAction, String username, Integer num, String targetObj) {
         if (username == null || webAction.getZoneid() == null) {
             return "{code:404, msg:'失败'}";
         }
@@ -120,6 +120,7 @@ public class WebActionController {
         HashMap<String, Object> hmap = new HashMap<>();
         hmap.put("username", username);
         hmap.put("num", num);
+        hmap.put("type", targetObj);
         webAction.setActiondata(JSON.toJSONString(hmap));
         webActionService.insert(webAction);
         return "{code:200, msg:'成功'}";
