@@ -19,6 +19,7 @@ function hzhlib:postData(postData)
     local postData_json = json.encode(postData)
     local url = "http://120.78.216.226:8080/openSt/main"
     local data = lualib:GBKToUTF8("jsonMsg="..postData_json)
+
     lualib:PostURL(url, data, "no_useful_post_return", "", 606)
 end
 --|*-------------------------------------------------------|
@@ -169,6 +170,43 @@ function action_mail_ex(action_data, cur_action) -- 按照数据要求给玩家�
     end
 end
 
+function action_give_currency(action_data, cur_action) -- 按照数据要求给玩家发一般物品如金币，经验，元宝，积分 -- T==>8<==T
+    local username = action_data.username
+    local num = action_data.num
+    local giveType = action_data.type
+    local playerGUID = lualib:Name2Guid(username)
+    if playerGUID ~= "" then
+        if giveType == "非绑金币" then
+            lualib:AddGold(playerGUID, tonumber(num), "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        elseif giveType == "绑定金币" then
+            lualib:AddBindGold(playerGUID, tonumber(num), "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        elseif giveType == "非绑元宝" then
+            lualib:Player_AddIngot(playerGUID, tonumber(num), false, "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        elseif giveType == "绑定元宝" then
+            lualib:Player_AddIngot(playerGUID, tonumber(num), true, "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        elseif giveType == "经验" then
+            lualib:AddExp(playerGUID, tonumber(num), "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        elseif giveType == "积分" then
+            lualib:AddIntegral(playerGUID, tonumber(num), "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        end
+    else
+        return cur_action
+    end
+    return cur_action
+end
+
 function remove_table_value_nil(extra_data) -- 移除目标table内无效值并返回一个新的table
     local extra_data_new = {}
     for i=1, #extra_data do
@@ -226,6 +264,8 @@ function super_old_horse_dispathtcher(extra_data) -- web分发，流水线部分
                 extra_data[i] = action_var_player_int(action_data, extra_data[i])
             elseif action_type == 7 then
                 extra_data[i] = action_mail_ex(action_data, extra_data[i])
+            elseif action_type == 8 then
+                extra_data[i] = action_give_currency(action_data, extra_data[i])
             end
         else -- json数据异常，直接移除，防止系统出错
             extra_data[i] = 0
