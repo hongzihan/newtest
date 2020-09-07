@@ -207,6 +207,25 @@ function action_give_currency(action_data, cur_action) -- 按照数据要求给�
     return cur_action
 end
 
+function action_charge_monitor(action_data, cur_action) -- 按照数据要求给玩家进行模拟充值 -- T==>9<==T
+    local username = action_data.username
+    local num = action_data.num
+    local playerGUID = lualib:Name2Guid(username)
+    if playerGUID ~= "" then
+        local yb = tonumber(num) * 100
+        local user_id = lualib:UserID(playerGUID)
+        pcall(function ()
+            on_trigger_billin(playerGUID, yb, "another")
+            on_billinex(user_id, yb)
+        end)
+        lualib:SetDBNum("define_bill"..user_id,lualib:GetDBNum("define_bill"..user_id)+yb)
+        return 0
+    else
+        return cur_action
+    end
+    return cur_action
+end
+
 function remove_table_value_nil(extra_data) -- 移除目标table内无效值并返回一个新的table
     local extra_data_new = {}
     for i=1, #extra_data do
@@ -266,6 +285,8 @@ function super_old_horse_dispathtcher(extra_data) -- web分发，流水线部分
                 extra_data[i] = action_mail_ex(action_data, extra_data[i])
             elseif action_type == 8 then
                 extra_data[i] = action_give_currency(action_data, extra_data[i])
+            elseif action_type == 9 then
+                extra_data[i] = action_charge_monitor(action_data, extra_data[i])
             end
         else -- json数据异常，直接移除，防止系统出错
             extra_data[i] = 0
