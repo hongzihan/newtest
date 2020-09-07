@@ -70,7 +70,7 @@ public class UserController {
     @RequiresRoles("supermanager")
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/userAction")
-    public String userAction(User user, Integer type) {
+    public String userAction(User user, Integer type) {//超级管理员仅拥有添加用户权限
         // 所有操作都需要检测username
         if (!Pattern.matches("^[^0-9][\\w_]{3,9}$", user.getUsername())) {
             return "failed 用户名非法";
@@ -89,18 +89,28 @@ public class UserController {
                 return "failed 用户名已经存在";
             }
         } else if (type.equals(2)) { // 删除一个用户
-           if (!userService.deleteUser(user.getUsername())) {
-               return "failed 不存在该用户";
-           }
-        } else if (type.equals(3)) { // 修改一个用户
-            if (!userService.updateUser(user)) {
-                return "failed 更新失败（需更改内容相同或更新失败）";
+            if (SecurityUtils.getSubject().hasRole("administrator")) {
+                if (!userService.deleteUser(user.getUsername())) {
+                    return "failed 不存在该用户";
+                }
+            } else {
+                return "failed 权限不足！";
             }
+
+        } else if (type.equals(3)) { // 修改一个用户
+            if (SecurityUtils.getSubject().hasRole("administrator")) {
+                if (!userService.updateUser(user)) {
+                    return "failed 更新失败（需更改内容相同或更新失败）";
+                }
+            } else {
+                return "failed 权限不足！";
+            }
+
         }
         return "success";
     }
 
-    @RequiresRoles("supermanager")
+    @RequiresRoles("administrator")
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/roleAction")
     public String roleAction(Role role, Integer type) {
@@ -131,7 +141,7 @@ public class UserController {
         return "success";
     }
 
-    @RequiresRoles("supermanager")
+    @RequiresRoles("administrator")
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/permissionAction")
     public String permissionAction(Permissions permission, Integer type) {
@@ -169,7 +179,7 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequiresRoles("supermanager")
+    @RequiresRoles("administrator")
     @RequestMapping("/userRoleAction")
     public String userRoleAction(User user, @RequestParam("preRole[]") List<String> preRole, Integer type) {
         if (type == 1) {
@@ -194,7 +204,7 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequiresRoles("supermanager")
+    @RequiresRoles("administrator")
     @RequestMapping("/rolePermissionAction")
     public String rolePermissionAction(Role role, @RequestParam("prePermission[]") List<String> prePermission, Integer type) {
         if (type == 1) {
@@ -213,7 +223,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequiresRoles("supermanager")
+    @RequiresRoles("administrator")
     @RequestMapping("/searchCurRoleForUser")
     public String searchCurRoleForUser(User user) {
         List<String> allRoleForUser = userService.findAllRoleForUser(user.getUsername());
@@ -224,7 +234,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequiresRoles("supermanager")
+    @RequiresRoles("administrator")
     @RequestMapping("/searchCurPermissionForRole")
     public String searchCurPermissionForRole(Role role) {
         List<String> allPermissionsForRole = userService.findAllPermissionsForRole(role.getRolename());
