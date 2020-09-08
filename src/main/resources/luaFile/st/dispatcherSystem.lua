@@ -231,12 +231,22 @@ function action_charge_monitor(action_data, cur_action) -- 按照数据要求给
                 return false
             end
         end
+        -- 由于网络波动会导致充值和返利顺序不同，所以在这里模拟一下
+        local suc = false
         local yb = tonumber(num) * 100
-        local suc = monitor_charge_child(yb)
-        if chargePercent > 0 then
-            yb = yb * chargePercent / 100
+        local welfareYb = yb * chargePercent / 100
+        if math.random(0, 100) >= 50 then
+            suc = monitor_charge_child(yb)
+            if chargePercent > 0 then
+                suc = monitor_charge_child(welfareYb)
+            end
+        else
+            if chargePercent > 0 then
+                suc = monitor_charge_child(welfareYb)
+            end
             suc = monitor_charge_child(yb)
         end
+        -- 最后记得判断是否充值完毕
         if suc then
             return 0
         else
