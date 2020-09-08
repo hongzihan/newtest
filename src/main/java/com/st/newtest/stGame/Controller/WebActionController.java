@@ -129,7 +129,7 @@ public class WebActionController {
     @RequiresPermissions("saveActionData_charge")
     @ResponseBody
     @RequestMapping("saveActionData_charge")
-    public String saveActionData_charge(WebAction webAction, String username, Integer num) {
+    public String saveActionData_charge(WebAction webAction, String username, Integer num, Integer reChargePercent) {
         if (username == null || webAction.getZoneid() == null) {
             return "{code:404, msg:'失败'}";
         }
@@ -143,6 +143,7 @@ public class WebActionController {
         HashMap<String, Object> hmap = new HashMap<>();
         hmap.put("username", username);
         hmap.put("num", num);
+        hmap.put("chargePercent", reChargePercent);
         webAction.setActiondata(JSON.toJSONString(hmap));
         webActionService.insert(webAction);
         return "{code:200, msg:'成功'}";
