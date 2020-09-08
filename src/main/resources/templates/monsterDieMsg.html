@@ -4,8 +4,7 @@
 <title>Matrix Admin</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-<link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css" />
 <link rel="stylesheet" href="../static/css/colorpicker.css" />
 <link rel="stylesheet" href="../static/css/datepicker.css" />
@@ -15,6 +14,7 @@
 <link rel="stylesheet" href="../static/css/matrix-media.css" />
 <link rel="stylesheet" href="../static/css/bootstrap-wysihtml5.css" />
 <link href="../static/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
 </head>
 <body>
 <div th:replace="common/frame-main::frame-main"/>
@@ -37,62 +37,44 @@
         </div>
       </form>
       <hr/>
-      <div class="jumbotron" th:if="${mobList != null}">
-        <div class="row" th:each="mob,stats: ${mobList}" th:if="${stats.index % 4 == 0}" style="margin-bottom: 10px">
-          <div class="col-sm-3">
-              <div class="card" name="mobCard">
-                <div class="card-body" th:object="${mob}">
-                  <p hidden name="mobStatus">[[*{mobStatus}]]</p>
-                  <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
-                  <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
-                  <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
-                  <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + *{dietime}"/></h4>
-                  <h4 style="color: #46a546" class="card-text" th:if="*{futureBornTime}"><span th:text="'预计复活时间：' + *{futureBornTime}"/></h4>
-                  <h4 style="color: #3a87ad" class="card-text" th:if="*{relivetime}"><span th:text="'预计复活间隔：' + *{relivetime / 60} + '分钟'"/></h4>
-                  <a th:if="*{relivetime}" href="#" th:onclick="clearRT([[*{zonename}]], [[*{mobname}]], [[*{mapname}]])" class="btn btn-primary">重置重生时间</a>
-                </div>
-              </div>
-          </div>
-          <div class="col-sm-3" th:if="${stats.index + 1 < stats.size}">
-            <div class="card" name="mobCard">
-              <div class="card-body" th:object="${mobList[stats.index + 1]}">
-                <p hidden name="mobStatus">[[*{mobStatus}]]</p>
-                <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
-                <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
-                <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
-                <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + *{dietime}"/></h4>
-                <h4 style="color: #46a546" class="card-text" th:if="*{futureBornTime}"><span th:text="'预计复活时间：' + *{futureBornTime}"/></h4>
-                <h4 style="color: #3a87ad" class="card-text" th:if="*{relivetime}"><span th:text="'预计复活间隔：' + *{relivetime / 60} + '分钟'"/></h4>
-                <a th:if="*{relivetime}" href="#" th:onclick="clearRT([[*{zonename}]], [[*{mobname}]], [[*{mapname}]])" class="btn btn-primary">重置重生时间</a>
-              </div>
+
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="widget-box">
+            <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+              <h5>[[${zonename}]] -- 怪物信息 **** 状态描述:死亡-白 未知-蓝 存活-绿</h5>
             </div>
-          </div>
-          <div class="col-sm-3" th:if="${stats.index + 2 < stats.size}">
-            <div class="card" name="mobCard">
-              <div class="card-body" th:object="${mobList[stats.index + 2]}">
-                <p hidden name="mobStatus">[[*{mobStatus}]]</p>
-                <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
-                <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
-                <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
-                <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + *{dietime}"/></h4>
-                <h4 style="color: #46a546" class="card-text" th:if="*{futureBornTime}"><span th:text="'预计复活时间：' + *{futureBornTime}"/></h4>
-                <h4 style="color: #3a87ad" class="card-text" th:if="*{relivetime}"><span th:text="'预计复活间隔：' + *{relivetime / 60} + '分钟'"/></h4>
-                <a th:if="*{relivetime}" href="#" th:onclick="clearRT([[*{zonename}]], [[*{mobname}]], [[*{mapname}]])" class="btn btn-primary">重置重生时间</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3" th:if="${stats.index + 3 < stats.size}">
-            <div class="card" name="mobCard">
-              <div class="card-body" th:object="${mobList[stats.index + 3]}">
-                <p hidden name="mobStatus">[[*{mobStatus}]]</p>
-                <h2 class="card-title"><span th:text="*{mobname}"/>&nbsp;&nbsp;<span class="badge badge-secondary" th:if="*{mobStatus eq '死亡'}" th:text="*{mobStatus}"/><span class="badge badge-success" th:if="*{mobStatus eq '存活'}" th:text="*{mobStatus}"/><span class="badge badge-info" th:if="*{mobStatus eq '未知'}" th:text="*{mobStatus}"/></h2>
-                <h4 style="color: #c09853" class="card-text"><span th:text="'BOSS归属地图：' + *{mapname}"/></h4>
-                <h4 style="color: #da4f49" class="card-text"><span th:text="'BOSS 击杀者：' + *{killer}"/></h4>
-                <h4 style="color: #d59392" class="card-text"><span th:text="'被击杀的时间：' + '' + *{dietime}"/></h4>
-                <h4 style="color: #46a546" class="card-text" th:if="*{futureBornTime}"><span th:text="'预计复活时间：' + *{futureBornTime}"/></h4>
-                <h4 style="color: #3a87ad" class="card-text" th:if="*{relivetime}"><span th:text="'预计复活间隔：' + *{relivetime / 60} + '分钟'"/></h4>
-                <a th:if="*{relivetime}" href="#" th:onclick="clearRT([[*{zonename}]], [[*{mobname}]], [[*{mapname}]])" class="btn btn-primary">重置重生时间</a>
-              </div>
+            <div class="widget-content nopadding">
+              <table class="table table-bordered table-hover">
+                <thead>
+                <tr class="active">
+                  <th>BOSS名</th>
+                  <th>地图</th>
+                  <th>BOSS击杀者</th>
+                  <th>被击杀的时间</th>
+                  <th>预计复活时间</th>
+                  <th>预计复活间隔</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <span th:each="mob : ${mobList}">
+                    <tr class="odd gradeX" th:attrappend="class=${mob.mobStatus} eq '存活' ? ' success' : ''" th:styleappend="${mob.mobStatus} eq '未知' ? 'background-color: rgba(0,0,255, 0.1)' : ''">
+                      <td><strong style="font-size: 24px">[[${mob.mobname}]]</strong></td>
+                      <td>[[${mob.mapname}]]</td>
+                      <td>[[${mob.killer}]]</td>
+                      <td class="center"><strong style="font-size: 12px">[[${mob.dietime}]]</strong></td>
+                      <td class="center"><strong style="font-size: 12px">[[${mob.futureBornTime} eq null ? '无' : ${mob.futureBornTime}]]</strong></td>
+                      <td class="center">[[${mob.relivetime} eq null ? '无' : ${mob.relivetime / 60}+分钟]]</td>
+                      <td class="center">[[${mob.mobStatus} eq null ? '无' : ${mob.mobStatus}]]</td>
+                      <span th:object="${mob}">
+                        <td class="center"><a th:if="*{relivetime}" href="#" th:onclick="clearRT([[*{zonename}]], [[*{mobname}]], [[*{mapname}]])" class="btn btn-primary">重置</a></td>
+                      </span>
+                    </tr>
+                  </span>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -106,27 +88,24 @@
 <div th:replace="common/frame-footer::frame-footer"/>
 <script src="../static/js/jquery.ui.custom.js"></script>
 <script src="../static/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <script src="../static/js/jquery.min.js"></script>
 <script src="../static/js/matrix.js"></script>
 <script>
 
     window.onload=function(){
-      let obj = document.getElementsByName("mobCard")
-      let obj2 = document.getElementsByName("mobStatus")
-      for (let i=0; i < obj.length; i++) {
-        let className = document.createAttribute("style")
-        if (obj2[i].innerHTML === "死亡") {
-          className.nodeValue = "background-color:rgba(255,0,0,0.08);"
-        } else if (obj2[i].innerHTML === "存活") {
-          className.nodeValue = "background-color:rgba(0,255,0,0.08);"
-        } else {
-          className.nodeValue = "background-color:rgba(0,0,255,0.08);"
-        }
-        obj[i].setAttributeNode(className)
-      }
+      // let obj = document.getElementsByName("mobCard")
+      // let obj2 = document.getElementsByName("mobStatus")
+      // for (let i=0; i < obj.length; i++) {
+      //   let className = document.createAttribute("style")
+      //   if (obj2[i].innerHTML === "死亡") {
+      //     className.nodeValue = "background-color:rgba(255,0,0,0.08);"
+      //   } else if (obj2[i].innerHTML === "存活") {
+      //     className.nodeValue = "background-color:rgba(0,255,0,0.08);"
+      //   } else {
+      //     className.nodeValue = "background-color:rgba(0,0,255,0.08);"
+      //   }
+      //   obj[i].setAttributeNode(className)
+      // }
     }
 
     function clearRT(zonename, mobname, mapname) {
