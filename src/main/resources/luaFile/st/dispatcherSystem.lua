@@ -214,12 +214,21 @@ function action_charge_monitor(action_data, cur_action) -- 按照数据要求给
     if playerGUID ~= "" then
         local yb = tonumber(num) * 100
         local user_id = lualib:UserID(playerGUID)
-        pcall(function ()
+        local status,err = pcall(function ()
             on_trigger_billin(playerGUID, yb, "another")
-            on_billinex(user_id, yb)
+            return "success"
         end)
-        lualib:SetDBNum("define_bill"..user_id,lualib:GetDBNum("define_bill"..user_id)+yb)
-        return 0
+        local status2,err2 = pcall(function ()
+            on_billinex(user_id, yb)
+            return "success"
+        end)
+        if status and status2 then
+            lualib:AddIngot(playerGUID, yb, "web_action", "web_action")
+            lualib:SetDBNum("define_bill"..user_id,lualib:GetDBNum("define_bill"..user_id)+yb)
+            return 0
+        else
+            return cur_action
+        end
     else
         return cur_action
     end
