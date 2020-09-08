@@ -7,7 +7,6 @@ spring:
   transaction:
     rollback-on-commit-failure: true
   thymeleaf:
-    prefix: classpath:/templates/
     cache: false
   druid:
     initial-size: 1
