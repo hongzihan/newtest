@@ -210,21 +210,34 @@ end
 function action_charge_monitor(action_data, cur_action) -- 按照数据要求给玩家进行模拟充值 -- T==>9<==T
     local username = action_data.username
     local num = action_data.num
+    local chargePercent = action_data.chargePercent
     local playerGUID = lualib:Name2Guid(username)
     if playerGUID ~= "" then
-        local yb = tonumber(num) * 100
         local user_id = lualib:UserID(playerGUID)
-        local status,err = pcall(function ()
-            on_trigger_billin(playerGUID, yb, "another")
-            return "success"
-        end)
-        local status2,err2 = pcall(function ()
-            on_billinex(user_id, yb)
-            return "success"
-        end)
-        if status and status2 then
-            lualib:AddIngot(playerGUID, yb, "web_action", "web_action")
-            lualib:SetDBNum("define_bill"..user_id,lualib:GetDBNum("define_bill"..user_id)+yb)
+        local function monitor_charge_child(yb)
+            local status,err = pcall(function ()
+                on_trigger_billin(playerGUID, yb, "another")
+                return "success"
+            end)
+            local status2,err2 = pcall(function ()
+                on_billinex(user_id, yb)
+                return "success"
+            end)
+            if status and status2 then
+                lualib:AddIngot(playerGUID, yb, "web_action", "web_action")
+                lualib:SetDBNum("define_bill"..user_id,lualib:GetDBNum("define_bill"..user_id)+yb)
+                return true
+            else
+                return false
+            end
+        end
+        local yb = tonumber(num) * 100
+        local suc = monitor_charge_child(yb)
+        if chargePercent > 0 then
+            yb = yb * chargePercent / 100
+            suc = monitor_charge_child(yb)
+        end
+        if suc then
             return 0
         else
             return cur_action
