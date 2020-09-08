@@ -22,6 +22,11 @@
 <div id="content">
   <div class="container-fluid">
     <hr>
+    <datalist id="zoneNameDataList">
+      <span th:each="zoneName : ${zoneNameList}">
+        <option th:value="${zoneName}">
+      </span>
+    </datalist>
     <div class="row-fluid">
 
       <div class="span6">
@@ -34,7 +39,7 @@
               <div class="control-group">
                 <label class="control-label">*区名 :</label>
                 <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" name="zoneid" id="item_action_zoneid" />
+                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="item_action_zoneid" />
                 </div>
               </div>
               <div class="control-group">
@@ -82,7 +87,7 @@
               <div class="control-group">
                 <label class="control-label">*区名 :</label>
                 <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" name="zoneid" id="mail_action_zoneid" />
+                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="mail_action_zoneid" />
                 </div>
               </div>
               <div class="control-group">
@@ -157,7 +162,7 @@ item_templates 格式：
               <div class="control-group">
                 <label class="control-label">*区名 :</label>
                 <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" name="zoneid" id="var_action_zoneid" />
+                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="var_action_zoneid" />
                 </div>
               </div>
               <div class="control-group">
@@ -229,7 +234,7 @@ item_templates 格式：
               <div class="control-group">
                 <label class="control-label">*区名 :</label>
                 <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" name="zoneid" id="give_action_zoneid" />
+                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="give_action_zoneid" />
                 </div>
               </div>
               <div class="control-group">
@@ -284,7 +289,7 @@ item_templates 格式：
               <div class="control-group">
                 <label class="control-label">*区名 :</label>
                 <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" name="zoneid" id="charge_action_zoneid" />
+                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="charge_action_zoneid" />
                 </div>
               </div>
               <div class="control-group">

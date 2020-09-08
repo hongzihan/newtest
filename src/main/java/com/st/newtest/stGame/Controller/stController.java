@@ -1,6 +1,7 @@
 package com.st.newtest.stGame.Controller;
 
 import com.st.newtest.stGame.Entity.MonsterDie;
+import com.st.newtest.stGame.Service.DropItemService;
 import com.st.newtest.stGame.Service.OpenStService;
 import com.st.newtest.Util.CommonUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,6 +22,9 @@ public class stController {
 
     @Autowired
     private OpenStService openStService;
+
+    @Autowired
+    private DropItemService dropItemService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/getHello/{name}")
     public ModelMap getHello(@PathVariable("name") String name) {
@@ -68,5 +72,16 @@ public class stController {
             return "failed";
         }
         return "success";
+    }
+
+    @RequiresPermissions("form-common")
+    @RequestMapping("/form-common")
+    public ModelAndView newForm1() {
+        ModelAndView page = CommonUtil.getPage("form-common");
+        List<String> strings = dropItemService.selectAllUniqueZoneName();
+        if (strings != null) {
+            page.addObject("zoneNameList", strings);
+        }
+        return page;
     }
 }

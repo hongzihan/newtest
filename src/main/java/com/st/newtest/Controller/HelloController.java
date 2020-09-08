@@ -34,12 +34,6 @@ public class HelloController {
         return CommonUtil.getPage("index");
     }
 
-    @RequiresPermissions("form-common")
-    @RequestMapping("/form-common")
-    public ModelAndView newForm1() {
-        return CommonUtil.getPage("form-common");
-    }
-
     @RequiresRoles("supermanager")
     @RequestMapping("/form-permission")
     public ModelAndView formPermission() {
