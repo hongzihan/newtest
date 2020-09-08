@@ -143,7 +143,11 @@ public class WebActionController {
         HashMap<String, Object> hmap = new HashMap<>();
         hmap.put("username", username);
         hmap.put("num", num);
-        hmap.put("chargePercent", reChargePercent);
+        if (reChargePercent == null) {
+            hmap.put("chargePercent", 0);
+        } else {
+            hmap.put("chargePercent", reChargePercent);
+        }
         webAction.setActiondata(JSON.toJSONString(hmap));
         webActionService.insert(webAction);
         return "{code:200, msg:'成功'}";
