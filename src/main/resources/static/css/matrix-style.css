@@ -156,7 +156,16 @@ hr{ border-top-color:#dadada;}
 	display: block;
 	position: relative;
 }
+#sidebar > ul > span > span > li {
+	display: block;
+	position: relative;
+}
 #sidebar > ul > li > a {
+	padding: 10px 0 10px 15px;
+	display: block;
+	color: #939da8;
+}
+#sidebar > ul > span > span > li > a {
 	padding: 10px 0 10px 15px;
 	display: block;
 	color: #939da8;
@@ -164,7 +173,14 @@ hr{ border-top-color:#dadada;}
 #sidebar > ul > li > a > i {
 	margin-right: 10px;
 }
+#sidebar > ul > span > span > li > a > i {
+	margin-right: 10px;
+}
 #sidebar > ul > li.active > a {
+	background: url("../img/menu-active.png") no-repeat scroll right center transparent !important;
+	text-decoration:none;
+}
+#sidebar > ul > span > span > li.active > a {
 	background: url("../img/menu-active.png") no-repeat scroll right center transparent !important;
 	text-decoration:none;
 }

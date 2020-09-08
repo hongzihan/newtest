@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
 </head>
 <body th:fragment="frame-main">
 
@@ -16,45 +17,49 @@
     <!--top-Header-menu-->
     <div id="user-nav" class="navbar navbar-inverse" style="overflow: visible;z-index: 999">
         <ul class="nav">
-            <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">欢迎您，<span th:text="${nickname}"/></span><b class="caret"></b></a>
+            <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="fa fa-user"></i>  <span class="text">欢迎您，<span th:text="${nickname}"/></span><b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#"><i class="icon-user"></i> 我的配置</a></li>
+                    <li><a href="#"><i class="fa-user"></i> 我的配置</a></li>
                     <li class="divider"></li>
-                    <li><a href="#"><i class="icon-check"></i> 我的任务</a></li>
+                    <li><a href="#"><i class="fa-check"></i> 我的任务</a></li>
                     <li class="divider"></li>
-                    <li><a href="/logout"><i class="icon-key"></i> 登出</a></li>
+                    <li><a href="/logout"><i class="fa-key"></i> 登出</a></li>
                 </ul>
             </li>
-            <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">消息</span> <span class="label label-important">5</span> <b class="caret"></b></a>
+            <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="fa fa-envelope"></i> <span class="text">消息</span> <span class="label label-important">5</span> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a class="sAdd" title="" href="#"><i class="icon-plus"></i> 新消息</a></li>
+                    <li><a class="sAdd" title="" href="#"><i class="fa-plus"></i> 新消息</a></li>
                     <li class="divider"></li>
-                    <li><a class="sInbox" title="" href="#"><i class="icon-envelope"></i> 收件箱</a></li>
+                    <li><a class="sInbox" title="" href="#"><i class="fa-envelope"></i> 收件箱</a></li>
                     <li class="divider"></li>
-                    <li><a class="sOutbox" title="" href="#"><i class="icon-arrow-up"></i> 写邮件</a></li>
+                    <li><a class="sOutbox" title="" href="#"><i class="fa-arrow-up"></i> 写邮件</a></li>
                     <li class="divider"></li>
-                    <li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> 垃圾箱</a></li>
+                    <li><a class="sTrash" title="" href="#"><i class="fa-trash"></i> 垃圾箱</a></li>
                 </ul>
             </li>
-            <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">设置</span></a></li>
-            <li class=""><a title="" href="/logout"><i class="icon icon-share-alt"></i> <span class="text">登出</span></a></li>
+            <li class=""><a title="" href="#"><i class="fa fa-cog"></i> <span class="text">设置</span></a></li>
+            <li class=""><a title="" href="/logout"><i class="fa fa-share-alt"></i> <span class="text">登出</span></a></li>
         </ul>
     </div>
     <!--close-top-Header-menu-->
     <!--sidebar-menu-->
-    <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 首页</a>
+    <div id="sidebar"><a href="#" class="visible-phone"><i class="fa fa-home"></i> 首页</a>
         <ul id="mainUl">
-            <li th:class="${curPage eq 'index' ? 'active' : ''}"><a href="/index"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-            <li th:class="${curPage eq 'charts' ? 'active' : ''}"> <a href="/chart/charts"><i class="icon icon-signal"></i> <span>掉落统计</span></a> </li>
-            <li th:class="${curPage eq 'chargeTable' ? 'active' : ''}" id="admin_private_1"><a href="/table/chargeTable"><i class="icon icon-th"></i> <span>充值统计</span></a></li>
-            <li th:class="${curPage eq 'monsterDieMsg' ? 'active' : ''}"><a href="/st/searchMonsterMsg"><i class="icon icon-th"></i> <span>怪物信息</span></a></li>
-            <li class="submenu" id="submenu_1"> <a href="#"><i class="icon icon-th-list"></i> <span>表单操作</span> <span class="label label-important">3</span></a>
+            <li th:class="${curPage eq 'index' ? 'active' : ''}"><a href="/index"><i class="fa fa-dashboard" aria-hidden="true"></i> <span>Dashboard</span></a> </li>
+            <li th:class="${curPage eq 'charts' ? 'active' : ''}"> <a href="/chart/charts"><i class="fa fa-signal" aria-hidden="true"></i> <span>掉落统计</span></a> </li>
+            <li th:class="${curPage eq 'monsterDieMsg' ? 'active' : ''}"><a href="/st/searchMonsterMsg"><i class="fa fa-snapchat-ghost" aria-hidden="true"></i> <span>怪物信息</span></a></li>
+            <li class="submenu" id="submenu_1"> <a href="#"><i class="fa fa-windows" aria-hidden="true"></i> <span>表单操作</span> <span class="label label-important">3</span></a>
                 <ul>
                     <li th:class="${curPage eq 'form-common' ? 'active' : ''}"><a href="/form-common">一般操作</a></li>
-                    <li th:class="${curPage eq 'form-validation' ? 'active' : ''}"><a href="/form-permission">权限管理</a></li>
                     <li th:class="${curPage eq 'form-wizard' ? 'active' : ''}"><a href="/form-wizard">制作中</a></li>
                 </ul>
             </li>
+            <span th:each="role : ${yourRoles}">
+                <span th:if="${role.rolename eq 'administrator'}">
+                        <li th:class="${curPage eq 'chargeTable' ? 'active' : ''}" id="admin_private_1"><a href="/table/chargeTable"><i class="fa fa-money" aria-hidden="true"></i> <span>充值统计</span></a></li>
+                        <li th:class="${curPage eq 'form-validation' ? 'active' : ''}"><a href="/form-permission"><i class="fa fa-group" aria-hidden="true"></i> <span>权限管理</span></a></li>
+                </span>
+            </span>
         </ul>
     </div>
     <!--sidebar-menu-->
@@ -69,18 +74,18 @@
         }
     }
 
-    let obj = '[[${yourRoles}]]'
-    let optionJson= JSON.parse(obj)
-    let isAdmin = false
-    for (let i=0; i<optionJson.length; i++) {
-        if (optionJson[i].rolename === 'administrator') {
-            isAdmin = true;
-        }
-    }
-    if (!isAdmin) {
-        document.getElementById("admin_private_1").remove();
-    }
-    console.log("我在")
+    // let obj = '[[${yourRoles}]]'
+    // let optionJson= JSON.parse(obj)
+    // let isAdmin = false
+    // for (let i=0; i<optionJson.length; i++) {
+    //     if (optionJson[i].rolename === 'administrator') {
+    //         isAdmin = true;
+    //     }
+    // }
+    // if (!isAdmin) {
+    //     document.getElementById("admin_private_1").remove();
+    // }
+    // console.log("我在")
 </script>
 </body>
 </html>
