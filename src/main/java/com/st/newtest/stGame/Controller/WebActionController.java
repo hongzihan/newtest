@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sun.security.x509.OtherName;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -148,6 +149,49 @@ public class WebActionController {
         } else {
             hmap.put("chargePercent", reChargePercent);
         }
+        webAction.setActiondata(JSON.toJSONString(hmap));
+        webActionService.insert(webAction);
+        return "{code:200, msg:'成功'}";
+    }
+
+    @RequiresPermissions("saveActionData_monster")
+    @ResponseBody
+    @RequestMapping("saveActionData_monster")
+    public String saveActionData_monster(WebAction webAction, String mobKey, String mapKey, Integer num, Integer coordinateX, Integer coordinateY, Integer range, Integer cType) {
+        if (mobKey == null || webAction.getZoneid() == null || mapKey == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        // actionType
+        Integer type = stUtil.getWebActionTypeMap().get("wat_怪物操作");
+        if (type == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        webAction.setActiontype(type);
+        // actionData
+        HashMap<String, Object> hmap = new HashMap<>();
+        hmap.put("mobKey", mobKey);
+        hmap.put("mapKey", mapKey);
+        hmap.put("cType", cType);
+        if (cType == 1) {
+            if (coordinateX == null || coordinateY == null) {
+                hmap.put("coordinateX", 0);
+                hmap.put("coordinateY", 0);
+            } else {
+                hmap.put("coordinateX", coordinateX);
+                hmap.put("coordinateY", coordinateY);
+            }
+            if (range == null) {
+                hmap.put("range", 1);
+            } else {
+                hmap.put("range", range);
+            }
+        }
+        if (num == null) {
+            hmap.put("num", 1);
+        } else {
+            hmap.put("num", num);
+        }
+
         webAction.setActiondata(JSON.toJSONString(hmap));
         webActionService.insert(webAction);
         return "{code:200, msg:'成功'}";
