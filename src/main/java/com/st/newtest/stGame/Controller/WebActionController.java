@@ -172,7 +172,7 @@ public class WebActionController {
         hmap.put("mobKey", mobKey);
         hmap.put("mapKey", mapKey);
         hmap.put("cType", cType);
-        if (cType == 1) {
+        if (cType == 1 || cType == 3) {
             if (coordinateX == null || coordinateY == null) {
                 hmap.put("coordinateX", 0);
                 hmap.put("coordinateY", 0);
