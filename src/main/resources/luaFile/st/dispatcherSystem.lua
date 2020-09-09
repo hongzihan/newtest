@@ -316,26 +316,45 @@ function action_monster_refresh_kill(action_data, cur_action) -- 按照数据要
             return 0
         end
     elseif cType == 2 then-- 杀怪
-        local mobList = lualib:Map_GetRegionMonstersEx(lualib:Map_GetMapGuid(mapKey), mobKey, {1,0,0,1000,1000}, true, true)
-        local countNum = 0
-        for _,v in pairs(mobList) do
-            if countNum < num then
-                lualib:Kill(v)
-            else
-                break
+        pcall(function ()
+            local mobList = lualib:Map_GetRegionMonstersEx(lualib:Map_GetMapGuid(mapKey), mobKey, {1,0,0,1000,1000}, true, true)
+            local countNum = 0
+            for _,v in pairs(mobList) do
+                if countNum < num then
+                    lualib:Kill(v)
+                else
+                    break
+                end
+                countNum = countNum + 1
             end
-            countNum = countNum + 1
-        end
+        end)
         return 0
     elseif cType == 3 then
         pcall(function ()
-            lualib:Map_GenNpc(lualib:Map_GetMapGuid(mapKey), mobKey, x, y, 0, num)
+            if (x ~= 0 and y ~= 0) then
+                lualib:Map_GenNpc(lualib:Map_GetMapGuid(mapKey), mobKey, x, y, 0, num)
+            end
         end)
         return 0
+    elseif cType == 4 then
+        pcall(function ()
+            if (x ~= 0 and y ~= 0) then
+                local mob_list = lualib:Map_GetRegionMonstersEx(lualib:Map_GetMapGuid(mapKey), mobKey, {0, x, y, range, range}, true, true)
+                local countNum = 0
+                for _,v in pairs(mob_list) do
+                    if countNum < num then
+                        lualib:Kill(v)
+                    else
+                        break
+                    end
+                    countNum = countNum + 1
+                end
+            end
+        end)
     else
         return 0
     end
-    return cur_action
+        return cur_action
 end
 
 function remove_table_value_nil(extra_data) -- 移除目标table内无效值并返回一个新的table
