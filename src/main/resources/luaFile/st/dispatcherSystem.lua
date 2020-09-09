@@ -306,17 +306,17 @@ function action_monster_refresh_kill(action_data, cur_action) -- 按照数据要
     if cType == 1 then --刷怪
         if x ~= 0 and y ~= 0 then
             pcall(function()
-                lualib:Map_GenMonster(lualib:Map_GetMapGuid(action_data.mapKey), x, y, range, math.random(1,4), mobKey, num, false)
+                lualib:Map_GenMonster(lualib:Map_GetMapGuid(mapKey), x, y, range, math.random(1,4), mobKey, num, false)
             end)
             return 0
         else
             pcall(function()
-                lualib:Map_BatchGenCampMonster(lualib:Map_GetMapGuid(action_data.mapKey), mobKey, num, false, 2)
+                lualib:Map_BatchGenCampMonster(lualib:Map_GetMapGuid(mapKey), mobKey, num, false, 2)
             end)
             return 0
         end
-    else -- 杀怪
-        local mobList = lualib:Map_GetRegionMonstersEx(lualib:Map_GetMapGuid(action_data.mapKey), mobKey, {1,0,0,1000,1000}, true, true)
+    elseif cType == 2 then-- 杀怪
+        local mobList = lualib:Map_GetRegionMonstersEx(lualib:Map_GetMapGuid(mapKey), mobKey, {1,0,0,1000,1000}, true, true)
         local countNum = 0
         for _,v in pairs(mobList) do
             if countNum < num then
@@ -326,6 +326,13 @@ function action_monster_refresh_kill(action_data, cur_action) -- 按照数据要
             end
             countNum = countNum + 1
         end
+        return 0
+    elseif cType == 3 then
+        pcall(function ()
+            lualib:Map_GenNpc(lualib:Map_GetMapGuid(mapKey), mobKey, x, y, 0, num)
+        end)
+        return 0
+    else
         return 0
     end
     return cur_action
