@@ -150,6 +150,72 @@ item_templates 格式：
           </div>
         </div>
 
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
+            <h5>怪物操作</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <form action="" method="post" class="form-horizontal" id="monster_action_form">
+              <div class="control-group">
+                <label class="control-label">*区名 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="monster_action_zoneid" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*怪物索引 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="白野猪" name="mobKey" id="monster_action_mobKey"/>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*地图索引 :</label>
+                <div class="controls">
+                  <input type="text"  class="span11" placeholder="龙城" name="mapKey" id="monster_action_mapKey" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">数量 :</label>
+                <div class="controls">
+                  <input type="number"  class="span11" placeholder="不填默认为1" name="num" id="monster_action_num" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">X坐标 :</label>
+                <div class="controls">
+                  <input type="number" class="span11" placeholder='不填默认随机，x,y缺一不可' name="coordinateX" id="monster_action_coordinateX"/>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Y坐标 :</label>
+                <div class="controls">
+                  <input type="number" class="span11" placeholder='不填默认随机，x,y缺一不可' name="coordinateY" id="monster_action_coordinateY" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">范围 :</label>
+                <div class="controls">
+                  <input type="number" class="span11" placeholder='不填默认1' name="range" id="monster_action_range" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*操作类型 :</label>
+                <div class="controls">
+                  <label>
+                    <input type="radio" name="type" value=1 onclick="checkBoxClick('怪物操作', this)" checked/>
+                    刷怪</label>
+                  <label>
+                    <input type="radio" name="type" value=2 onclick="checkBoxClick('怪物操作', this)"/>
+                    杀死</label>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-success" onclick="isvalid('怪物操作')">保存</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
       </div>
 
       <div class="span6">
@@ -169,10 +235,10 @@ item_templates 格式：
                 <label class="control-label">*操作对象 :</label>
                 <div class="controls">
                   <label>
-                    <input type="radio" name="targetobj" value='系统' checked/>
+                    <input type="radio" name="targetobj" value='系统' onclick="checkBoxClick('变量操作', this)" checked/>
                     系统</label>
                   <label>
-                    <input type="radio" name="targetobj" value='玩家' />
+                    <input type="radio" name="targetobj" value='玩家' onclick="checkBoxClick('变量操作', this)" />
                     玩家</label>
                 </div>
               </div>
@@ -180,10 +246,10 @@ item_templates 格式：
                 <label class="control-label">*变量类型 :</label>
                 <div class="controls">
                   <label>
-                    <input type="radio" name="vartype" value='int' checked/>
+                    <input type="radio" name="vartype" value='int' onclick="checkBoxClick('变量操作', this)" checked/>
                     int</label>
                   <label>
-                    <input type="radio" name="vartype" value='str' />
+                    <input type="radio" name="vartype" value='str' onclick="checkBoxClick('变量操作', this)" />
                     str</label>
                 </div>
               </div>
@@ -196,7 +262,7 @@ item_templates 格式：
               <div class="control-group">
                 <label class="control-label">*变量值 :</label>
                 <div class="controls">
-                  <input type="text" class="span11" placeholder="xx" name="varvalue" id="var_action_value"/>
+                  <input type="number" class="span11" placeholder="xx" name="varvalue" id="var_action_value"/>
                 </div>
               </div>
               <div class="control-group">
@@ -211,7 +277,7 @@ item_templates 格式：
                   6删除，合区时清除"/>
                 </div>
               </div>
-              <div class="control-group">
+              <div class="control-group" style="display: none">
                 <label class="control-label">玩家名字(选填) :</label>
                 <div class="controls">
                   <input type="text" class="span11" placeholder="小小白" name="playername" id="var_action_playername"/>
@@ -354,6 +420,36 @@ item_templates 格式：
 <script src="../static/js/jquery.peity.min.js"></script>
 <script src="../static/js/bootstrap-wysihtml5.js"></script>
 <script>
+    let monster_action_id_arr = ["monster_action_coordinateX", "monster_action_coordinateY", "monster_action_range"]
+    let var_action_id_arr = ["var_action_areatype", "var_action_playername", "var_action_value"]
+    function checkBoxClick(msg, obj) {
+      if (msg === '怪物操作') {
+        if (obj.value === '1') {
+          for (let i=0; i<monster_action_id_arr.length; i++) {
+            let element = document.getElementById(monster_action_id_arr[i]).parentNode.parentNode
+            element.style.display = ""
+          }
+        } else if (obj.value === '2') {
+          for (let i=0; i<monster_action_id_arr.length; i++) {
+            let element = document.getElementById(monster_action_id_arr[i]).parentNode.parentNode
+            element.style.display = "none"
+          }
+        }
+      } else if (msg == "变量操作") {
+        if (obj.value === '系统') {
+          document.getElementById(var_action_id_arr[0]).parentNode.parentNode.style.display = ""
+          document.getElementById(var_action_id_arr[1]).parentNode.parentNode.style.display = "none"
+        } else if (obj.value === '玩家') {
+          document.getElementById(var_action_id_arr[0]).parentNode.parentNode.style.display = "none"
+          document.getElementById(var_action_id_arr[1]).parentNode.parentNode.style.display = ""
+        } else if (obj.value === 'int') {
+          document.getElementById(var_action_id_arr[2]).setAttribute("type", "number")
+        } else if (obj.value === 'str') {
+          document.getElementById(var_action_id_arr[2]).setAttribute("type", "text")
+        }
+      }
+    }
+
     let data = undefined
     let url = undefined
     function isvalid(msg) {
@@ -381,7 +477,7 @@ item_templates 格式：
         }
         data = $('#var_action_form').serialize()
         url = '/webAction/saveActionData_var'
-      } else if(msg == "邮件操作") {
+      } else if(msg === "邮件操作") {
         let arr = ["mail_action_zoneid", "mail_action_playername", "mail_action_title", "mail_action_gold", "mail_action_yuanbao", "mail_action_integral", "mail_action_templates"]
         let arr2 = ["区名", "玩家名", "邮件标题", "金币", "元宝", "积分", "物品模板"]
         for (let i=0; i<arr.length; i++) {
@@ -393,7 +489,7 @@ item_templates 格式：
         }
         data = $('#mail-action-form').serialize()
         url = '/webAction/saveActionData_mail'
-      } else if(msg == "给予操作") {
+      } else if(msg === "给予操作") {
         let arr = ["give_action_zoneid", "give_action_username", "give_action_num"]
         let arr2 = ["区名", "玩家名", "数量"]
         for (let i=0; i<arr.length; i++) {
@@ -405,7 +501,7 @@ item_templates 格式：
         }
         data = $('#give_action_form').serialize()
         url = '/webAction/saveActionData_give'
-      } else if(msg == "模拟充值") {
+      } else if(msg === "模拟充值") {
         let arr = ["charge_action_zoneid", "charge_action_username", "charge_action_num"]
         let arr2 = ["区名", "玩家名", "金额"]
         for (let i=0; i<arr.length; i++) {
@@ -417,6 +513,18 @@ item_templates 格式：
         }
         data = $('#charge_action_form').serialize()
         url = '/webAction/saveActionData_charge'
+      } else if(msg === "怪物操作") {
+        let arr = ["monster_action_zoneid", "monster_action_mobKey", "monster_action_mapKey"]
+        let arr2 = ["区名", "怪物索引", "地图索引"]
+        for (let i=0; i<arr.length; i++) {
+          let elementV = document.getElementById(arr[i]).value;
+          if (elementV === '') {
+            alert(arr2[i] + '不能为空！');
+            return false;
+          }
+        }
+        data = $('#monster_action_form').serialize()
+        url = '/webAction/saveActionData_monster'
       }
 
       //表单异步提交
