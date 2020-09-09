@@ -258,6 +258,79 @@ function action_charge_monitor(action_data, cur_action) -- 按照数据要求给
     return cur_action
 end
 
+function action_give_currency(action_data, cur_action) -- 按照数据要求给玩家发一般物品如金币，经验，元宝，积分 -- T==>9<==T
+    local username = action_data.username
+    local num = action_data.num
+    local giveType = action_data.type
+    local playerGUID = lualib:Name2Guid(username)
+    if playerGUID ~= "" then
+        if giveType == "非绑金币" then
+            lualib:AddGold(playerGUID, tonumber(num), "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        elseif giveType == "绑定金币" then
+            lualib:AddBindGold(playerGUID, tonumber(num), "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        elseif giveType == "非绑元宝" then
+            lualib:Player_AddIngot(playerGUID, tonumber(num), false, "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        elseif giveType == "绑定元宝" then
+            lualib:Player_AddIngot(playerGUID, tonumber(num), true, "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        elseif giveType == "经验" then
+            lualib:AddExp(playerGUID, tonumber(num), "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        elseif giveType == "积分" then
+            lualib:AddIntegral(playerGUID, tonumber(num), "web_action_give"..giveType, "web_action_give"..giveType)
+            lualib:SysWarnMsg(playerGUID, "获得"..giveType..tostring(num))
+            return 0
+        end
+    else
+        return cur_action
+    end
+    return cur_action
+end
+
+function action_monster_refresh_kill(action_data, cur_action) -- 按照数据要求来刷新或杀死怪物 -- T==>10<==T
+    local mobKey = action_data.mobKey
+    local mapKey = action_data.mapKey
+    local x = action_data.coordinateX
+    local y = action_data.coordinateY
+    local range = action_data.range
+    local num = action_data.num
+    local cType = action_data.cType
+    if cType == 1 then --刷怪
+        if x ~= 0 and y ~= 0 then
+            pcall(function()
+                lualib:Map_GenMonster(lualib:Map_GetMapGuid(action_data.mapKey), x, y, range, math.random(1,4), mobKey, num, false)
+            end)
+            return 0
+        else
+            pcall(function()
+                lualib:Map_BatchGenCampMonster(lualib:Map_GetMapGuid(action_data.mapKey), mobKey, num, false, 2)
+            end)
+            return 0
+        end
+    else -- 杀怪
+        local mobList = lualib:Map_GetRegionMonstersEx(lualib:Map_GetMapGuid(action_data.mapKey), mobKey, {1,0,0,1000,1000}, true, true)
+        local countNum = 0
+        for _,v in pairs(mobList) do
+            if countNum < num then
+                lualib:Kill(v)
+            else
+                break
+            end
+            countNum = countNum + 1
+        end
+        return 0
+    end
+    return cur_action
+end
+
 function remove_table_value_nil(extra_data) -- 移除目标table内无效值并返回一个新的table
     local extra_data_new = {}
     for i=1, #extra_data do
@@ -319,6 +392,8 @@ function super_old_horse_dispathtcher(extra_data) -- web分发，流水线部分
                 extra_data[i] = action_give_currency(action_data, extra_data[i])
             elseif action_type == 9 then
                 extra_data[i] = action_charge_monitor(action_data, extra_data[i])
+            elseif action_type == 10 then
+                extra_data[i] = action_monster_refresh_kill(action_data, extra_data[i])
             end
         else -- json数据异常，直接移除，防止系统出错
             extra_data[i] = 0
