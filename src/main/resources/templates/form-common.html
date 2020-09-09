@@ -163,6 +163,23 @@ item_templates 格式：
                 </div>
               </div>
               <div class="control-group">
+                <label class="control-label">*操作类型 :</label>
+                <div class="controls">
+                  <label>
+                    <input type="radio" name="cType" value=1 onclick="checkBoxClick('怪物操作', this)" checked/>
+                    刷怪</label>
+                  <label>
+                    <input type="radio" name="cType" value=2 onclick="checkBoxClick('怪物操作', this)"/>
+                    杀怪</label>
+                  <label>
+                    <input type="radio" name="cType" value=3 onclick="checkBoxClick('怪物操作', this)"/>
+                    刷NPC(此时x,y必须要填且range无效)</label>
+                  <label>
+                  <input type="radio" name="cType" value=4 onclick="checkBoxClick('怪物操作', this)"/>
+                  指定范围杀怪</label>
+                </div>
+              </div>
+              <div class="control-group">
                 <label class="control-label">*怪物索引 :</label>
                 <div class="controls">
                   <input type="text" class="span11" placeholder="白野猪" name="mobKey" id="monster_action_mobKey"/>
@@ -196,20 +213,6 @@ item_templates 格式：
                 <label class="control-label">范围 :</label>
                 <div class="controls">
                   <input type="number" class="span11" placeholder='不填默认1' name="range" id="monster_action_range" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*操作类型 :</label>
-                <div class="controls">
-                  <label>
-                    <input type="radio" name="cType" value=1 onclick="checkBoxClick('怪物操作', this)" checked/>
-                    刷怪</label>
-                  <label>
-                    <input type="radio" name="cType" value=2 onclick="checkBoxClick('怪物操作', this)"/>
-                    杀死</label>
-                  <label>
-                    <input type="radio" name="cType" value=3 onclick="checkBoxClick('怪物操作', this)"/>
-                    刷NPC(此时x,y必须要填且range无效)</label>
                 </div>
               </div>
               <div class="form-actions">
@@ -448,6 +451,13 @@ item_templates 格式：
           }
           document.getElementById("monster_action_mobKey").parentNode.parentNode.childNodes[1].innerHTML="*NPC索引:"
           document.getElementById("monster_action_num").parentNode.parentNode.childNodes[1].innerHTML="NPC朝向(0-7):"
+        } else if (obj.value === '4') {
+          for (let i=0; i<monster_action_id_arr.length; i++) {
+            let element = document.getElementById(monster_action_id_arr[i]).parentNode.parentNode
+            element.style.display = ""
+          }
+          document.getElementById("monster_action_mobKey").parentNode.parentNode.childNodes[1].innerHTML="*怪物索引:"
+          document.getElementById("monster_action_num").parentNode.parentNode.childNodes[1].innerHTML="数量:"
         }
       } else if (msg == "变量操作") {
         if (obj.value === '系统') {
