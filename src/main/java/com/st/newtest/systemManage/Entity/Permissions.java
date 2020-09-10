@@ -1,15 +1,15 @@
 package com.st.newtest.systemManage.Entity;
 
 public class Permissions {
-    private Integer id;
+    private Long id;
     private String modelname;
     private String permission;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

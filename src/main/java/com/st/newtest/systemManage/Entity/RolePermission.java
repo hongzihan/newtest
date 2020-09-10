@@ -1,23 +1,23 @@
 package com.st.newtest.systemManage.Entity;
 
 public class RolePermission {
-    private Integer rid;
+    private Long rid;
 
-    private Integer pid;
+    private Long pid;
 
-    public Integer getRid() {
+    public Long getRid() {
         return rid;
     }
 
-    public void setRid(Integer rid) {
+    public void setRid(Long rid) {
         this.rid = rid;
     }
 
-    public Integer getPid() {
+    public Long getPid() {
         return pid;
     }
 
-    public void setPid(Integer pid) {
+    public void setPid(Long pid) {
         this.pid = pid;
     }
 
