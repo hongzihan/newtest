@@ -35,7 +35,7 @@ public class DropItemController {
         dropItem.setKeyname(keyname);
         dropItem.setItemname(itemname);
         dropItem.setZoneid(zoneid);
-        dropItem.setId(0);
+        dropItem.setId(0L);
         dropItemService.insertNewData(dropItem);
         return "成功接收参数 keyname = " + keyname + "itemname = " + itemname + "count = " + count + "zoneid = " + zoneid + "countT = " + countT;
     }

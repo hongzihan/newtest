@@ -14,19 +14,19 @@ public interface UserMapper {
 
     int insertPermission(Permissions permission);
 
-    int insertUserAndRoleId(Map<String, Integer> map);
+    int insertUserAndRoleId(Map<String, Object> map);
 
-    int insertRoleAndPermissionId(Map<String, Integer> map);
+    int insertRoleAndPermissionId(Map<String, Object> map);
 
-    int deleteUserById(Integer id);
+    int deleteUserById(Long id);
 
-    int deleteRoleById(Integer id);
+    int deleteRoleById(Long id);
 
-    int deletePermissionById(Integer id);
+    int deletePermissionById(Long id);
 
-    int deleteUserAndRoleIdById(Map<String, Integer> map);
+    int deleteUserAndRoleIdById(Map<String, Object> map);
 
-    int deleteRoleAndPermissionIdById(Map<String, Integer> map);
+    int deleteRoleAndPermissionIdById(Map<String, Object> map);
 
     int updateUser(User user);
 
@@ -52,9 +52,9 @@ public interface UserMapper {
 
     Permissions selectSinglePermission(String modelname);
 
-    List<UserRole> selectAllRoleIdForUser(Integer uid);
+    List<UserRole> selectAllRoleIdForUser(Long uid);
 
-    List<RolePermission> selectAllPermissionIdForRole(Integer rid);
+    List<RolePermission> selectAllPermissionIdForRole(Long rid);
 
     User findUserByName(String name);
 

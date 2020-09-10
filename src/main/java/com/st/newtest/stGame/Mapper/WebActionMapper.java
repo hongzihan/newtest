@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface WebActionMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(WebAction record);
 

@@ -5,7 +5,7 @@ import com.st.newtest.stGame.Entity.WebAction;
 import java.util.List;
 
 public interface WebActionService {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(WebAction record);
 

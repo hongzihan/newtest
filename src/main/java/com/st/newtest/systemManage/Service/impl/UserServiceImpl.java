@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
                 User userByName = userMapper.findUserByNameWithoutPermission(username);
                 if (userByName != null) {
                     List<Role> roleList = userByName.getRoleList();
-                    HashMap<String, Integer> map = null;
+                    HashMap<String, Object> map = null;
                     for (Role role : roleList) {
                         map = new HashMap<>();
                         map.put("uid", user.getId());
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
             Role role = userMapper.selectSingleRole(rolename);
             if (role != null) {
                 // 因为关联表的问题，所以在删除角色的同时，需要删除角色所对应的所有权限和用户
-                HashMap<String, Integer> map = null;
+                HashMap<String, Object> map = null;
                 // 第一步先查询该角色是否还有关联用户
                 List<User> users = userMapper.selectUsersByRoleName(rolename);
                 if (users != null) {
@@ -194,7 +194,7 @@ public class UserServiceImpl implements UserService {
                 // 先找关联角色 并删除关联
                 List<Role> roleList = userMapper.selectRolesByModelName(modelname);
                 if (roleList != null) {
-                    HashMap<String, Integer> map = null;
+                    HashMap<String, Object> map = null;
                     for (Role role : roleList) {
                         map = new HashMap<>();
                         map.put("rid", role.getId());
@@ -265,7 +265,7 @@ public class UserServiceImpl implements UserService {
                     }
                 }
                 if (!isRepeat) { // 若权限无重复
-                    HashMap<String, Integer> map = null;
+                    HashMap<String, Object> map = null;
                     map = new HashMap<>();
                     map.put("uid", user.getId());
                     map.put("rid", roleNew.getId());
@@ -289,7 +289,7 @@ public class UserServiceImpl implements UserService {
                 if (userRoles != null) {
                     for (UserRole userRole : userRoles) {
                         if (userRole.getRid().equals(roleNew.getId())) { // 该角色确实存在
-                            HashMap<String, Integer> map = new HashMap<>();
+                            HashMap<String, Object> map = new HashMap<>();
                             map.put("uid", user.getId());
                             map.put("rid", roleNew.getId());
                             userMapper.deleteUserAndRoleIdById(map);
@@ -328,7 +328,7 @@ public class UserServiceImpl implements UserService {
                     }
                 }
                 if (!isRepeat) { // 若权限无重复
-                    HashMap<String, Integer> map = null;
+                    HashMap<String, Object> map = null;
                     map = new HashMap<>();
                     map.put("rid", role.getId());
                     map.put("pid", permissionNew.getId());
@@ -352,7 +352,7 @@ public class UserServiceImpl implements UserService {
                 if (rolePermissions != null) {
                     for (RolePermission rp : rolePermissions) {
                         if (rp.getPid().equals(permissionNew.getId())) { // 该权限确实存在
-                            HashMap<String, Integer> map = new HashMap<>();
+                            HashMap<String, Object> map = new HashMap<>();
                             map.put("rid", role.getId());
                             map.put("pid", permissionNew.getId());
                             userMapper.deleteRoleAndPermissionIdById(map);

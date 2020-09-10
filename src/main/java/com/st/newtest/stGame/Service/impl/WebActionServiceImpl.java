@@ -15,7 +15,7 @@ public class WebActionServiceImpl implements WebActionService {
     private WebActionMapper webActionMapper;
 
     @Override
-    public int deleteByPrimaryKey(Integer id) {
+    public int deleteByPrimaryKey(Long id) {
         return webActionMapper.deleteByPrimaryKey(id);
     }
 
