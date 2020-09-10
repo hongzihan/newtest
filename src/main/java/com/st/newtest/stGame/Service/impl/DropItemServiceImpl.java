@@ -2,6 +2,7 @@ package com.st.newtest.stGame.Service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.st.newtest.stGame.Entity.DropItem;
 import com.st.newtest.stGame.Mapper.DropItemMapper;
 import com.st.newtest.stGame.Service.DropItemService;
@@ -14,41 +15,11 @@ import java.util.Date;
 import java.util.List;
 
 @Service("dropItemServiceImpl")
-public class DropItemServiceImpl implements DropItemService {
+public class DropItemServiceImpl extends ServiceImpl<DropItemMapper, DropItem> implements DropItemService {
     @Autowired(required = false)
     private DropItemMapper dropItemMapper;
 
     private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    @Override
-    public int deleteByPrimaryKey(Integer id) {
-        return dropItemMapper.deleteById(id);
-    }
-
-    @Override
-    public int insert(DropItem record) {
-        return dropItemMapper.insert(record);
-    }
-
-    @Override
-    public DropItem selectByPrimaryKey(Integer id) {
-        return dropItemMapper.selectById(id);
-    }
-
-    @Override
-    public List<DropItem> selectAll() {
-        return dropItemMapper.selectList(null);
-    }
-
-    @Override
-    public int updateByPrimaryKey(DropItem record) {
-        return dropItemMapper.updateById(record);
-    }
-
-    @Override
-    public List<DropItem> selectByItemKey(String keyname) {
-        return new LambdaQueryChainWrapper<DropItem>(dropItemMapper).eq(DropItem::getKeyname, keyname).list();
-    }
 
     @Override
     public Boolean insertNewData(DropItem dropItem) {
@@ -70,21 +41,11 @@ public class DropItemServiceImpl implements DropItemService {
             }
         }
         // 如果无任何相等数据，则插入一个新的数据
-        DropItem newItem = new DropItem();
-        newItem.setCount(count);
-        newItem.setKeyname(keyname);
-        newItem.setItemname(itemname);
-        newItem.setZoneid(zoneid);
-        newItem.setDateTime(dateTime);
-        newItem.setId(0);
-        dropItemMapper.insert(newItem);
+        dropItem.setDateTime(dateTime);
+        dropItemMapper.insert(dropItem);
         return true;
     }
 
-    @Override
-    public List<DropItem> selectAllByZoneid(String zoneid) {
-        return new LambdaQueryChainWrapper<DropItem>(dropItemMapper).eq(DropItem::getZoneid, zoneid).list();
-    }
 
     @Override
     public List<String> selectAllUniqueZoneName() {

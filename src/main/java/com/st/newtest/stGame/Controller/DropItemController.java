@@ -42,19 +42,19 @@ public class DropItemController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/showAll")
     public String showAll() {
-        return JSON.toJSONString(CommonUtil.removeNullOfList(dropItemService.selectAll()));
+        return JSON.toJSONString(CommonUtil.removeNullOfList(dropItemService.list()));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/showAllByZoneid")
     public String showAllByZoneid(String zoneid) {
-        return JSON.toJSONString(CommonUtil.removeNullOfList(dropItemService.selectAllByZoneid(zoneid)));
+        return JSON.toJSONString(CommonUtil.removeNullOfList(dropItemService.lambdaQuery().eq(DropItem::getZoneid, zoneid).list()));
     }
 
     @GetMapping("/file")
     public Result download(HttpServletResponse response) {
         List<Map<String, Object>> dataList = null;
 
-        List<DropItem> itemList = CommonUtil.removeNullOfList(dropItemService.selectAll());// 查询到要导出的信息
+        List<DropItem> itemList = CommonUtil.removeNullOfList(dropItemService.list());// 查询到要导出的信息
 
         if (itemList.size() == 0) {
             // ResultUtil.failure("无数据导出");

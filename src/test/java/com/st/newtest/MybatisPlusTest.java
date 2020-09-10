@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.st.newtest.stGame.Entity.DropItem;
 import com.st.newtest.stGame.Mapper.DropItemMapper;
+import com.st.newtest.stGame.Service.DropItemService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import java.util.List;
 public class MybatisPlusTest {
     @Autowired
     private DropItemMapper dropItemMapper;
+
+    @Autowired
+    private DropItemService dropItemService;
 
     @Test
     public void test1() {
@@ -37,5 +41,10 @@ public class MybatisPlusTest {
     @Test
     public void test3() {
         new LambdaQueryChainWrapper<DropItem>(dropItemMapper).groupBy(DropItem::getZoneid).select(DropItem::getZoneid).list();
+    }
+
+    @Test
+    public void test4() {
+        dropItemService.list();
     }
 }

@@ -32,7 +32,7 @@ public class ChartController {
         }
         if (dropItem.getZoneid() != null) {
             mav.addObject("curZoneName", dropItem.getZoneid());
-            List<DropItem> dropItems = dropItemService.selectAllByZoneid(dropItem.getZoneid());
+            List<DropItem> dropItems = dropItemService.lambdaQuery().eq(DropItem::getZoneid, dropItem.getZoneid()).list();
             if (dropItems != null) {
                 mav.addObject("dropItemList", dropItems);
             }
