@@ -42,5 +42,7 @@ logging:
   config: classpath:log4j2.xml
   level:
     com.st.newtest.Mapper: TRACE
+    com.st.newtest.stGame.Mapper: TRACE
+    com.st.newtest.systemManage.Mapper: DEBUG
 server:
   port: 8080
