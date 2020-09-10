@@ -1,6 +1,7 @@
 package com.st.newtest.stGame.Controller;
 
 import com.st.newtest.stGame.Entity.Charge;
+import com.st.newtest.stGame.Service.ChargeService;
 import com.st.newtest.stGame.Service.OpenStService;
 import com.st.newtest.Util.CommonUtil;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -17,19 +18,22 @@ public class TableController {
     @Autowired
     private OpenStService openStService;
 
+    @Autowired
+    private ChargeService chargeService;
+
 
     @RequestMapping("/chargeTable")
     @RequiresRoles("administrator")
     public ModelAndView chargeTable(Charge charge) {
         ModelAndView mav = CommonUtil.getPage("chargeTable");
         // 查所有的区名
-        List<String> stringList = openStService.selectAllZoneNameForChargeTable();
+        List<String> stringList = chargeService.selectAllZoneNameForChargeTable();
         if (stringList != null) {
             mav.addObject("zoneNameList", stringList);
         }
         if (charge.getZoneName() != null) {
             mav.addObject("curZoneName", charge.getZoneName());
-            List<Charge> charges = openStService.selectAllChargeInfoForChargeTable(charge.getZoneName());
+            List<Charge> charges = chargeService.lambdaQuery().eq(Charge::getZoneName, charge.getZoneName()).list();
             if (charges != null) {
                 mav.addObject("chargeList", charges);
             }

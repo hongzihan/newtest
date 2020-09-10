@@ -13,10 +13,4 @@ public interface OpenStService {
     int insertNewMonster(MonsterDie monsterDie);
 
     Boolean clearTargetReliveTime(MonsterDie monsterDie);
-
-    int insertNewChargeData(Charge charge);
-
-    List<String> selectAllZoneNameForChargeTable();
-
-    List<Charge> selectAllChargeInfoForChargeTable(String zoneName);
 }
