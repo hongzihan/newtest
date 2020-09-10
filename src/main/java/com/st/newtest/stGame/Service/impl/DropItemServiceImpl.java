@@ -1,5 +1,7 @@
 package com.st.newtest.stGame.Service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.st.newtest.stGame.Entity.DropItem;
 import com.st.newtest.stGame.Mapper.DropItemMapper;
 import com.st.newtest.stGame.Service.DropItemService;
@@ -20,7 +22,7 @@ public class DropItemServiceImpl implements DropItemService {
 
     @Override
     public int deleteByPrimaryKey(Integer id) {
-        return dropItemMapper.deleteByPrimaryKey(id);
+        return dropItemMapper.deleteById(id);
     }
 
     @Override
@@ -30,22 +32,22 @@ public class DropItemServiceImpl implements DropItemService {
 
     @Override
     public DropItem selectByPrimaryKey(Integer id) {
-        return dropItemMapper.selectByPrimaryKey(id);
+        return dropItemMapper.selectById(id);
     }
 
     @Override
     public List<DropItem> selectAll() {
-        return dropItemMapper.selectAll();
+        return dropItemMapper.selectList(null);
     }
 
     @Override
     public int updateByPrimaryKey(DropItem record) {
-        return dropItemMapper.updateByPrimaryKey(record);
+        return dropItemMapper.updateById(record);
     }
 
     @Override
     public List<DropItem> selectByItemKey(String keyname) {
-        return dropItemMapper.selectByItemKey(keyname);
+        return new LambdaQueryChainWrapper<DropItem>(dropItemMapper).eq(DropItem::getKeyname, keyname).list();
     }
 
     @Override
@@ -58,13 +60,12 @@ public class DropItemServiceImpl implements DropItemService {
         // 获取当前日期
         Date date = new Date();
         String dateTime = df.format(date.getTime());
-        List<DropItem> originDropItemList = dropItemMapper.selectByItemKey(keyname);
+        List<DropItem> originDropItemList = new LambdaQueryChainWrapper<DropItem>(dropItemMapper).eq(DropItem::getKeyname, keyname).list();
         for (DropItem originDropItem : originDropItemList) { // 如果表中存在完全相等的数据，则更新进数据表
             if (originDropItem.getKeyname().equals(keyname) && originDropItem.getZoneid().equals(zoneid)) {
                 originDropItem.setCount(originDropItem.getCount() + dropItem.getCount());
-
                 originDropItem.setDateTime(dateTime);
-                dropItemMapper.updateByPrimaryKey(originDropItem);
+                dropItemMapper.updateById(originDropItem);
                 return true;
             }
         }
@@ -82,12 +83,12 @@ public class DropItemServiceImpl implements DropItemService {
 
     @Override
     public List<DropItem> selectAllByZoneid(String zoneid) {
-        return dropItemMapper.selectAllByZoneid(zoneid);
+        return new LambdaQueryChainWrapper<DropItem>(dropItemMapper).eq(DropItem::getZoneid, zoneid).list();
     }
 
     @Override
     public List<String> selectAllUniqueZoneName() {
-        List<DropItem> dropItems = dropItemMapper.selectAllUniqueZoneName();
+        List<DropItem> dropItems = new LambdaQueryChainWrapper<DropItem>(dropItemMapper).groupBy(DropItem::getZoneid).select(DropItem::getZoneid).list();
         List<String> list = null;
         if (dropItems != null) {
             list = new ArrayList<>();

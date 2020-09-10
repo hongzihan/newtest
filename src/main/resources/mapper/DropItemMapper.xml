@@ -9,49 +9,4 @@
     <result column="zoneid" property="zoneid" jdbcType="VARCHAR" />
     <result column="dateTime" property="dateTime" jdbcType="VARCHAR" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from drop_item
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.st.newtest.stGame.Entity.DropItem" >
-    insert into drop_item (id, keyname, itemname, 
-      `count`, zoneid, dateTime)
-    values (#{id,jdbcType=INTEGER}, #{keyname,jdbcType=VARCHAR}, #{itemname,jdbcType=VARCHAR}, 
-      #{count,jdbcType=INTEGER}, #{zoneid,jdbcType=VARCHAR}, #{dateTime,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.st.newtest.stGame.Entity.DropItem" >
-    update drop_item
-    set keyname = #{keyname,jdbcType=VARCHAR},
-      itemname = #{itemname,jdbcType=VARCHAR},
-      `count` = #{count,jdbcType=INTEGER},
-      zoneid = #{zoneid,jdbcType=VARCHAR},
-      dateTime = #{dateTime,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, keyname, itemname, `count`, zoneid, dateTime
-    from drop_item
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectByItemKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, keyname, itemname, `count`, zoneid, dateTime
-    from drop_item
-    where keyname = #{keyname,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAllByZoneid" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, keyname, itemname, `count`, zoneid, dateTime
-    from drop_item
-    where zoneid = #{zoneid,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, keyname, itemname, `count`, zoneid, dateTime
-    from drop_item
-  </select>
-  <select id="selectAllUniqueZoneName" resultMap="BaseResultMap">
-    select a.zoneid
-    from drop_item a
-    right join(select min(id) id from drop_item GROUP BY zoneid) b
-    on b.id = a.id
-    WHERE a.id is not null
-  </select>
 </mapper>
