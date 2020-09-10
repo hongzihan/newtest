@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @EnableTransactionManagement
-@MapperScan("com.st.newtest.Mapper")
+@MapperScan({"com.st.newtest.Mapper", "com.st.newtest.stGame.Mapper", "com.st.newtest.systemManage.Mapper"})
 public class NewtestApplication {
 
     public static void main(String[] args) {
