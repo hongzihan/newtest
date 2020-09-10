@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.st.newtest.stGame.Entity.Charge;
 import com.st.newtest.stGame.Entity.MonsterDie;
 import com.st.newtest.stGame.Service.ChargeService;
-import com.st.newtest.stGame.Service.OpenStService;
 import com.st.newtest.Util.stUtil;
+import com.st.newtest.stGame.Service.MonsterDieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class openForStController {
 
     @Autowired
-    private OpenStService openStService;
+    private MonsterDieService monsterDieService;
 
     @Autowired
     private ChargeService chargeService;
@@ -26,7 +26,7 @@ public class openForStController {
     @ResponseBody
     @RequestMapping("/insertNewMonster")
     public String insertNewMonster(MonsterDie monsterDie) {
-        openStService.insertNewMonster(monsterDie);
+        monsterDieService.insertNewMonster(monsterDie);
         return "success";
     }
 

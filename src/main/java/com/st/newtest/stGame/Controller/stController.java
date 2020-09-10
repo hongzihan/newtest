@@ -2,10 +2,9 @@ package com.st.newtest.stGame.Controller;
 
 import com.st.newtest.stGame.Entity.MonsterDie;
 import com.st.newtest.stGame.Service.DropItemService;
-import com.st.newtest.stGame.Service.OpenStService;
+import com.st.newtest.stGame.Service.MonsterDieService;
 import com.st.newtest.Util.CommonUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +20,10 @@ import java.util.List;
 public class stController {
 
     @Autowired
-    private OpenStService openStService;
+    private DropItemService dropItemService;
 
     @Autowired
-    private DropItemService dropItemService;
+    private MonsterDieService monsterDieService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/getHello/{name}")
     public ModelMap getHello(@PathVariable("name") String name) {
@@ -37,8 +36,8 @@ public class stController {
     @RequiresPermissions("searchMonsterMsg")
     @RequestMapping("/searchMonsterMsg")
     public ModelAndView searchMonsterMsg(String zonename) throws ParseException {
-        List<MonsterDie> monsterDies = openStService.selectByZoneName(zonename);
-        List<MonsterDie> auz = openStService.selectAllUniqueZoneName();
+        List<MonsterDie> monsterDies = monsterDieService.lambdaQuery().eq(MonsterDie::getZonename, zonename).list();
+        List<MonsterDie> auz = monsterDieService.lambdaQuery().groupBy(MonsterDie::getZonename).select(MonsterDie::getZonename).list();
         ModelAndView mav = CommonUtil.getPage("monsterDieMsg");
         if (monsterDies != null) {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -68,7 +67,7 @@ public class stController {
     @ResponseBody
     @RequestMapping("/clearRelive")
     public String clearRelive(MonsterDie monsterDie) {
-        if (!openStService.clearTargetReliveTime(monsterDie)) {
+        if (!monsterDieService.clearTargetReliveTime(monsterDie)) {
             return "failed";
         }
         return "success";

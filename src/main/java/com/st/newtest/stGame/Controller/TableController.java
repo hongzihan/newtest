@@ -2,7 +2,6 @@ package com.st.newtest.stGame.Controller;
 
 import com.st.newtest.stGame.Entity.Charge;
 import com.st.newtest.stGame.Service.ChargeService;
-import com.st.newtest.stGame.Service.OpenStService;
 import com.st.newtest.Util.CommonUtil;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import java.util.List;
 @RequestMapping("/table")
 @Controller
 public class TableController {
-    @Autowired
-    private OpenStService openStService;
 
     @Autowired
     private ChargeService chargeService;

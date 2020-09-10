@@ -3,7 +3,9 @@ package com.st.newtest;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.st.newtest.stGame.Entity.DropItem;
+import com.st.newtest.stGame.Entity.MonsterDie;
 import com.st.newtest.stGame.Mapper.DropItemMapper;
+import com.st.newtest.stGame.Mapper.MonsterDieMapper;
 import com.st.newtest.stGame.Service.DropItemService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +21,9 @@ import java.util.List;
 public class MybatisPlusTest {
     @Autowired
     private DropItemMapper dropItemMapper;
+
+    @Autowired
+    private MonsterDieMapper monsterDieMapper;
 
     @Autowired
     private DropItemService dropItemService;
@@ -46,5 +51,10 @@ public class MybatisPlusTest {
     @Test
     public void test4() {
         dropItemService.list();
+    }
+
+    @Test
+    public void test5() {
+        new LambdaQueryChainWrapper<MonsterDie>(monsterDieMapper).eq(MonsterDie::getMobname, "牛魔王").list();
     }
 }

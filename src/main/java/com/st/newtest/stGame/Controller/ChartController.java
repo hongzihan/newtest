@@ -2,7 +2,6 @@ package com.st.newtest.stGame.Controller;
 
 import com.st.newtest.stGame.Entity.DropItem;
 import com.st.newtest.stGame.Service.DropItemService;
-import com.st.newtest.stGame.Service.OpenStService;
 import com.st.newtest.Util.CommonUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,6 @@ import java.util.List;
 @RequestMapping("chart")
 @Controller
 public class ChartController {
-
-    @Autowired
-    private OpenStService openStService;
 
     @Autowired
     private DropItemService dropItemService;
