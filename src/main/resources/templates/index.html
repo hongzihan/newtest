@@ -11,7 +11,10 @@
     <link rel="stylesheet" href="../static/css/matrix-media.css" />
     <link href="../static/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" href="../static/css/jquery.gritter.css" />
-    <link href='http://fonts.useso.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'/>
+    <style type="text/css">
+
+    </style>
+
 </head>
 <body>
 
@@ -37,51 +40,19 @@
             </ul>
         </div>
         <!--End-Action boxes-->
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="widget-box">
+                    <div class="widget-title bg_lo"  data-toggle="collapse" href="#collapseG3" > <span class="icon"> <i class="fa fa-apple"></i> </span>
+                        <h5>更新日志</h5>
+                    </div>
+                    <div class="widget-content nopadding updates collapse in" id="collapseG3">
 
-        <!--Calender -->
-<!--        <hr>-->
-<!--        <div class="row-fluid">-->
-<!--            <div class="span12">-->
-<!--                <div class="widget-box widget-calendar">-->
-<!--                    <div class="widget-title"> <span class="icon"><i class="icon-calendar"></i></span>-->
-<!--                        <h5>Calendar</h5>-->
-<!--                        <div class="buttons"> <a id="add-event" data-toggle="modal" href="#modal-add-event" class="btn btn-inverse btn-mini"><i class="icon-plus icon-white"></i> Add new event</a>-->
-<!--                            <div class="modal hide" id="modal-add-event">-->
-<!--                                <div class="modal-header">-->
-<!--                                    <button type="button" class="close" data-dismiss="modal">×</button>-->
-<!--                                    <h3>Add a new event</h3>-->
-<!--                                </div>-->
-<!--                                <div class="modal-body">-->
-<!--                                    <p>Enter event name:</p>-->
-<!--                                    <p>-->
-<!--                                        <input id="event-name" type="text" />-->
-<!--                                    </p>-->
-<!--                                </div>-->
-<!--                                <div class="modal-footer"> <a href="#" class="btn" data-dismiss="modal">Cancel</a> <a href="#" id="add-event-submit" class="btn btn-primary">Add event</a> </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="widget-content">-->
-<!--                        <div class="panel-left">-->
-<!--                            <div id="fullcalendar"></div>-->
-<!--                        </div>-->
-<!--                        <div id="external-events" class="panel-right">-->
-<!--                            <div class="panel-title">-->
-<!--                                <h5>Drag Events to the calander</h5>-->
-<!--                            </div>-->
-<!--                            <div class="panel-content">-->
-<!--                                <div class="external-event ui-draggable label label-inverse">My Event 1</div>-->
-<!--                                <div class="external-event ui-draggable label label-inverse">My Event 2</div>-->
-<!--                                <div class="external-event ui-draggable label label-inverse">My Event 3</div>-->
-<!--                                <div class="external-event ui-draggable label label-inverse">My Event 4</div>-->
-<!--                                <div class="external-event ui-draggable label label-inverse">My Event 5</div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-        <!--End-Calender -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -128,6 +99,67 @@
     // resets the menu selection upon entry to this page:
     function resetMenu() {
         document.gomenu.selector.selectedIndex = 2;
+    }
+    function createANode(nodeElement, nodeAttr, nodeAttrV) {
+        let element = document.createElement(nodeElement)
+        for (let i=0; i<nodeAttr.length; i++) {
+            let attribute = document.createAttribute(nodeAttr[i])
+            attribute.nodeValue = nodeAttrV[i]
+            element.setAttributeNode(attribute)
+        }
+        return element
+    }
+    const versionData = {
+        0:{version:"V-0.0.0.1", content:["项目初始化"], date_month:"Aug", date_day:"1"},
+        1:{version:"V-0.0.0.2", content:["新增功能掉落统计","新增权限操作"], date_month:"Aug", date_day:"20"},
+        2:{version:"V-0.0.0.3", content:["新增功能，充值统计","优化神途分发功能"], date_month:"Aug", date_day:"25"},
+        3:{version:"V-0.0.0.4", content:["新增功能，给予操作","新增怪物信息查询","服务端维护"], date_month:"Aug", date_day:"30"},
+        4:{version:"V-0.0.1.5", content:["服务端维护"], date_month:"Sep", date_day:"6"},
+        5:{version:"V-0.0.1.6", content:["新增模拟充值功能","修改怪物信息显示方式为表格形式"], date_month:"Sep", date_day:"7"},
+        6:{version:"V-0.0.1.7", content:["为了方便确认区名，我们为表单操作加了选择项，且仍然保留原输入方法","为模拟充值加入网络波动效果","修复字体图标显示"], date_month:"Sep", date_day:"8"},
+        7:{version:"V-0.0.1.8", content:["为首页增加管理员可见项","充值显示为真实充值金额","新增怪物操作功能","新增NPC刷新功能"], date_month:"Sep", date_day:"9"},
+        8:{version:"V-0.0.1.9", content:["持久层框架更新 - 升级Mybatis框架到Mybatis-Plus框架","为充值金额添加一个小图标","新增更新日志功能"], date_month:"Sep", date_day:"11"},
+    }
+    window.onload = () => {
+        let elementA = document.getElementById("collapseG3")
+        let beginP = Object.keys(versionData).length
+        for(let i=beginP-1; i>=0; i=i-1) {
+            // 最外层div
+            let elementB = createANode("div", ["class"], ["new-update clearfix"])
+            // 小图标 C
+            let elementC = createANode("i", ["class"], ["fa fa-newspaper-o"])
+            // 第二层第一个div 内容部分
+            let elementD = createANode("div", ["class"], ["update-done"])
+            // 第二层第二个div 日期部分
+            let elementE = createANode("div", ["class"], ["update-date"])
+            // a标签
+            let elementF = createANode("a", ["title","href"], ["", "#"])
+            // strong标签
+            let elementG = createANode("strong", [], [])
+            elementG.innerHTML = versionData[i].version
+            // 拼接主内容D标签 D
+            elementF.appendChild(elementG)
+            elementD.appendChild(elementF)
+            let curDataC = versionData[i].content
+            for (let j=0; j<curDataC.length; j++) {
+                elementG = createANode("span", [], [])
+                elementG.innerHTML = (j+1) + ". " + curDataC[j]
+                elementD.appendChild(elementG)
+            }
+            // 日期内容拼接 E
+            elementG = createANode("span", ["class"], ["update-day"])
+            elementG.innerHTML = versionData[i].date_day
+            elementE.appendChild(elementG)
+            elementG = createANode("span", [], [])
+            elementG.innerHTML = versionData[i].date_month
+            elementE.appendChild(elementG)
+            // 拼接B标签
+            elementB.appendChild(elementC)
+            elementB.appendChild(elementD)
+            elementB.appendChild(elementE)
+            // 放入A标签
+            elementA.appendChild(elementB)
+        }
     }
 </script>
 </body>
