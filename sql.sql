@@ -3,7 +3,7 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_item`;
 CREATE TABLE `tb_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(25) NOT NULL AUTO_INCREMENT,
   `keyname` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
@@ -25,7 +25,7 @@ INSERT INTO `tb_item` VALUES ('2', '无敌金箍棒', '大大白', '2');
 -- ----------------------------
 DROP TABLE IF EXISTS `count_item`;
 CREATE TABLE `count_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(25) NOT NULL AUTO_INCREMENT,
   `keyname` varchar(255) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -40,7 +40,7 @@ INSERT INTO `count_item` VALUES (0, '无敌羊哒迪奥', '2');
 
 DROP TABLE IF EXISTS `drop_item`;
 CREATE TABLE `drop_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(25) NOT NULL AUTO_INCREMENT,
   `keyname` varchar(255) NOT NULL,
   `itemname` varchar(255) NOT NULL,
   `count` int(11) NOT NULL,
@@ -53,7 +53,7 @@ INSERT INTO `drop_item` VALUES (0, '羊哒迪奥', "杨大吊", '1');
 
 DROP TABLE IF EXISTS `crud_st_item`;
 CREATE TABLE `crud_st_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(25) NOT NULL AUTO_INCREMENT,
   `zoneid` varchar(255) DEFAULT NULL,
   `playername` varchar(255) DEFAULT NULL,
   `keyname` varchar(255) DEFAULT NULL,
@@ -66,7 +66,7 @@ INSERT INTO `crud_st_item` VALUES (0, '530868', "小小白", '积分券10', 1, 1
 
 DROP TABLE IF EXISTS `web_action`;
 CREATE TABLE `web_action` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(25) NOT NULL AUTO_INCREMENT,
   `zoneid` varchar(255) NOT NULL,
   `actiontype` int(11) NOT NULL,
   `actiondata` varchar(1023) NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE `web_action` (
 
 DROP TABLE IF EXISTS `charge`;
 CREATE TABLE `charge` (
-  `id` int(15) NOT NULL AUTO_INCREMENT,
+  `id` bigint(25) NOT NULL AUTO_INCREMENT,
   `username` varchar(63) NOT NULL,
   `accountName` varchar(63) NOT NULL,
   `zoneName` varchar(63) NOT NULL,
@@ -91,7 +91,7 @@ INSERT INTO `user` VALUES (0, 'root', "123456", '1601790617@qq.com', 199807);
 -- 权限五表
 DROP TABLE IF EXISTS `user`;
 create table user(
- `id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ `id` bigint(25) NOT NULL PRIMARY KEY AUTO_INCREMENT,
  `username` VARCHAR(20) NOT NULL ,
  `password` VARCHAR(127) NOT NULL ,
  `nickname` VARCHAR(20) NOT NULL,
@@ -99,22 +99,22 @@ create table user(
  unique key AK_nq_username (username)
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
-alter table `user` change password password varchar(127) not null;
+-- alter table `user` change password password varchar(127) not null;
 
 DROP TABLE IF EXISTS `role`;
 create table role(
-id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+id bigint(25) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 rolename VARCHAR(127) NOT NULL,
 roledesc VARCHAR(127),
 unique key AK_nq_rolename (rolename)
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
-alter table `role` change rolename rolename varchar(127) not null;
-alter table `role` change roledesc roledesc varchar(127) not null;
+-- alter table `role` change rolename rolename varchar(127) not null;
+-- alter table `role` change roledesc roledesc varchar(127) not null;
 
 DROP TABLE IF EXISTS `permission`;
 create table permission(
-id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+id bigint(25) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 modelname VARCHAR(255) NOT NULL ,
 permission VARCHAR(127) NOT NULL,
 unique key AK_nq_modelname (modelname)
@@ -123,8 +123,8 @@ unique key AK_nq_modelname (modelname)
 
 DROP TABLE IF EXISTS `user_role`;
 create table user_role(
-uid int NOT NULL ,
-rid int NOT NULL ,
+uid bigint(25) NOT NULL ,
+rid bigint(25) NOT NULL ,
 PRIMARY KEY (`uid`, `rid`),
 CONSTRAINT `fk-uid-ur` FOREIGN KEY (`uid`) REFERENCES `user` (`id`),
 CONSTRAINT `fk-rid-ur` FOREIGN KEY (`rid`) REFERENCES `role` (`id`)
@@ -132,16 +132,16 @@ CONSTRAINT `fk-rid-ur` FOREIGN KEY (`rid`) REFERENCES `role` (`id`)
 
 DROP TABLE IF EXISTS `role_permission`;
 create table role_permission(
-rid int NOT NULL,
-pid int NOT NULL,
+rid bigint(25) NOT NULL,
+pid bigint(25) NOT NULL,
 PRIMARY KEY (`rid`, `pid`),
 CONSTRAINT `fk-rid-rp` FOREIGN KEY (`rid`) REFERENCES `role` (`id`),
 CONSTRAINT `fk-pid-rp` FOREIGN KEY (`pid`) REFERENCES `permission` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
 
-alter table permission change modelname modelname varchar(200) not null;
-alter table permission change permission permission varchar(100) not null;
+-- alter table permission change modelname modelname varchar(200) not null;
+-- alter table permission change permission permission varchar(100) not null;
 INSERT INTO `user` VALUES (2, 'root', "123456", '张三', 199807);
 INSERT INTO `role` VALUES (2, 'super manager', 'max permission');
 INSERT INTO `permission` VALUES (2, '/index', '首页');
