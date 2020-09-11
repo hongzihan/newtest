@@ -1,7 +1,10 @@
 package com.st.newtest.stGame.Entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
+@Data
 public class WebAction implements Serializable {
     private Long id;
 
@@ -10,40 +13,6 @@ public class WebAction implements Serializable {
     private Integer actiontype;
 
     private String actiondata;
-
-    private static final long serialVersionUID = 1L;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getZoneid() {
-        return zoneid;
-    }
-
-    public void setZoneid(String zoneid) {
-        this.zoneid = zoneid == null ? null : zoneid.trim();
-    }
-
-    public Integer getActiontype() {
-        return actiontype;
-    }
-
-    public void setActiontype(Integer actiontype) {
-        this.actiontype = actiontype;
-    }
-
-    public String getActiondata() {
-        return actiondata;
-    }
-
-    public void setActiondata(String actiondata) {
-        this.actiondata = actiondata == null ? null : actiondata.trim();
-    }
 
     @Override
     public String toString() {
@@ -55,7 +24,6 @@ public class WebAction implements Serializable {
         sb.append(", zoneid=").append(zoneid);
         sb.append(", actiontype=").append(actiontype);
         sb.append(", actiondata=").append(actiondata);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
     }

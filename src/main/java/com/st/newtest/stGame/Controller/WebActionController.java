@@ -41,7 +41,7 @@ public class WebActionController {
         webAction.setZoneid(zoneid);
         webAction.setActiontype(type);
         webAction.setActiondata(JSON.toJSONString(objMap));
-        webActionService.insert(webAction);
+        webActionService.save(webAction);
         return "{code:200, msg:'成功'}";
     }
 
@@ -73,7 +73,7 @@ public class WebActionController {
         webAction.setZoneid(zoneid);
         webAction.setActiontype(type);
         webAction.setActiondata(JSON.toJSONString(sohmap));
-        webActionService.insert(webAction);
+        webActionService.save(webAction);
         return "{code:200, msg:'成功'}";
     }
 
@@ -100,7 +100,7 @@ public class WebActionController {
         }
         webAction.setActiontype(type);
         webAction.setZoneid(zoneid);
-        webActionService.insert(webAction);
+        webActionService.save(webAction);
         return "{code:200, msg:'成功'}";
     }
 
@@ -123,7 +123,7 @@ public class WebActionController {
         hmap.put("num", num);
         hmap.put("type", targetObj);
         webAction.setActiondata(JSON.toJSONString(hmap));
-        webActionService.insert(webAction);
+        webActionService.save(webAction);
         return "{code:200, msg:'成功'}";
     }
 
@@ -150,7 +150,7 @@ public class WebActionController {
             hmap.put("chargePercent", reChargePercent);
         }
         webAction.setActiondata(JSON.toJSONString(hmap));
-        webActionService.insert(webAction);
+        webActionService.save(webAction);
         return "{code:200, msg:'成功'}";
     }
 
@@ -193,7 +193,7 @@ public class WebActionController {
         }
 
         webAction.setActiondata(JSON.toJSONString(hmap));
-        webActionService.insert(webAction);
+        webActionService.save(webAction);
         return "{code:200, msg:'成功'}";
     }
 

@@ -1,21 +1,10 @@
 package com.st.newtest.stGame.Service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.st.newtest.stGame.Entity.WebAction;
 
 import java.util.List;
 
-public interface WebActionService {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(WebAction record);
-
-    WebAction selectByPrimaryKey(Integer id);
-
-    List<WebAction> selectAll();
-
-    int updateByPrimaryKey(WebAction record);
-
-    List<WebAction> selectByZoneid(String zoneid);
-
+public interface WebActionService extends IService<WebAction> {
     List<WebAction> selectAndDelAllByZoneid(String zoneid);
 }
