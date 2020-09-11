@@ -1,6 +1,7 @@
 package com.st.newtest.systemManage.Controller;
 
 import com.alibaba.fastjson.JSON;
+import com.st.newtest.Util.CommonUtil;
 import com.st.newtest.systemManage.Entity.Permissions;
 import com.st.newtest.systemManage.Entity.Role;
 import com.st.newtest.systemManage.Entity.User;
@@ -58,6 +59,7 @@ public class UserController {
         } catch (Exception e) {
             return "账号密码错误";
         }
+        CommonUtil.Set_Visit_Count();
         return "login success";
     }
 

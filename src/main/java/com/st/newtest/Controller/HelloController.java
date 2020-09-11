@@ -31,7 +31,10 @@ public class HelloController {
     @RequiresPermissions("index")
     @RequestMapping("/index")
     public ModelAndView sayHi() {
-        return CommonUtil.getPage("index");
+        ModelAndView modelAndView = CommonUtil.getPage("index");
+        Long count = CommonUtil.Get_Visit_Count();
+        modelAndView.addObject("loginNum", count);
+        return modelAndView;
     }
 
     @RequiresRoles("supermanager")

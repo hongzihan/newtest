@@ -37,6 +37,7 @@
                 <span th:each="role : ${yourRoles}">
                     <li th:if="${role.rolename eq 'administrator'}" class="bg_ly span2"><a href="/form-permission"> <i class="fa fa-users fa-3x"></i> <br/> 权限管理</a></li>
                 </span>
+                <li class="bg_lo span2"> <a href="#"> <i class="fa fa-users fa-3x"></i> <br/> 总访问人数[[${loginNum}]]</a> </li>
             </ul>
         </div>
         <!--End-Action boxes-->
