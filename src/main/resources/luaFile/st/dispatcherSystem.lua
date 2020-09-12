@@ -694,3 +694,31 @@ end
 --|*-------------------------------------------------------|
 --|*   元宝充值统计 created by ken       END                 |
 --|*-------------------------------------------------------|
+
+--|*-------------------------------------------------------|
+--|*   聊天记录监控 created by ken       BEGIN               |
+--|*-------------------------------------------------------|
+local chatChannelName = {
+    [1] = "当前",
+    [2] = "组队",
+    [3] = "行会",
+    [4] = "世界",
+    [5] = "喇叭",
+    [7] = "私聊",
+}
+function insertChatRecordData(player,content,channel)
+    if channel == "nil" or channel == nil then
+        return
+    end
+    local postData = {}
+    postData.actionData = {}
+    postData.actionData.channelName = chatChannelName[tonumber(channel)] == nil and "未知" or chatChannelName[tonumber(channel)]
+    postData.actionData.content = content
+    postData.actionData.username = lualib:Name(player)
+    postData.actionData.dateTime = lualib:Time2Str("%Y-%m-%d %H:%M:%S", lualib:GetAllTime())
+    postData.actionType = "插入聊天记录"
+    hzhlib:postData(postData)
+end
+--|*-------------------------------------------------------|
+--|*   聊天记录监控 created by ken       END               |
+--|*-------------------------------------------------------|
