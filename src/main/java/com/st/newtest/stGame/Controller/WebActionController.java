@@ -197,6 +197,33 @@ public class WebActionController {
         return "{code:200, msg:'成功'}";
     }
 
+    @RequiresPermissions("saveActionData_message")
+    @ResponseBody
+    @RequestMapping("saveActionData_message")
+    public String saveActionData_message(WebAction webAction, String content, String username, Integer msgType) {
+        if (content == null || msgType == null || webAction.getZoneid() == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        // actionType
+        Integer type = stUtil.getWebActionTypeMap().get("wat_消息操作");
+        if (type == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        webAction.setActiontype(type);
+        // actionData
+        HashMap<String, Object> hmap = new HashMap<>();
+        if (username != null) {
+            hmap.put("username", username);
+        } else {
+            hmap.put("username", "");
+        }
+        hmap.put("msgType", msgType);
+        hmap.put("content", content);
+        webAction.setActiondata(JSON.toJSONString(hmap));
+        webActionService.save(webAction);
+        return "{code:200, msg:'成功'}";
+    }
+
     /**
      * 用于神途客户端来获取数据库数据使用，无需进行用户验证
      * @param zoneid

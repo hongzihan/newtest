@@ -389,6 +389,92 @@ item_templates 格式：
           </div>
         </div>
 
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
+            <h5>消息操作</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <form action="#" method="post" class="form-horizontal"  id="msg_action_form">
+              <div class="control-group">
+                <label class="control-label">*操作类型 :</label>
+                <div class="controls">
+                  <label>
+                    <input type="radio" name="msgType" value='1' checked onclick="checkBoxClick('消息操作', this)"/>
+                    广播信息</label>
+                  <label>
+                    <input type="radio" name="msgType" value='2' onclick="checkBoxClick('消息操作', this)"/>
+                    警告信息</label>
+                  <label>
+                    <input type="radio" name="msgType" value='3' onclick="checkBoxClick('消息操作', this)"/>
+                    弹消息框</label>
+                  <label>
+                    <input type="radio" name="msgType" value='4' onclick="checkBoxClick('消息操作', this)"/>
+                    广播信息自定义颜色</label>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*区名 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="msg_action_zoneid" />
+                </div>
+              </div>
+              <div class="control-group" style="display: none">
+                <label class="control-label">*玩家名 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="小小白" name="username" id="msg_action_username"/>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*消息内容 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="YDD牛逼" name="content" id="msg_action_content"/>
+                </div>
+              </div>
+              <div class="control-group" style="display: none">
+                <label class="control-label">前景色 :</label>
+                <div class="controls">
+                  <input type="number" class="span11" placeholder="1-13" name="foreground" id="msg_action_foreground" title="颜色数值
+1黄色
+2红色
+3粉红
+4蓝色
+5浅蓝
+6深粉
+7白色
+8深蓝
+9亮蓝
+10深黄
+11透明
+12黑色
+13绿色"/>
+                </div>
+              </div>
+              <div class="control-group" style="display: none">
+                <label class="control-label">背景色 :</label>
+                <div class="controls">
+                  <input type="number" class="span11" placeholder="1-13" name="background" id="msg_action_background" title="颜色数值
+1黄色
+2红色
+3粉红
+4蓝色
+5浅蓝
+6深粉
+7白色
+8深蓝
+9亮蓝
+10深黄
+11透明
+12黑色
+13绿色"/>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-success" onclick="isvalid('消息操作')">保存</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
       </div> <!--/span6-->
 
     </div>
@@ -428,6 +514,7 @@ item_templates 格式：
 <script>
     let monster_action_id_arr = ["monster_action_coordinateX", "monster_action_coordinateY", "monster_action_range"]
     let var_action_id_arr = ["var_action_areatype", "var_action_playername", "var_action_value"]
+    let msg_action_id_arr = ["msg_action_username", "msg_action_foreground", "msg_action_background"]
     function checkBoxClick(msg, obj) {
       if (msg === '怪物操作') {
         if (obj.value === '1') {
@@ -459,7 +546,7 @@ item_templates 格式：
           document.getElementById("monster_action_mobKey").parentNode.parentNode.childNodes[1].innerHTML="*怪物索引:"
           document.getElementById("monster_action_num").parentNode.parentNode.childNodes[1].innerHTML="数量:"
         }
-      } else if (msg == "变量操作") {
+      } else if (msg === "变量操作") {
         if (obj.value === '系统') {
           document.getElementById(var_action_id_arr[0]).parentNode.parentNode.style.display = ""
           document.getElementById(var_action_id_arr[1]).parentNode.parentNode.style.display = "none"
@@ -470,6 +557,25 @@ item_templates 格式：
           document.getElementById(var_action_id_arr[2]).setAttribute("type", "number")
         } else if (obj.value === 'str') {
           document.getElementById(var_action_id_arr[2]).setAttribute("type", "text")
+        }
+      } else if (msg === "消息操作") {
+        if (obj.value === '1') { // 广播
+          for (let i=0; i<msg_action_id_arr.length; i++) {
+            let element = document.getElementById(msg_action_id_arr[i]).parentNode.parentNode
+            element.style.display = "none"
+          }
+        } else if (obj.value === '2' || obj.value === '3') { // 警告 或消息框
+          document.getElementById(msg_action_id_arr[0]).parentNode.parentNode.style.display = ""
+          for (let i=1; i<msg_action_id_arr.length; i++) {
+            let element = document.getElementById(msg_action_id_arr[i]).parentNode.parentNode
+            element.style.display = "none"
+          }
+        } else if (obj.value === '4') { // 广播 色彩
+          document.getElementById(msg_action_id_arr[0]).parentNode.parentNode.style.display = "none"
+          for (let i=1; i<msg_action_id_arr.length; i++) {
+            let element = document.getElementById(msg_action_id_arr[i]).parentNode.parentNode
+            element.style.display = ""
+          }
         }
       }
     }
@@ -549,6 +655,18 @@ item_templates 格式：
         }
         data = $('#monster_action_form').serialize()
         url = '/webAction/saveActionData_monster'
+      } else if (msg === "消息操作") {
+        let arr = ["msg_action_zoneid", "msg_action_content"]
+        let arr2 = ["区名", "消息内容"]
+        for (let i=0; i<arr.length; i++) {
+          let elementV = document.getElementById(arr[i]).value;
+          if (elementV === '') {
+            alert(arr2[i] + '不能为空！');
+            return false;
+          }
+        }
+        data = $('#msg_action_form').serialize()
+        url = '/webAction/saveActionData_message'
       }
 
       //表单异步提交
