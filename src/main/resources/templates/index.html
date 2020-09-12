@@ -31,6 +31,7 @@
 <!--                <li class="bg_lo"> <a href="/table/chargeTable"> <i class="fa fa-th"></i> 充值统计</a> </li>-->
                 <li class="bg_lb span3"> <a href="/st/searchMonsterMsg"> <i class="fa fa-snapchat-ghost fa-3x"></i> <br/> 怪物信息</a> </li>
                 <li class="bg_lo span2"> <a href="/st/form-common"> <i class="fa fa-windows fa-3x"></i> <br/> 表单操作</a> </li>
+                <li class="bg_lo span2"> <a href="/st/chat_record"> <i class="fa fa-windows fa-3x"></i> <br/> 聊天监控</a> </li>
                 <span th:each="role : ${yourRoles}">
                     <li th:if="${role.rolename eq 'administrator'}" class="bg_lr span3"><a href="/table/chargeTable"> <i class="fa fa-diamond fa-3x"></i> <br/> 充值统计</a></li>
                 </span>

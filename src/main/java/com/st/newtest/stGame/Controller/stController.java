@@ -1,6 +1,9 @@
 package com.st.newtest.stGame.Controller;
 
+import com.st.newtest.stGame.Entity.Charge;
+import com.st.newtest.stGame.Entity.ChatRecord;
 import com.st.newtest.stGame.Entity.MonsterDie;
+import com.st.newtest.stGame.Service.ChatRecordService;
 import com.st.newtest.stGame.Service.DropItemService;
 import com.st.newtest.stGame.Service.MonsterDieService;
 import com.st.newtest.Util.CommonUtil;
@@ -21,6 +24,9 @@ public class stController {
 
     @Autowired
     private DropItemService dropItemService;
+
+    @Autowired
+    private ChatRecordService chatRecordService;
 
     @Autowired
     private MonsterDieService monsterDieService;
@@ -82,5 +88,24 @@ public class stController {
             page.addObject("zoneNameList", strings);
         }
         return page;
+    }
+
+    @RequiresPermissions("chat_record")
+    @RequestMapping("/chat_record")
+    public ModelAndView chat_record(ChatRecord chatRecord) {
+        ModelAndView mav = CommonUtil.getPage("chatRecord");
+        // 查所有的区名
+        List<String> stringList = chatRecordService.selectAllUniqueZoneName();
+        if (stringList != null) {
+            mav.addObject("zoneNameList", stringList);
+        }
+        if (chatRecord.getZoneName() != null) {
+            mav.addObject("curZoneName", chatRecord.getZoneName());
+            List<ChatRecord> chats = chatRecordService.lambdaQuery().eq(ChatRecord::getZoneName, chatRecord.getZoneName()).list();
+            if (chats != null) {
+                mav.addObject("recordList", chats);
+            }
+        }
+        return mav;
     }
 }

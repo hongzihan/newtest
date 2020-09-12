@@ -48,6 +48,7 @@
             <li th:class="${curPage eq 'index' ? 'active' : ''}"><a href="/index"><i class="fa fa-dashboard" aria-hidden="true"></i> <span>首页</span></a> </li>
             <li th:class="${curPage eq 'charts' ? 'active' : ''}"> <a href="/chart/charts"><i class="fa fa-signal" aria-hidden="true"></i> <span>掉落统计</span></a> </li>
             <li th:class="${curPage eq 'monsterDieMsg' ? 'active' : ''}"><a href="/st/searchMonsterMsg"><i class="fa fa-snapchat-ghost" aria-hidden="true"></i> <span>怪物信息</span></a></li>
+            <li th:class="${curPage eq 'chatRecord' ? 'active' : ''}"><a href="/st/chat_record"><i class="fa fa-snapchat-ghost" aria-hidden="true"></i> <span>聊天监控</span></a></li>
             <li class="submenu" id="submenu_1"> <a href="#"><i class="fa fa-windows" aria-hidden="true"></i> <span>表单操作</span> <span class="label label-important">3</span></a>
                 <ul>
                     <li th:class="${curPage eq 'form-common' ? 'active' : ''}"><a href="/st/form-common">一般操作</a></li>

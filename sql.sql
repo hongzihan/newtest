@@ -3,7 +3,11 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_item`;
 CREATE TABLE `tb_item` (
+<<<<<<< Updated upstream
   `id` bigint(25) NOT NULL AUTO_INCREMENT,
+=======
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+>>>>>>> Stashed changes
   `keyname` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,

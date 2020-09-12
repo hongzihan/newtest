@@ -12,14 +12,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 @MapperScan({"com.st.newtest.Mapper", "com.st.newtest.stGame.Mapper", "com.st.newtest.systemManage.Mapper"})
-public class NewtestApplication {
+public class NewtestApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(NewtestApplication.class, args);
     }
 
-//    @Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-//        return builder.sources(this.getClass());
-//    }
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(this.getClass());
+    }
 }

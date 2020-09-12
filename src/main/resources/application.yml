@@ -34,10 +34,6 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     #log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
     mapUnderscoreToCamelCase: true # 开启驼峰命名转换法
-mapper:
-  mappers: com.st.newtest.Util.MyMapper
-  not-empty: false
-  identity: MYSQL
 logging:
   config: classpath:log4j2.xml
   level:
