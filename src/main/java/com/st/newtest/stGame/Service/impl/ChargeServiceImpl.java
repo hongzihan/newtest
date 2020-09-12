@@ -29,7 +29,11 @@ public class ChargeServiceImpl extends ServiceImpl<ChargeMapper, Charge> impleme
         HashMap<String, Object> map = new HashMap<>();
         map.put("accountName", charge.getAccountName());
         map.put("zoneName", charge.getZoneName());
-        Charge chargeNew = chargeMapper.selectByMap(map).get(0);
+        List<Charge> chargeList = chargeMapper.selectByMap(map);
+        Charge chargeNew = null;
+        if (chargeList != null) {
+            chargeNew = chargeList.get(0);
+        }
         if (chargeNew != null) {
             chargeNew.setDateTime(dateTime);
             chargeNew.setChargeCount(chargeNew.getChargeCount() + charge.getChargeCount());
