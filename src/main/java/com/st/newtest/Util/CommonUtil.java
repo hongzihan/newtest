@@ -15,7 +15,7 @@ import java.util.List;
 public class CommonUtil {
     private static User user;
 
-    private static String txtFilePath = "src/main/file/count.txt";
+    private static String txtFilePath = "src/main/java/com/st/newtest/file/count.txt";
 
     public static List<DropItem> removeNullOfList(List<DropItem> list) {
         List<DropItem> list2 = new ArrayList<>();
