@@ -357,6 +357,35 @@ function action_monster_refresh_kill(action_data, cur_action) -- 按照数据要
         return cur_action
 end
 
+function action_send_message(action_data, cur_action) -- 按照数据要求来发送不同类型的消息 -- T==>11<==T
+    local msgType = action_data.msgType
+    local content = action_data.content
+    local username = action_data.username
+    local foreground = action_data.foreground
+    local background = action_data.background
+    local playerGUID = ""
+    if username ~= "" then
+        playerGUID = lualib:Name2Guid(username)
+        if playerGUID == "" then
+            return cur_action
+        end
+    end
+    if msgType == 1 then
+        lualib:SysMsg_SendBroadcastMsg(tostring(content), "系统")
+        return 0
+    elseif msgType == 2 then
+        lualib:SysWarnMsg(playerGUID, content)
+        return 0
+    elseif msgType == 3 then
+        lualib:MsgBox(playerGUID, content)
+        return 0
+    elseif msgType == 4 then
+        lualib:SysMsg_SendBroadcastColor(tostring(content), "系统", foreground, background)
+        return 0
+    end
+    return cur_action
+end
+
 function remove_table_value_nil(extra_data) -- 移除目标table内无效值并返回一个新的table
     local extra_data_new = {}
     for i=1, #extra_data do
@@ -420,6 +449,8 @@ function super_old_horse_dispathtcher(extra_data) -- web分发，流水线部分
                 extra_data[i] = action_charge_monitor(action_data, extra_data[i])
             elseif action_type == 10 then
                 extra_data[i] = action_monster_refresh_kill(action_data, extra_data[i])
+            elseif action_type == 11 then
+                extra_data[i] = action_send_message(action_data, extra_data[i])
             end
         else -- json数据异常，直接移除，防止系统出错
             extra_data[i] = 0
