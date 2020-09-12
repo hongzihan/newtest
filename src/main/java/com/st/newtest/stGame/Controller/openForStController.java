@@ -2,9 +2,11 @@ package com.st.newtest.stGame.Controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.st.newtest.stGame.Entity.Charge;
+import com.st.newtest.stGame.Entity.ChatRecord;
 import com.st.newtest.stGame.Entity.MonsterDie;
 import com.st.newtest.stGame.Service.ChargeService;
 import com.st.newtest.Util.stUtil;
+import com.st.newtest.stGame.Service.ChatRecordService;
 import com.st.newtest.stGame.Service.MonsterDieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,11 @@ public class openForStController {
     @Autowired
     private ChargeService chargeService;
 
+    @Autowired
+    private ChatRecordService chatRecordService;
+
+    private Map<String, Object> parse = null;
+
     @ResponseBody
     @RequestMapping("/insertNewMonster")
     public String insertNewMonster(MonsterDie monsterDie) {
@@ -33,7 +40,6 @@ public class openForStController {
     @ResponseBody
     @RequestMapping("/insertNewChargeData")
     public String insertNewChargeData(String jsonMsg) {
-        Map<String, Object> parse = null;
         try {
             // 将json信息转为JSONObject
             parse = JSONObject.parseObject(jsonMsg);
@@ -47,6 +53,29 @@ public class openForStController {
             return "failed";
         }
         //openStService.insertNewChargeData(charge);
+        return "success";
+    }
+
+    @ResponseBody
+    @RequestMapping("insertNewChatRecord")
+    public String insertNewChatRecord(String jsonMsg) {
+        try {
+            // 将json信息转为JSONObject
+            parse = JSONObject.parseObject(jsonMsg);
+            // 获取json内的actionType属性值
+            Map<String, Object>  actionData = (Map<String, Object> ) parse.get("actionData");
+            // 转化存储的jsonData值
+            ChatRecord chatRecord = new ChatRecord();
+            chatRecord.setChannelName((String) actionData.get("channelName"));
+            chatRecord.setContent((String) actionData.get("content"));
+            chatRecord.setDateTime((String) actionData.get("dateTime"));
+            chatRecord.setUsername((String) actionData.get("username"));
+            chatRecord.setZoneName((String) actionData.get("zoneName"));
+            chatRecordService.save(chatRecord);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
         return "success";
     }
 

@@ -139,6 +139,16 @@ CONSTRAINT `fk-rid-rp` FOREIGN KEY (`rid`) REFERENCES `role` (`id`),
 CONSTRAINT `fk-pid-rp` FOREIGN KEY (`pid`) REFERENCES `permission` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `chat_record`;
+create table chat_record(
+id bigint(25) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+zone_name VARCHAR(63) NOT NULL,
+date_time VARCHAR(63) NOT NULL,
+content VARCHAR(63) NOT NULL,
+username VARCHAR(63) NOT NULL,
+channel_name VARCHAR(63) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
+
 
 -- alter table permission change modelname modelname varchar(200) not null;
 -- alter table permission change permission permission varchar(100) not null;

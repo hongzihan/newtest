@@ -16,6 +16,7 @@ public class stUtil {
         forwardMap = new HashMap<>();
         forwardMap.put("插入充值数据", "forward:/openSt/insertNewChargeData");
         forwardMap.put("插入怪物数据", "forward:/openSt/insertNewMonster");
+        forwardMap.put("插入聊天记录", "forward:/openSt/insertNewChatRecord");
     }
 
     private static void loaderWebActionTypeMap() {
