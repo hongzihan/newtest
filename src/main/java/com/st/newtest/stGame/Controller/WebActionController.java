@@ -200,7 +200,7 @@ public class WebActionController {
     @RequiresPermissions("saveActionData_message")
     @ResponseBody
     @RequestMapping("saveActionData_message")
-    public String saveActionData_message(WebAction webAction, String content, String username, Integer msgType) {
+    public String saveActionData_message(WebAction webAction, String content, String username, Integer msgType, Integer foreground, Integer background) {
         if (content == null || msgType == null || webAction.getZoneid() == null) {
             return "{code:404, msg:'失败'}";
         }
@@ -219,6 +219,8 @@ public class WebActionController {
         }
         hmap.put("msgType", msgType);
         hmap.put("content", content);
+        hmap.put("foreground", foreground);
+        hmap.put("background", background);
         webAction.setActiondata(JSON.toJSONString(hmap));
         webActionService.save(webAction);
         return "{code:200, msg:'成功'}";
