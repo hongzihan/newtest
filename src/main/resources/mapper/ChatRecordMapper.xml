@@ -10,6 +10,7 @@
         <result column="content" property="content" />
         <result column="username" property="username" />
         <result column="channel_name" property="channelName" />
+        <result column="is_new" property="isNew" />
     </resultMap>
 
 </mapper>

@@ -164,3 +164,12 @@ $(document).ready(function(){
 	
 });
 
+function createANode(nodeElement, nodeAttr, nodeAttrV) {
+	let element = document.createElement(nodeElement)
+	for (let i=0; i<nodeAttr.length; i++) {
+		let attribute = document.createAttribute(nodeAttr[i])
+		attribute.nodeValue = nodeAttrV[i]
+		element.setAttributeNode(attribute)
+	}
+	return element
+}

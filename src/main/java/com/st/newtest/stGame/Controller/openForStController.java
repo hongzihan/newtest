@@ -71,6 +71,7 @@ public class openForStController {
             chatRecord.setDateTime((String) actionData.get("dateTime"));
             chatRecord.setUsername((String) actionData.get("username"));
             chatRecord.setZoneName((String) actionData.get("zoneName"));
+            chatRecord.setIsNew(1); // 1代表是新消息
             chatRecordService.save(chatRecord);
         } catch (Exception e) {
             e.printStackTrace();

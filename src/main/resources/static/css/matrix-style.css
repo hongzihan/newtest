@@ -725,6 +725,10 @@ hr{ border-top-color:#dadada;}
 .panel-left2 {
 	margin-left:176px;
 }
+.panel-left3 {
+	margin-left:626px;
+	margin-top: -40px;
+}
 .panel-right {
 	width: 100%;
 	background-color: #fff;

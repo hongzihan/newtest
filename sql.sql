@@ -3,11 +3,7 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_item`;
 CREATE TABLE `tb_item` (
-<<<<<<< Updated upstream
   `id` bigint(25) NOT NULL AUTO_INCREMENT,
-=======
-  `id` bigint(11) NOT NULL AUTO_INCREMENT,
->>>>>>> Stashed changes
   `keyname` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
@@ -150,7 +146,8 @@ zone_name VARCHAR(63) NOT NULL,
 date_time VARCHAR(63) NOT NULL,
 content VARCHAR(63) NOT NULL,
 username VARCHAR(63) NOT NULL,
-channel_name VARCHAR(63) NOT NULL
+channel_name VARCHAR(63) NOT NULL,
+is_new int(1) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
 
@@ -220,6 +217,7 @@ CREATE PROCEDURE autodel()
      delete From monster_die where DATE(dietime) <= DATE(DATE_SUB(NOW(),INTERVAL 2 day));
      delete From drop_item where DATE(dateTime) <= DATE(DATE_SUB(NOW(),INTERVAL 30 day));
      delete From drop_item where DATE(dateTime) <= DATE(DATE_SUB(NOW(),INTERVAL 5 day)) AND count > 1;
+     delete From chat_record where DATE(dateTime) <= DATE(DATE_SUB(NOW(),INTERVAL 2 day));
      END
      //
 DELIMITER ;
@@ -240,8 +238,8 @@ SELECT @@event_scheduler;
 SHOW PROCESSLIST;
 
 --事件开启与关闭：
-ALTER EVENT event_auto_del_memorydata ON COMPLETION PRESERVE ENABLE; //开启某事件
-ALTER EVENT event_auto_del_memorydata ON COMPLETION PRESERVE DISABLE; //关闭某事件
+ALTER EVENT event_auto_del_memorydata ON COMPLETION PRESERVE ENABLE; --开启某事件
+ALTER EVENT event_auto_del_memorydata ON COMPLETION PRESERVE DISABLE; --关闭某事件
 
 --删除存储过程：
 DROP PROCEDURE pro_clear_data;

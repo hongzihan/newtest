@@ -1,5 +1,6 @@
 package com.st.newtest.stGame.Controller;
 
+import com.alibaba.fastjson.JSON;
 import com.st.newtest.stGame.Entity.Charge;
 import com.st.newtest.stGame.Entity.ChatRecord;
 import com.st.newtest.stGame.Entity.MonsterDie;
@@ -99,13 +100,41 @@ public class stController {
         if (stringList != null) {
             mav.addObject("zoneNameList", stringList);
         }
+
         if (chatRecord.getZoneName() != null) {
+            // 查所有的用户名
+            stringList = chatRecordService.selectAllUniqueUsernameByZoneName(chatRecord.getZoneName());
+            if (stringList != null) {
+                mav.addObject("userList", stringList);
+            }
             mav.addObject("curZoneName", chatRecord.getZoneName());
-            List<ChatRecord> chats = chatRecordService.lambdaQuery().eq(ChatRecord::getZoneName, chatRecord.getZoneName()).list();
+            List<ChatRecord> chats = chatRecordService.lambdaQuery().eq(ChatRecord::getZoneName, chatRecord.getZoneName()).eq(ChatRecord::getIsNew, 0).list();
             if (chats != null) {
                 mav.addObject("recordList", chats);
             }
         }
         return mav;
+    }
+
+    @RequiresPermissions("chat_record")
+    @RequestMapping("/getUniqueMessages")
+    public String getUniqueMessages(ChatRecord chatRecord) {
+        List<ChatRecord> list = chatRecordService.lambdaQuery().eq(ChatRecord::getZoneName, chatRecord.getZoneName()).eq(ChatRecord::getUsername, chatRecord.getUsername()).list();
+        String result = "failed";
+        if (list != null) {
+            result = JSON.toJSONString(list);
+        }
+        return result;
+    }
+
+    @RequiresPermissions("chat_record")
+    @RequestMapping("/getNewMessages")
+    public String getNewMessages(ChatRecord chatRecord) {
+        List<ChatRecord> crList = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName());
+        String result = "failed";
+        if (crList != null) {
+            result = JSON.toJSONString(crList);
+        }
+        return result;
     }
 }

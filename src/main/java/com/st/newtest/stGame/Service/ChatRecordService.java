@@ -15,4 +15,8 @@ import java.util.List;
  */
 public interface ChatRecordService extends IService<ChatRecord> {
     List<String> selectAllUniqueZoneName();
+
+    List<String> selectAllUniqueUsernameByZoneName(String zoneName);
+
+    List<ChatRecord> selectAllNewMessageByZoneName(String zoneName);
 }

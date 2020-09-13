@@ -102,15 +102,7 @@
     function resetMenu() {
         document.gomenu.selector.selectedIndex = 2;
     }
-    function createANode(nodeElement, nodeAttr, nodeAttrV) {
-        let element = document.createElement(nodeElement)
-        for (let i=0; i<nodeAttr.length; i++) {
-            let attribute = document.createAttribute(nodeAttr[i])
-            attribute.nodeValue = nodeAttrV[i]
-            element.setAttributeNode(attribute)
-        }
-        return element
-    }
+
     const versionData = {
         0:{version:"V-0.0.0.1", content:["项目初始化"], date_month:"Aug", date_day:"1"},
         1:{version:"V-0.0.0.2", content:["新增功能掉落统计","新增权限操作"], date_month:"Aug", date_day:"20"},

@@ -31,4 +31,6 @@ public class ChatRecord implements Serializable {
     private String username;
 
     private String channelName;
+
+    private Integer isNew;
 }
