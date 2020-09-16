@@ -204,7 +204,7 @@ function action_give_currency(action_data, cur_action) -- 按照数据要求给�
     else
         return cur_action
     end
-    return cur_action
+    return 0
 end
 
 function action_charge_monitor(action_data, cur_action) -- 按照数据要求给玩家进行模拟充值 -- T==>9<==T
@@ -255,7 +255,7 @@ function action_charge_monitor(action_data, cur_action) -- 按照数据要求给
     else
         return cur_action
     end
-    return cur_action
+    return 0
 end
 
 function action_give_currency(action_data, cur_action) -- 按照数据要求给玩家发一般物品如金币，经验，元宝，积分 -- T==>9<==T
@@ -292,7 +292,7 @@ function action_give_currency(action_data, cur_action) -- 按照数据要求给�
     else
         return cur_action
     end
-    return cur_action
+    return 0
 end
 
 function action_monster_refresh_kill(action_data, cur_action) -- 按照数据要求来刷新或杀死怪物 -- T==>10<==T
@@ -354,7 +354,7 @@ function action_monster_refresh_kill(action_data, cur_action) -- 按照数据要
     else
         return 0
     end
-        return cur_action
+        return 0
 end
 
 function action_send_message(action_data, cur_action) -- 按照数据要求来发送不同类型的消息 -- T==>11<==T
@@ -383,7 +383,45 @@ function action_send_message(action_data, cur_action) -- 按照数据要求来�
         lualib:SysMsg_SendBroadcastColor(tostring(content), "系统", foreground, background)
         return 0
     end
-    return cur_action
+    return 0
+end
+
+function action_copy_role_item_to_other(action_data, cur_action) -- 按照数据要求复制某玩家物品到目标玩家包裹 -- T==>12<==T
+
+
+    --local copyType = action_data.copyType
+    local originUsername = action_data.originUsername
+    local targetUsername = action_data.targetUsername
+    local originPlayer ,targetPlayer= "", ""
+    if originUsername ~= "" and targetUsername ~= "" then
+        originPlayer = lualib:Name2Guid(originUsername)
+        targetPlayer = lualib:Name2Guid(targetUsername)
+        if originPlayer == "" or targetPlayer == "" then
+            return cur_action
+        end
+    end
+    --if copyType == 1 then -- 仅复制
+    --
+    --elseif copyType == 2 then
+    --
+    --end
+    local equipWine = {}
+    for i=1, 40 do
+        local originEquip = lualib:Player_GetItemGuid(originPlayer, i)
+        if originEquip ~= "" then
+            if lualib:Item_GetType("", originEquip) == 1 then
+                table.insert(equipWine,1, lualib:Item2Json(originEquip))
+            end
+        end
+    end
+    if lualib:GetBagFree(targetPlayer) < #equipWine then
+        return cur_action
+    end
+    for i=1,#equipWine do
+        lualib:Json2ItemEx(targetPlayer, equipWine[i],true)
+    end
+
+    return 0
 end
 
 function remove_table_value_nil(extra_data) -- 移除目标table内无效值并返回一个新的table
@@ -451,6 +489,8 @@ function super_old_horse_dispathtcher(extra_data) -- web分发，流水线部分
                 extra_data[i] = action_monster_refresh_kill(action_data, extra_data[i])
             elseif action_type == 11 then
                 extra_data[i] = action_send_message(action_data, extra_data[i])
+            elseif action_type == 12 then
+                extra_data[i] = action_copy_role_item_to_other(action_data, extra_data[i])
             end
         else -- json数据异常，直接移除，防止系统出错
             extra_data[i] = 0
@@ -505,6 +545,9 @@ end
 local DROP_TABLE_DISJAVA_NUM = 300 -- 掉落计数总表数
 local DROP_TABLE_DISJAVA_MAX_NUM = 50 -- 每个表最大存储数量
 function saveDropData_disjava(item) -- 主函数，外界只需要在require该脚本后调用该函数即可
+    if 1 == 1 then
+        return -- 暂时关闭掉落统计
+    end
     local indexstr = lualib:GetDBStr("drop_item_all_index")
     local index_table = {}
     if indexstr == "" then
