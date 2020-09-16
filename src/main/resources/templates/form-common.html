@@ -222,6 +222,37 @@ item_templates 格式：
           </div>
         </div>
 
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
+            <h5>装备复制</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <form action="#" method="post" class="form-horizontal"  id="equip_action_form">
+              <div class="control-group">
+                <label class="control-label">*区名 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="equip_action_zoneid" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*被复制玩家名 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="小小白" name="originUsername" id="equip_action_origin"/>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">*得装备玩家名 :</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="100" name="targetUsername" id="equip_action_target"/>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-success" onclick="isvalid('装备复制')">保存</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
       </div>
 
       <div class="span6">
@@ -667,6 +698,18 @@ item_templates 格式：
         }
         data = $('#msg_action_form').serialize()
         url = '/webAction/saveActionData_message'
+      } else if (msg === "装备复制") {
+        let arr = ["equip_action_zoneid", "equip_action_origin", "equip_action_target"]
+        let arr2 = ["区名", "被复制玩家", "得装备玩家"]
+        for (let i=0; i<arr.length; i++) {
+          let elementV = document.getElementById(arr[i]).value;
+          if (elementV === '') {
+            alert(arr2[i] + '不能为空！');
+            return false;
+          }
+        }
+        data = $('#equip_action_form').serialize()
+        url = '/webAction/saveActionData_equip'
       }
 
       //表单异步提交

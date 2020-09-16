@@ -226,6 +226,28 @@ public class WebActionController {
         return "{code:200, msg:'成功'}";
     }
 
+    @RequiresPermissions("saveActionData_equip")
+    @ResponseBody
+    @RequestMapping("saveActionData_equip")
+    public String saveActionData_equip(WebAction webAction, String originUsername, String targetUsername) {
+        if (originUsername == null || targetUsername == null || webAction.getZoneid() == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        // actionType
+        Integer type = stUtil.getWebActionTypeMap().get("wat_装备复制");
+        if (type == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        webAction.setActiontype(type);
+        // actionData
+        HashMap<String, Object> hmap = new HashMap<>();
+        hmap.put("originUsername", originUsername);
+        hmap.put("targetUsername", targetUsername);
+        webAction.setActiondata(JSON.toJSONString(hmap));
+        webActionService.save(webAction);
+        return "{code:200, msg:'成功'}";
+    }
+
     /**
      * 用于神途客户端来获取数据库数据使用，无需进行用户验证
      * @param zoneid
