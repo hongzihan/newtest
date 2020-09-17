@@ -3,6 +3,7 @@ package com.st.newtest.Util;
 import com.st.newtest.stGame.Entity.DropItem;
 import com.st.newtest.systemManage.Entity.User;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
@@ -15,7 +16,7 @@ import java.util.List;
 public class CommonUtil {
     private static User user;
 
-    private static String txtFilePath = "src/main/file/count.txt";
+    private static String txtFilePath = "config/count.txt";
 
     public static List<DropItem> removeNullOfList(List<DropItem> list) {
         List<DropItem> list2 = new ArrayList<>();
@@ -54,7 +55,7 @@ public class CommonUtil {
     public static Long Set_Visit_Count() {
         try {
             //读取文件(字符流)
-            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePath),"UTF-8"));
+            BufferedReader in = new BufferedReader(new InputStreamReader(new ClassPathResource(txtFilePath).getInputStream(), "UTF-8"));
             //循环读取数据
             String str = null;
             StringBuffer content = new StringBuffer();
@@ -69,7 +70,7 @@ public class CommonUtil {
             Long count = Long.valueOf(content.toString());
             count ++; // 访问量加1
             //写入相应的文件
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(txtFilePath),"UTF-8"));
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new ClassPathResource(txtFilePath).getFile()),"UTF-8"));
             out.write(String.valueOf(count));
 
             //清楚缓存
@@ -92,7 +93,7 @@ public class CommonUtil {
     public static Long Get_Visit_Count() {
         try {
             //读取文件(字符流)
-            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePath),"UTF-8"));
+            BufferedReader in = new BufferedReader(new InputStreamReader(new ClassPathResource(txtFilePath).getInputStream(),"UTF-8"));
             //循环读取数据
             String str = null;
             StringBuffer content = new StringBuffer();
