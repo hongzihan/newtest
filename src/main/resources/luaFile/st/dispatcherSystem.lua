@@ -163,11 +163,11 @@ function action_mail_ex(action_data, cur_action) -- 按照数据要求给玩家�
     if type(yuanbao) ~= "number" or type(integral) ~= "number" or type(templates) ~= "table" then
         return 0
     end
-    if lualib:MailEx(sender_name, receiver_name, text, gold, yuanbao, integral, templates) then
-        return 0
-    else
-        return cur_action -- 其实也可能因为templates格式错误导致冗余
-    end
+    local status,err = pcall(function ()
+        lualib:MailEx(sender_name, receiver_name, text, gold, yuanbao, integral, templates)
+    end)
+
+    return 0
 end
 
 function action_give_currency(action_data, cur_action) -- 按照数据要求给玩家发一般物品如金币，经验，元宝，积分 -- T==>8<==T
