@@ -3,12 +3,18 @@ package com.st.newtest;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.st.newtest.Util.ConfigUtil;
 import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TestUtil {
@@ -47,5 +53,33 @@ public class TestUtil {
 //        Map<String, Object> jsonx = JSONObject.parseObject("da");
 //        System.out.println(jsonx);
 //        System.out.println(jsonx.get("actionData"));
+    }
+
+    @Test
+    public void test3() throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(new ClassPathResource("config/chatConfig.json").getInputStream(), "UTF-8"));
+        String str = null;
+        StringBuffer content = new StringBuffer();
+        while ((str = in.readLine()) != null) {
+            content.append(str);
+        }
+        Map<String, Object> parse = JSONObject.parseObject(content.toString());
+        System.out.println(content.toString());
+        System.out.println(parse.get("keywords"));
+        List<String> list = (List<String>) parse.get("keywords");
+        for (String li : list) {
+            System.out.println(li);
+        }
+        in.close();
+    }
+
+    @Test
+    public void test4() {
+        System.out.println("你好啊，杨大吊".contains("，杨大吊"));
+    }
+
+    @Test
+    public void test5() {
+
     }
 }

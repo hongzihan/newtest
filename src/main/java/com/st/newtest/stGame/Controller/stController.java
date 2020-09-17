@@ -1,6 +1,7 @@
 package com.st.newtest.stGame.Controller;
 
 import com.alibaba.fastjson.JSON;
+import com.st.newtest.Util.ConfigUtil;
 import com.st.newtest.stGame.Entity.Charge;
 import com.st.newtest.stGame.Entity.ChatRecord;
 import com.st.newtest.stGame.Entity.MonsterDie;
@@ -110,7 +111,7 @@ public class stController {
                 mav.addObject("userList", stringList);
             }
             mav.addObject("curZoneName", chatRecord.getZoneName());
-            List<ChatRecord> chats = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), 60 * 60 * 2, 666);
+            List<ChatRecord> chats = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), ConfigUtil.getPreReadTime(), 666);
             if (chats != null) {
                 mav.addObject("recordList", chats);
             }

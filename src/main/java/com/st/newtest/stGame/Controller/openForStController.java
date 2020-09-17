@@ -1,6 +1,7 @@
 package com.st.newtest.stGame.Controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.st.newtest.Util.ConfigUtil;
 import com.st.newtest.stGame.Entity.Charge;
 import com.st.newtest.stGame.Entity.ChatRecord;
 import com.st.newtest.stGame.Entity.MonsterDie;
@@ -76,6 +77,12 @@ public class openForStController {
             chatRecord.setUsername((String) actionData.get("username"));
             chatRecord.setZoneName((String) actionData.get("zoneName"));
             chatRecordService.save(chatRecord);
+            // 判断是否含有敏感词
+            if (ConfigUtil.haveKeyword((String) actionData.get("content"))) {
+                chatRecord.setContent(chatRecord.getContent() + " ==> " + chatRecord.getZoneName() + " <== ");
+                chatRecord.setZoneName("敏感词专区");
+                chatRecordService.save(chatRecord);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return "failed";
