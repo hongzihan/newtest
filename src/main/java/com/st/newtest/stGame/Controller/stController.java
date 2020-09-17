@@ -132,7 +132,7 @@ public class stController {
     @RequiresPermissions("chat_record")
     @RequestMapping("/getNewMessages")
     public String getNewMessages(ChatRecord chatRecord) {
-        List<ChatRecord> crList = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), 60, 20);
+        List<ChatRecord> crList = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), 60, 300);
         String result = "failed";
         if (crList != null) {
             result = JSON.toJSONStringWithDateFormat(crList, "yyyy-MM-dd HH:mm:ss");

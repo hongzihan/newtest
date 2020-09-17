@@ -59,8 +59,10 @@ public class ChatRecordServiceImpl extends ServiceImpl<ChatRecordMapper, ChatRec
     @Override
     public List<ChatRecord> selectAllNewMessageByZoneName(String zoneName, int seconds, int pageLimit) {
         Date now = new Date();
-        long before = now.getTime() - 1000 * seconds;
-        List<ChatRecord> list = new LambdaQueryChainWrapper<ChatRecord>(chatRecordMapper).eq(ChatRecord::getZoneName, zoneName).between(ChatRecord::getDateTime,df.format(before),df.format(now)).orderByAsc(ChatRecord::getId).last("limit " + pageLimit + "").list();
+        // 这里需要减去时间转换
+        long before = now.getTime() - 1000 * seconds - 13 * 60 * 60 * 1000;
+        long after = now.getTime() - 13 * 60 * 60 * 1000;
+        List<ChatRecord> list = new LambdaQueryChainWrapper<ChatRecord>(chatRecordMapper).eq(ChatRecord::getZoneName, zoneName).between(ChatRecord::getDateTime,df.format(before),df.format(after)).orderByAsc(ChatRecord::getId).last("limit " + pageLimit + "").list();
         return list;
     }
 
