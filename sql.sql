@@ -214,10 +214,10 @@ where p1.username = 'root';
 DELIMITER //
 CREATE PROCEDURE autodel()
      BEGIN
-     delete From monster_die where DATE(dietime) <= DATE(DATE_SUB(NOW(),INTERVAL 2 day));
-     delete From drop_item where DATE(dateTime) <= DATE(DATE_SUB(NOW(),INTERVAL 30 day));
-     delete From drop_item where DATE(dateTime) <= DATE(DATE_SUB(NOW(),INTERVAL 5 day)) AND count > 1;
-     delete From chat_record where DATE(date_time) <= DATE(DATE_SUB(NOW(),INTERVAL 2 day));
+		 delete From monster_die where DATE(dietime) <= DATE(DATE_SUB(NOW(),INTERVAL 2 day));
+		 delete From drop_item where DATE(dateTime) <= DATE(DATE_SUB(NOW(),INTERVAL 10 day));
+         delete From drop_item where DATE(dateTime) <= DATE(DATE_SUB(NOW(),INTERVAL 5 day)) AND count > 1;
+         delete From chat_record where DATE(date_time) <= DATE(DATE_SUB(NOW(),INTERVAL 2 day));
      END
      //
 DELIMITER ;
