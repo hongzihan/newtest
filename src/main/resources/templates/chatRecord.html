@@ -77,7 +77,7 @@
                           <span class="label label-info" th:if="${record.channelName eq '组队'}">[[${record.channelName}]]</span>
                           <span class="label label-important" th:if="${record.channelName eq '世界'}">[[${record.channelName}]]</span>
                           <span class="label label-inverse" th:if="${record.channelName eq '当前'}">[[${record.channelName}]]</span>
-                          <span class="time">[[${record.dateTime}]]</span>
+                          <span class="time">[[${#dates.format(record.dateTime, 'yyyy-MM-dd HH:mm:ss')}]]</span>
                           <span class="msg">[[${record.content}]]</span>
                         </span>
                       </p>
@@ -137,7 +137,7 @@
   let stx = '[[${curZoneName}]]'
   if (stx !== "null" && stx !== undefined) {
     console.log("添加定时器成功！")
-    self.setInterval("clock()",10000);
+    self.setInterval("clock()",60 * 1000);
   }
   clock = () =>
   {

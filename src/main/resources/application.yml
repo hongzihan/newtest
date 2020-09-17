@@ -42,3 +42,6 @@ logging:
     com.st.newtest.systemManage.Mapper: DEBUG
 server:
   port: 8080
+jackson:
+  date-format: yyyy-MM-dd HH:mm:ss
+  time-zone: GMT+8

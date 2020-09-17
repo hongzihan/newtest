@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 @RequestMapping("/openSt")
@@ -29,6 +31,8 @@ public class openForStController {
     private ChatRecordService chatRecordService;
 
     private Map<String, Object> parse = null;
+
+    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @ResponseBody
     @RequestMapping("/insertNewMonster")
@@ -68,10 +72,9 @@ public class openForStController {
             ChatRecord chatRecord = new ChatRecord();
             chatRecord.setChannelName((String) actionData.get("channelName"));
             chatRecord.setContent((String) actionData.get("content"));
-            chatRecord.setDateTime((String) actionData.get("dateTime"));
+            chatRecord.setDateTime(df.parse((String) actionData.get("dateTime")) );
             chatRecord.setUsername((String) actionData.get("username"));
             chatRecord.setZoneName((String) actionData.get("zoneName"));
-            chatRecord.setIsNew(1); // 1代表是新消息
             chatRecordService.save(chatRecord);
         } catch (Exception e) {
             e.printStackTrace();

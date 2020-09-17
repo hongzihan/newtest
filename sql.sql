@@ -146,8 +146,7 @@ zone_name VARCHAR(63) NOT NULL,
 date_time VARCHAR(63) NOT NULL,
 content VARCHAR(63) NOT NULL,
 username VARCHAR(63) NOT NULL,
-channel_name VARCHAR(63) NOT NULL,
-is_new int(1) NOT NULL
+channel_name VARCHAR(63) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
 

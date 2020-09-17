@@ -9,7 +9,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +27,8 @@ public class ChatRecordServiceImpl extends ServiceImpl<ChatRecordMapper, ChatRec
 
     @Autowired(required = false)
     private ChatRecordMapper chatRecordMapper;
+
+    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public List<String> selectAllUniqueZoneName() {
@@ -53,9 +57,12 @@ public class ChatRecordServiceImpl extends ServiceImpl<ChatRecordMapper, ChatRec
     }
 
     @Override
-    public List<ChatRecord> selectAllNewMessageByZoneName(String zoneName) {
-        List<ChatRecord> list = new LambdaQueryChainWrapper<ChatRecord>(chatRecordMapper).eq(ChatRecord::getZoneName, zoneName).eq(ChatRecord::getIsNew, 1).orderByAsc(ChatRecord::getId).last("limit 10").list();
-        new LambdaUpdateChainWrapper<ChatRecord>(chatRecordMapper).eq(ChatRecord::getZoneName, zoneName).eq(ChatRecord::getIsNew, 1).orderByAsc(ChatRecord::getId).last("limit 10").set(ChatRecord::getIsNew, 0).update();
+    public List<ChatRecord> selectAllNewMessageByZoneName(String zoneName, int seconds, int pageLimit) {
+        Date now = new Date();
+        long before = now.getTime() - 1000 * seconds;
+        List<ChatRecord> list = new LambdaQueryChainWrapper<ChatRecord>(chatRecordMapper).eq(ChatRecord::getZoneName, zoneName).between(ChatRecord::getDateTime,df.format(before),df.format(now)).orderByAsc(ChatRecord::getId).last("limit " + pageLimit + "").list();
         return list;
     }
+
+
 }

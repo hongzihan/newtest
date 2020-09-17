@@ -18,5 +18,5 @@ public interface ChatRecordService extends IService<ChatRecord> {
 
     List<String> selectAllUniqueUsernameByZoneName(String zoneName);
 
-    List<ChatRecord> selectAllNewMessageByZoneName(String zoneName);
+    List<ChatRecord> selectAllNewMessageByZoneName(String zoneName, int seconds, int pageLimit);
 }

@@ -32,6 +32,8 @@ public class stController {
     @Autowired
     private MonsterDieService monsterDieService;
 
+    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     @RequestMapping(method = RequestMethod.GET, value = "/getHello/{name}")
     public ModelMap getHello(@PathVariable("name") String name) {
         ModelMap modelMap = new ModelMap();
@@ -108,7 +110,7 @@ public class stController {
                 mav.addObject("userList", stringList);
             }
             mav.addObject("curZoneName", chatRecord.getZoneName());
-            List<ChatRecord> chats = chatRecordService.lambdaQuery().eq(ChatRecord::getZoneName, chatRecord.getZoneName()).eq(ChatRecord::getIsNew, 0).list();
+            List<ChatRecord> chats = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), 60 * 60 * 2, 666);
             if (chats != null) {
                 mav.addObject("recordList", chats);
             }
@@ -122,7 +124,7 @@ public class stController {
         List<ChatRecord> list = chatRecordService.lambdaQuery().eq(ChatRecord::getZoneName, chatRecord.getZoneName()).eq(ChatRecord::getUsername, chatRecord.getUsername()).list();
         String result = "failed";
         if (list != null) {
-            result = JSON.toJSONString(list);
+            result = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
         }
         return result;
     }
@@ -130,10 +132,10 @@ public class stController {
     @RequiresPermissions("chat_record")
     @RequestMapping("/getNewMessages")
     public String getNewMessages(ChatRecord chatRecord) {
-        List<ChatRecord> crList = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName());
+        List<ChatRecord> crList = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), 60, 20);
         String result = "failed";
         if (crList != null) {
-            result = JSON.toJSONString(crList);
+            result = JSON.toJSONStringWithDateFormat(crList, "yyyy-MM-dd HH:mm:ss");
         }
         return result;
     }
