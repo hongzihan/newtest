@@ -531,7 +531,10 @@ end
 
 function lualib:dispathcher_main()
     -- 主函数
-    lualib:AddTimer("", 20190821, 30 * 1000, -1, "CRUD_CHECK_TIMER") -- 操作数据分发
+    local url = "http://120.78.216.226:8080/config/insertZoneNameConfig"
+    local data = "zoneName="..tostring(lualib:GetZoneName())
+    lualib:PostURL(url, lualib:GBKToUTF8(data), "no_useful_post_return", "", 800)
+    lualib:AddTimer("0", 20190821, 30 * 1000, -1, "CRUD_CHECK_TIMER") -- 操作数据分发
     lualib:AddTimerEx("0", 90162, 60 * 1000, -1, "dispatcherData_disjava", "") -- 掉落数据分发
 end
 
