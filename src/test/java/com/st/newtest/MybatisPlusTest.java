@@ -2,6 +2,7 @@ package com.st.newtest;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.st.newtest.Util.ConfigUtil;
 import com.st.newtest.stGame.Entity.DropItem;
 import com.st.newtest.stGame.Entity.MonsterDie;
 import com.st.newtest.stGame.Mapper.DropItemMapper;
@@ -56,5 +57,10 @@ public class MybatisPlusTest {
     @Test
     public void test5() {
         new LambdaQueryChainWrapper<MonsterDie>(monsterDieMapper).eq(MonsterDie::getMobname, "牛魔王").list();
+    }
+
+    @Test
+    public void test6() {
+        ConfigUtil.loadChatConfigMap();
     }
 }

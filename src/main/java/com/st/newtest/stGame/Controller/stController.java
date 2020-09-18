@@ -1,6 +1,7 @@
 package com.st.newtest.stGame.Controller;
 
 import com.alibaba.fastjson.JSON;
+import com.st.newtest.Entity.Config;
 import com.st.newtest.Util.ConfigUtil;
 import com.st.newtest.stGame.Entity.Charge;
 import com.st.newtest.stGame.Entity.ChatRecord;
@@ -98,12 +99,15 @@ public class stController {
     @RequestMapping("/chat_record")
     public ModelAndView chat_record(ChatRecord chatRecord) {
         ModelAndView mav = CommonUtil.getPage("chatRecord");
+
         // 查所有的区名
         List<String> stringList = chatRecordService.selectAllUniqueZoneName();
         if (stringList != null) {
             mav.addObject("zoneNameList", stringList);
         }
-
+        mav.addObject("timeInterval", ConfigUtil.getChatNewMsgInterval());
+        mav.addObject("preReadTime", ConfigUtil.getChatPreReadTime());
+        mav.addObject("keywords", JSON.toJSONString(ConfigUtil.getChatKeywords()));
         if (chatRecord.getZoneName() != null) {
             // 查所有的用户名
             stringList = chatRecordService.selectAllUniqueUsernameByZoneName(chatRecord.getZoneName());
@@ -111,7 +115,7 @@ public class stController {
                 mav.addObject("userList", stringList);
             }
             mav.addObject("curZoneName", chatRecord.getZoneName());
-            List<ChatRecord> chats = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), ConfigUtil.getPreReadTime(), 666);
+            List<ChatRecord> chats = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), ConfigUtil.getChatPreReadTime(), 666);
             if (chats != null) {
                 mav.addObject("recordList", chats);
             }
@@ -133,11 +137,33 @@ public class stController {
     @RequiresPermissions("chat_record")
     @RequestMapping("/getNewMessages")
     public String getNewMessages(ChatRecord chatRecord) {
-        List<ChatRecord> crList = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), 60, 300);
+        List<ChatRecord> crList = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), ConfigUtil.getChatNewMsgInterval(), 300);
         String result = "failed";
         if (crList != null) {
             result = JSON.toJSONStringWithDateFormat(crList, "yyyy-MM-dd HH:mm:ss");
         }
         return result;
+    }
+
+    @RequiresPermissions("chat_record")
+    @RequestMapping("/chatConfigSetting")
+    public String chatConfigSetting(String param, Integer actionType) {
+        switch (actionType) {
+            case 1:
+                ConfigUtil.setChatPreReadTime(Integer.parseInt(param));
+                break;
+            case 2:
+                ConfigUtil.setChatNewMsgInterval(Integer.parseInt(param));
+                break;
+            case 3:
+                ConfigUtil.addChatKeywords(param);
+                break;
+            case 4:
+                ConfigUtil.delChatKeywords(param);
+                break;
+            default:
+                return "failed";
+        }
+        return "success";
     }
 }

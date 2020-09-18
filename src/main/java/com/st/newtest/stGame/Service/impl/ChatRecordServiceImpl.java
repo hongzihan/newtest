@@ -1,7 +1,6 @@
 package com.st.newtest.stGame.Service.impl;
 
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
-import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.st.newtest.stGame.Entity.ChatRecord;
 import com.st.newtest.stGame.Mapper.ChatRecordMapper;
 import com.st.newtest.stGame.Service.ChatRecordService;

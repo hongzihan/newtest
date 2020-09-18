@@ -42,7 +42,43 @@
       </div>
 
       <div class="row-fluid">
-        <div class="span8">
+
+        <div class="span12">
+          <div class="widget-box">
+            <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
+              <h5>配置</h5>
+            </div>
+            <div class="widget-content nopadding">
+              <form class="form-horizontal">
+                <div class="control-group">
+                  <label class="control-label">*预查找时间/秒 :</label>
+                  <div class="controls">
+                    <input type="number" class="span10" th:placeholder="${preReadTime}" name="preTime" id="config_action_preTime"/>
+                    <button type="button" class="btn btn-success span1" onclick="setConfig('预查找时间')">设置</button>
+                  </div>
+
+                </div>
+                <div class="control-group">
+                  <label class="control-label">*每次查询间隔/秒 :</label>
+                  <div class="controls">
+                    <input type="number" class="span10" th:placeholder="${timeInterval}" name="interval" id="config_action_interval"/>
+                    <button type="button" class="btn btn-success span1" onclick="setConfig('每次查询间隔')">设置</button>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">*关键词 :</label>
+                  <div class="controls">
+                    <input type="text" class="span9" th:placeholder="${keywords}" name="keywrod" id="config_action_keyword"/>
+                    <button type="button" class="btn btn-danger span1" onclick="setConfig('关键词删除')">删除</button>
+                    <button type="button" class="btn btn-success span1" onclick="setConfig('关键词增加')">增加</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="span12">
           <div class="widget-box widget-chat">
             <div class="widget-title"> <span class="icon"> <i class="icon-comment"></i> </span>
               <h5>Let's do a chat</h5>
@@ -94,23 +130,7 @@
             </div>
           </div>
         </div>
-        <div class="span4">
-          <div class="widget-box">
-            <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
-              <h5>配置</h5>
-            </div>
-            <div class="widget-content nopadding">
-              <form action="#" method="post" class="form-horizontal"  id="equip_action_form">
-                <div class="control-group">
-                  <label class="control-label">*预查找时间 :</label>
-                  <div class="controls">
-                    <input type="number" class="span11" placeholder="默认2小时" name="originUsername" id="equip_action_origin"/>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+
         <div class="span12">
           <div class="widget-box">
             <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
@@ -154,7 +174,9 @@
   let stx = '[[${curZoneName}]]'
   if (stx !== "null" && stx !== undefined) {
     console.log("添加定时器成功！")
-    self.setInterval("clock()",60 * 1000);
+    let timeInterval = '[[${timeInterval}]]'
+    self.setInterval("clock()", parseInt(timeInterval) * 1000);
+    console.log("添加定时器成功！" + timeInterval)
   }
   clock = () =>
   {
@@ -241,6 +263,49 @@
         }
       }
     })
+  }
+
+  setConfig = (msg) => {
+    let chatData = undefined
+    let chatUrl = "/st/chatConfigSetting"
+    switch (msg) {
+      case "预查找时间":
+        let time = document.getElementById("config_action_preTime").value
+        chatData = {param:time,actionType:1}
+        break;
+      case "每次查询间隔":
+        let interval = document.getElementById("config_action_interval").value
+        chatData = {param:interval,actionType:2}
+        break;
+      case "关键词增加":
+        let keyword = document.getElementById("config_action_keyword").value
+        chatData = {param:keyword,actionType:3}
+        break;
+      case "关键词删除":
+        let keyword2 = document.getElementById("config_action_keyword").value
+        chatData = {param:keyword2,actionType:4}
+        break;
+      default:
+        console.log("无效点击")
+        break;
+    }
+    console.log(chatData)
+    if (chatData !== undefined) {
+      $.ajax({
+        type: 'post',
+        data: chatData,
+        url: chatUrl,
+        cache:false,
+        dataType:'text',
+        success: function (msg) {
+          if (msg === "success") {
+            alert("提交成功！")
+          } else {
+            alert("提交失败！")
+          }
+        }
+      })
+    }
   }
 </script>
 </body>
