@@ -2,6 +2,7 @@ package com.st.newtest.stGame.Controller;
 
 import com.alibaba.fastjson.JSON;
 import com.st.newtest.Entity.Config;
+import com.st.newtest.Service.ConfigService;
 import com.st.newtest.Util.ConfigUtil;
 import com.st.newtest.stGame.Entity.Charge;
 import com.st.newtest.stGame.Entity.ChatRecord;
@@ -33,6 +34,9 @@ public class stController {
 
     @Autowired
     private MonsterDieService monsterDieService;
+
+    @Autowired
+    private ConfigService configService;
 
     private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -88,7 +92,7 @@ public class stController {
     @RequestMapping("/form-common")
     public ModelAndView newForm1() {
         ModelAndView page = CommonUtil.getPage("form-common");
-        List<String> strings = dropItemService.selectAllUniqueZoneName();
+        List<String> strings = configService.findAllZoneName();
         if (strings != null) {
             page.addObject("zoneNameList", strings);
         }
