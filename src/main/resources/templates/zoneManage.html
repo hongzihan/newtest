@@ -98,6 +98,10 @@
                 zoneListC.push(key)
             }
         }
+        if (zoneListC.length === 0) {
+            alert("请先选择至少一个区！")
+            return
+        }
         if(confirm('确定要删除' + zoneListC + '吗')==true){
             let data = {zoneNameList:zoneListC}
             let url = "/config/deleteZoneNameConfig"
