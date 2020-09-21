@@ -173,10 +173,8 @@
 <script type="text/javascript" th:inline="javascript">
   let stx = '[[${curZoneName}]]'
   if (stx !== "null" && stx !== undefined) {
-    console.log("添加定时器成功！")
     let timeInterval = '[[${timeInterval}]]'
     self.setInterval("clock()", parseInt(timeInterval) * 1000);
-    console.log("添加定时器成功！" + timeInterval)
   }
   clock = () =>
   {
