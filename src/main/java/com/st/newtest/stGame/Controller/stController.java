@@ -119,7 +119,11 @@ public class stController {
                 mav.addObject("userList", stringList);
             }
             mav.addObject("curZoneName", chatRecord.getZoneName());
-            List<ChatRecord> chats = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), ConfigUtil.getChatPreReadTime(), 666);
+            Integer preReadTime = ConfigUtil.getChatPreReadTime();
+            if (chatRecord.getZoneName().equals("敏感词专区")) {
+                preReadTime = ConfigUtil.getChatPreReadTime() * 24;
+            }
+            List<ChatRecord> chats = chatRecordService.selectAllNewMessageByZoneName(chatRecord.getZoneName(), preReadTime, 666);
             if (chats != null) {
                 mav.addObject("recordList", chats);
             }
