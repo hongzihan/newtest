@@ -21,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/st")
 @RestController
@@ -92,7 +93,7 @@ public class stController {
     @RequestMapping("/form-common")
     public ModelAndView newForm1() {
         ModelAndView page = CommonUtil.getPage("form-common");
-        List<String> strings = configService.findAllZoneName();
+        List<Map> strings = configService.findAllZoneName();
         if (strings != null) {
             page.addObject("zoneNameList", strings);
         }

@@ -14,11 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * <p>
@@ -36,22 +37,38 @@ public class ConfigController {
 
     private String zoneNameConfigName = "zoneNameConfig";
 
+    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     @ResponseBody
     @RequestMapping("/insertZoneNameConfig")
     public String insertZoneNameConfig(String zoneName) {
         List<Config> list = configService.lambdaQuery().eq(Config::getConfigName, zoneNameConfigName).list();
         if (list == null || list.size() <= 0) {
-            List<String> zList = new ArrayList<>();
-            zList.add(zoneName);
+            List<Map> zList = new ArrayList<>();
+            Map<String, Object> map = new HashMap<>();
+            map.put("zoneName", zoneName);
+            map.put("recordTime", df.format(new Date()));
+            zList.add(map);
             Config config = new Config();
             config.setConfigName(zoneNameConfigName);
             config.setConfigValue(JSON.toJSONString(zList));
             configService.save(config);
         } else {
             Config config = list.get(0);
-            List<String> zList = (List<String>) JSONArray.parse(config.getConfigValue());
-            zList.remove(zoneName);
-            zList.add(zoneName);
+            List<Map> zList = (List<Map>) JSONArray.parse(config.getConfigValue());
+            Boolean flag = true;
+            for (Map zMap : zList) {
+                if (zMap.get("zoneName").equals(zoneName)) {
+                    zMap.put("recordTime", df.format(new Date()));
+                    flag = false;
+                }
+            }
+            if (flag) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("zoneName", zoneName);
+                map.put("recordTime", df.format(new Date()));
+                zList.add(map);
+            }
             configService.lambdaUpdate().eq(Config::getConfigName, zoneNameConfigName).set(Config::getConfigValue,JSON.toJSONString(zList)).update();
         }
         return "success";
@@ -60,12 +77,20 @@ public class ConfigController {
     @RequiresRoles(value = {"supermanager","servicer","administrator"},logical= Logical.OR)
     @ResponseBody
     @RequestMapping("/deleteZoneNameConfig")
-    public String deleteZoneNameConfig(String zoneName) {
+    public String deleteZoneNameConfig(@RequestParam("zoneNameList[]") List<String> zoneNameList) {
         List<Config> list = configService.lambdaQuery().eq(Config::getConfigName, zoneNameConfigName).list();
         if (!(list == null || list.size() <= 0)) {
             Config config = list.get(0);
-            List<String> zList = (List<String>) JSONArray.parse(config.getConfigValue());
-            zList.remove(zoneName);
+            List<Map> zList = (List<Map>) JSONArray.parse(config.getConfigValue());
+            for (String zoneName : zoneNameList) {
+                for (Map zMap : zList) {
+                    if (zMap.get("zoneName").equals(zoneName)) {
+                        zList.remove(zMap);
+                        break;
+                    }
+                }
+            }
+
             configService.lambdaUpdate().eq(Config::getConfigName, zoneNameConfigName).set(Config::getConfigValue,JSON.toJSONString(zList)).update();
         }
         return "success";
@@ -75,8 +100,8 @@ public class ConfigController {
     @RequestMapping("/zoneManage")
     public ModelAndView zoneManage() {
         ModelAndView mav = CommonUtil.getPage("zoneManage");
-        List<String> allZoneName = configService.findAllZoneName();
-        mav.addObject("zoneNameList", allZoneName);
+        List<Map> allZoneName = configService.findAllZoneName();
+        mav.addObject("zoneManageList", allZoneName);
         return mav;
     }
 }

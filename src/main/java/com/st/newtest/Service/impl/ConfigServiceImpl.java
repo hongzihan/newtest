@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -26,12 +27,12 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     private ConfigMapper configMapper;
 
     @Override
-    public List<String> findAllZoneName() {
-        List<String> list = null;
+    public List<Map> findAllZoneName() {
+        List<Map> list = null;
         List<Config> configList = new LambdaQueryChainWrapper<Config>(configMapper).eq(Config::getConfigName, "zoneNameConfig").list();
         if (!(configList == null || configList.size() <= 0)) {
             Config config = configList.get(0);
-            list = (List<String>) JSONArray.parse(config.getConfigValue());
+            list = (List<Map>) JSONArray.parse(config.getConfigValue());
         }
         return list;
     }

@@ -4,6 +4,7 @@ import com.st.newtest.Entity.Config;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -14,5 +15,5 @@ import java.util.List;
  * @since 2020-09-18
  */
 public interface ConfigService extends IService<Config> {
-    List<String> findAllZoneName();
+    List<Map> findAllZoneName();
 }

@@ -28,7 +28,7 @@
             <div class="span12">
                 <div class="widget-box">
                     <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
-                        <h5>配置</h5>
+                        <h5>操作</h5>
                     </div>
                     <div class="widget-content nopadding">
                         <form class="form-horizontal">
@@ -39,6 +39,12 @@
                                     <button type="button" class="btn btn-success span1" onclick="addNewZoneName()">增加</button>
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <label class="control-label">*请先选择需要删除的区 :</label>
+                                <div class="controls">
+                                    <button type="button" class="btn btn-danger span1" onclick="delAllIndex()">一键删除</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -47,8 +53,8 @@
 
         <div class="quick-actions_homepage">
             <ul class="quick-actions" id="ul_zone_manage">
-                <li onclick="deleteZone(this)" class="bg_ls span1" th:each="zoneName : ${zoneNameList}">
-                    <a><i class="fa fa-linux fa-3x"></i> <br/><strong>[[${zoneName}]]</strong></a>
+                <li onclick="deleteZone(this)" class="bg_lv span1" th:each="zoneManage : ${zoneManageList}">
+                    <a><i id="icon_del_flag" class="fa fa-check-circle fa-3x" style="color: #28b779;"></i> <br/><strong style="color: #ececec;">[[${zoneManage.zoneName}]]</strong><br/><strong style="color: #459D1C">[[${zoneManage.recordTime}]]</strong></a>
                 </li>
             </ul>
         </div>
@@ -79,10 +85,21 @@
 <script src="../static/js/select2.min.js"></script>
 <script src="../static/js/jquery.dataTables.min.js"></script>
 
-<script type="text/javascript">
-    deleteZone = (obj) => {
-        if(confirm('确定要删除吗')==true){
-            let data = {zoneName:obj.children[0].lastChild.innerHTML}
+<script type="text/javascript" th:inline="javascript">
+    let zoneManageList = JSON.parse('[[${zoneManageList}]]')
+    let indexList = {}
+    for (let i=0; i<zoneManageList.length; i++) {
+        indexList[zoneManageList[i].zoneName] = 0;
+    }
+    delAllIndex = () => {
+        let zoneListC = []
+        for (let key in indexList) {
+            if (indexList[key] === 1) {
+                zoneListC.push(key)
+            }
+        }
+        if(confirm('确定要删除' + zoneListC + '吗')==true){
+            let data = {zoneNameList:zoneListC}
             let url = "/config/deleteZoneNameConfig"
             $.ajax({
                 type: 'post',
@@ -93,7 +110,7 @@
                 async:false,
                 success: function (msg) {
                     if (msg === "success") {
-                        obj.parentNode.removeChild(obj)
+                        window.location.replace("http://" + location.host + "/config/zoneManage");
                     } else {
                         alert("修改失败！")
                     }
@@ -102,6 +119,24 @@
             return true;
         }else{
             return false;
+        }
+    }
+
+    deleteZone = (obj) => {
+        let icon = obj.children[0].children[0]
+        let zoneNameP = obj.children[0].children[2]
+        if (obj.getAttribute("class") === "bg_lw span1") {
+            icon.setAttribute("class", "fa fa-check-circle fa-3x")
+            icon.setAttribute("style", "color: #28b779")
+            obj.setAttribute("class", "bg_lv span1")
+            zoneNameP.setAttribute("style", "color:#ececec")
+            indexList[zoneNameP.innerHTML] = 0
+        } else {
+            icon.setAttribute("class", "fa fa-close fa-3x")
+            icon.setAttribute("style", "color: #90111A")
+            obj.setAttribute("class", "bg_lw span1")
+            obj.children[0].children[2].setAttribute("style", "color:#0e0e0e")
+            indexList[zoneNameP.innerHTML] = 1
         }
     }
 
@@ -118,7 +153,7 @@
                     let parentN = document.getElementById("ul_zone_manage")
                     let node1 = createANode("li", ["onclick", "class"],["deleteZone(this)", "bg_ls span1"])
                     let node2 = createANode("a",[],[])
-                    let node3 = createANode("i",["class"],["fa fa-linux fa-3x"])
+                    let node3 = createANode("i",["class","style"],["fa fa-check-circle fa-3x","color: #28b779"])
                     node2.appendChild(node3)
                     node3 = createANode("br",[],[])
                     node2.appendChild(node3)
