@@ -223,7 +223,7 @@ function action_charge_monitor(action_data, cur_action) -- 按照数据要求给
                 on_billinex(user_id, yb)
                 return "success"
             end)
-            if status and status2 then
+            if status or status2 then
                 lualib:AddIngot(playerGUID, yb, "web_action", "web_action")
                 lualib:SetDBNum("define_bill"..user_id,lualib:GetDBNum("define_bill"..user_id)+yb)
                 return true
@@ -250,10 +250,10 @@ function action_charge_monitor(action_data, cur_action) -- 按照数据要求给
         if suc then
             return 0
         else
-            return cur_action
+            return 0
         end
     else
-        return cur_action
+        return 0
     end
     return 0
 end
