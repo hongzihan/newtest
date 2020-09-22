@@ -54,7 +54,7 @@
         <div class="quick-actions_homepage">
             <ul class="quick-actions" id="ul_zone_manage">
                 <li onclick="deleteZone(this)" class="bg_lv span1" th:each="zoneManage : ${zoneManageList}">
-                    <a><i id="icon_del_flag" class="fa fa-check-circle fa-3x" style="color: #28b779;"></i> <br/><strong style="color: #ececec;">[[${zoneManage.zoneName}]]</strong><br/><strong style="color: #459D1C">[[${zoneManage.recordTime}]]</strong></a>
+                    <a><i class="fa fa-check-circle fa-3x" style="color: #28b779;"></i> <br/><strong style="color: #ececec;">[[${zoneManage.zoneName}]]</strong><br/><strong style="color: #459D1C">[[${zoneManage.recordTime}]]</strong></a>
                 </li>
             </ul>
         </div>
