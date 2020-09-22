@@ -33,6 +33,7 @@ public class stUtil {
         webActionTypeMap.put("wat_怪物操作", 10);
         webActionTypeMap.put("wat_消息操作", 11);
         webActionTypeMap.put("wat_装备复制", 12);
+        webActionTypeMap.put("wat_变量转移", 13);
     }
 
     public static Map<String, String> getForwardMap() {

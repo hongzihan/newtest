@@ -52,6 +52,9 @@
         <li onclick="" class="bg_dy span1">
           <a href="#" data-target="#action_msg" data-toggle="modal" type="button"><i class="fa fa-magic fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">消息操作</strong></a>
         </li>
+        <li onclick="" class="bg_dy span1">
+          <a href="#" data-target="#action_var_transfer" data-toggle="modal" type="button"><i class="fa fa-transgender fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">变量转移</strong></a>
+        </li>
       </ul>
     </div>
 
@@ -671,6 +674,79 @@ item_templates 格式：
         </form>
       </div>
 
+      <!--变量转移-->
+      <div class="span12">
+        <form action="#" method="post" class="form-horizontal" id="transfer_action_form" style="margin: 20px">
+          <div class="modal fade hide" id="action_var_transfer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title">
+                    变量转移
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <form action="#" method="post" class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label">*区名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="transfer_action_zoneid" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*玩家名(前) :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="小小白" name="usernameBefore" id="transfer_action_username_before"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*账号(前) :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="fazq1595" name="accountBefore" id="transfer_action_account_before"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*玩家id(前) :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="2931048" name="idBefore" id="transfer_action_id_before"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*玩家名(后) :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="小小白" name="usernameAfter" id="transfer_action_username_after"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*账号(后) :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="fazq1595" name="accountAfter" id="transfer_action_account_after"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*玩家id(后) :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="2931048" name="idAfter" id="transfer_action_id_after"/>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+                  <button type="button" class="btn btn-primary" onclick="isvalid('变量转移')">
+                    提交
+                  </button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+          </div>
+        </form>
+      </div>
+
     </div>
 
   </div>
@@ -860,6 +936,18 @@ item_templates 格式：
         }
         data = $('#equip_action_form').serialize()
         url = '/webAction/saveActionData_equip'
+      } else if (msg === "变量转移") {
+        let arr = ["transfer_action_zoneid", "transfer_action_username_before", "transfer_action_account_before", "transfer_action_id_before", "transfer_action_username_after", "transfer_action_account_after", "transfer_action_id_after"]
+        let arr2 = ["区名", "玩家名(前)", "账号(前)", "玩家id(前)", "玩家名(后)", "账号(后)", "玩家id(后)"]
+        for (let i=0; i<arr.length; i++) {
+          let elementV = document.getElementById(arr[i]).value;
+          if (elementV === '') {
+            alert(arr2[i] + '不能为空！');
+            return false;
+          }
+        }
+        data = $('#transfer_action_form').serialize()
+        url = '/webAction/saveActionData_var_transfer'
       }
 
       //表单异步提交

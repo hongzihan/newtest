@@ -248,6 +248,32 @@ public class WebActionController {
         return "{code:200, msg:'成功'}";
     }
 
+    @RequiresPermissions("saveActionData_var_transfer")
+    @ResponseBody
+    @RequestMapping("saveActionData_var_transfer")
+    public String saveActionData_var_transfer(WebAction webAction, String usernameBefore, String accountBefore, String idBefore, String usernameAfter, String accountAfter, String idAfter) {
+        if (usernameBefore == null || accountBefore == null || idBefore == null || usernameAfter == null || accountAfter == null || idAfter == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        // actionType
+        Integer type = stUtil.getWebActionTypeMap().get("wat_变量转移");
+        if (type == null) {
+            return "{code:404, msg:'失败'}";
+        }
+        webAction.setActiontype(type);
+        // actionData
+        HashMap<String, Object> hmap = new HashMap<>();
+        hmap.put("usernameBefore", usernameBefore);
+        hmap.put("accountBefore", accountBefore);
+        hmap.put("idBefore", idBefore);
+        hmap.put("usernameAfter", usernameAfter);
+        hmap.put("accountAfter", accountAfter);
+        hmap.put("idAfter", idAfter);
+        webAction.setActiondata(JSON.toJSONString(hmap));
+        webActionService.save(webAction);
+        return "{code:200, msg:'成功'}";
+    }
+
     /**
      * 用于神途客户端来获取数据库数据使用，无需进行用户验证
      * @param zoneid
