@@ -269,7 +269,12 @@ public class WebActionController {
         hmap.put("usernameAfter", usernameAfter);
         hmap.put("accountAfter", accountAfter);
         hmap.put("idAfter", idAfter);
-        hmap.put("accountSerialize", accountSerialize);
+        if (accountSerialize == null) {
+            hmap.put("accountSerialize", "");
+        } else {
+            hmap.put("accountSerialize", accountSerialize);
+        }
+
         webAction.setActiondata(JSON.toJSONString(hmap));
         webActionService.save(webAction);
         return "{code:200, msg:'成功'}";
