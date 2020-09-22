@@ -21,115 +21,225 @@
 
 <div id="content">
   <div class="container-fluid">
-    <hr>
     <datalist id="zoneNameDataList">
       <span th:each="zoneName : ${zoneNameList}">
         <option th:value="${zoneName.zoneName}">
       </span>
     </datalist>
+    <div class="quick-actions_homepage">
+      <ul class="quick-actions" id="ul_zone_manage">
+        <li onclick="" class="bg_lr span3">
+          <a href="#" data-target="#action_charge_monitor" data-toggle="modal" type="button"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">模拟充值</strong></a>
+        </li>
+        <li onclick="" class="bg_lo span3">
+          <a href="#" data-target="#action_item" data-toggle="modal" type="button"><i class="fa fa-sitemap fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">物品操作</strong></a>
+        </li>
+        <li onclick="" class="bg_ly span2">
+          <a href="#" data-target="#action_mail" data-toggle="modal" type="button"><i class="fa fa-mail-forward fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">邮件操作</strong></a>
+        </li>
+        <li onclick="" class="bg_lg span1">
+          <a href="#" data-target="#action_monster" data-toggle="modal" type="button"><i class="fa fa-snapchat-ghost fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">怪物操作</strong></a>
+        </li>
+        <li onclick="" class="bg_lb span1">
+          <a href="#" data-target="#action_equip_copy" data-toggle="modal" type="button"><i class="fa fa-copy fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">装备复制</strong></a>
+        </li>
+        <li onclick="" class="bg_db span3">
+          <a href="#" data-target="#action_var" data-toggle="modal" type="button"><i class="fa fa-code fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">变量操作</strong></a>
+        </li>
+        <li onclick="" class="bg_lv span1">
+          <a href="#" data-target="#action_give" data-toggle="modal" type="button"><i class="fa fa-gift fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">给予操作</strong></a>
+        </li>
+        <li onclick="" class="bg_dy span1">
+          <a href="#" data-target="#action_msg" data-toggle="modal" type="button"><i class="fa fa-magic fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">消息操作</strong></a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Modal Area BEGIN -->
     <div class="row-fluid">
+      <!--模拟充值-->
+      <div class="span12">
+        <form action="#" method="post" class="form-horizontal"  id="charge_action_form" style="margin: 20px">
+          <div class="modal fade hide" id="action_charge_monitor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title" id="myModalLabel">
+                    模拟充值
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <form action="#" method="post" class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label">*区名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="charge_action_zoneid" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*玩家名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="小小白" name="username" id="charge_action_username"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*金额/RMB :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder="100" name="num" id="charge_action_num"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">返利比例 :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder="如果要返10%则填10即可,不填默认不返利" name="reChargePercent" id="charge_action_reChargePercent"/>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+                  <button type="button" class="btn btn-primary" onclick="isvalid('模拟充值')">
+                    提交
+                  </button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+          </div>
+        </form>
+      </div>
 
-      <div class="span6">
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
-            <h5>物品操作</h5>
+      <!--物品操作-->
+      <div class="span12">
+        <form action="" method="post" class="form-horizontal" id="form-action-item" style="margin: 20px">
+          <div class="modal fade hide" id="action_item" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title">
+                    物品操作
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <form action="" method="post" class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label">*区名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="item_action_zoneid" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*玩家名字 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="张三" name="playername" id="item_action_playername"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*物品索引名 :</label>
+                      <div class="controls">
+                        <input type="text"  class="span11" placeholder="1000元宝" name="keyname" id="item_action_keyname" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*物品数量 :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder='10'  value=1 name="count" id="item_action_count" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*操作类型 :</label>
+                      <div class="controls">
+                        <label>
+                          <input type="radio" name="type" value=1 checked/>
+                          增加</label>
+                        <label>
+                          <input type="radio" name="type" value=2 />
+                          删除</label>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+                  <button type="button" class="btn btn-primary" onclick="isvalid('物品操作')">
+                    提交
+                  </button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
           </div>
-          <div class="widget-content nopadding">
-            <form action="" method="post" class="form-horizontal" id="form-action-item">
-              <div class="control-group">
-                <label class="control-label">*区名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="item_action_zoneid" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*玩家名字 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="张三" name="playername" id="item_action_playername"/>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*物品索引名 :</label>
-                <div class="controls">
-                  <input type="text"  class="span11" placeholder="1000元宝" name="keyname" id="item_action_keyname" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*物品数量 :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder='10'  value=1 name="count" id="item_action_count" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*操作类型 :</label>
-                <div class="controls">
-                  <label>
-                    <input type="radio" name="type" value=1 checked/>
-                    增加</label>
-                  <label>
-                    <input type="radio" name="type" value=2 />
-                    删除</label>
-                </div>
-              </div>
-              <div class="form-actions">
-                <button type="button" class="btn btn-success" onclick="isvalid('物品操作')">保存</button>
-              </div>
-            </form>
-          </div>
-        </div>
+        </form>
+      </div>
 
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
-            <h5>邮件操作</h5>
-          </div>
-          <div class="widget-content nopadding">
-            <form action="" method="post" class="form-horizontal" id="mail-action-form">
-              <div class="control-group">
-                <label class="control-label">*区名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="mail_action_zoneid" />
+      <!--邮件操作-->
+      <div class="span12">
+        <form action="" method="post" class="form-horizontal" id="mail-action-form" style="margin: 20px">
+          <div class="modal fade hide" id="action_mail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title">
+                    邮件操作
+                  </h4>
                 </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*玩家名字 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="张三" name="playername" id="mail_action_playername"/>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*邮件标题 :</label>
-                <div class="controls">
-                  <input type="text"  class="span11" placeholder="1000元宝" name="mailtitle" id="mail_action_title" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*邮件内容 :</label>
-                <div class="controls">
-                  <input type="text"  class="span11" placeholder="1000元宝" name="mailtext" id="mail_action_text" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*金币 :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder='10' value=0 name="gold" id="mail_action_gold" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*元宝 :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder='10' value=0 name="yuanbao" id="mail_action_yuanbao" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*积分 :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder='10' value=0 name="integral" id="mail_action_integral" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*物品模板(请严格按照要求填写) :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder='["1000元宝", 1, 1]' name="templates" id="mail_action_templates" title='附件物品
+                <div class="modal-body">
+                  <form action="" method="post" class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label">*区名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="mail_action_zoneid" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*玩家名字 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="张三" name="playername" id="mail_action_playername"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*邮件标题 :</label>
+                      <div class="controls">
+                        <input type="text"  class="span11" placeholder="1000元宝" name="mailtitle" id="mail_action_title" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*邮件内容 :</label>
+                      <div class="controls">
+                        <input type="text"  class="span11" placeholder="1000元宝" name="mailtext" id="mail_action_text" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*金币 :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder='10' value=0 name="gold" id="mail_action_gold" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*元宝 :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder='10' value=0 name="yuanbao" id="mail_action_yuanbao" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*积分 :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder='10' value=0 name="integral" id="mail_action_integral" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*物品模板(请严格按照要求填写) :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder='["1000元宝", 1, 1]' name="templates" id="mail_action_templates" title='附件物品
 lua表格式描述，不超过5个
 item_templates 格式：
 [
@@ -140,391 +250,431 @@ item_templates 格式：
 "新手之剑", 1, 1,
 "新手头盔", 1, 1,
 ]'/>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-              </div>
-
-              <div class="form-actions">
-                <button type="button" class="btn btn-success" onclick="isvalid('邮件操作')">保存</button>
-              </div>
-            </form>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+                  <button type="button" class="btn btn-primary" onclick="isvalid('邮件操作')">
+                    提交
+                  </button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
           </div>
-        </div>
-
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
-            <h5>怪物操作</h5>
-          </div>
-          <div class="widget-content nopadding">
-            <form action="" method="post" class="form-horizontal" id="monster_action_form">
-              <div class="control-group">
-                <label class="control-label">*区名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="monster_action_zoneid" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*操作类型 :</label>
-                <div class="controls">
-                  <label>
-                    <input type="radio" name="cType" value=1 onclick="checkBoxClick('怪物操作', this)" checked/>
-                    刷怪</label>
-                  <label>
-                    <input type="radio" name="cType" value=2 onclick="checkBoxClick('怪物操作', this)"/>
-                    杀怪</label>
-                  <label>
-                    <input type="radio" name="cType" value=3 onclick="checkBoxClick('怪物操作', this)"/>
-                    刷NPC(此时x,y必须要填且range无效)</label>
-                  <label>
-                  <input type="radio" name="cType" value=4 onclick="checkBoxClick('怪物操作', this)"/>
-                  指定范围杀怪</label>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*怪物索引 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="白野猪" name="mobKey" id="monster_action_mobKey"/>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*地图索引 :</label>
-                <div class="controls">
-                  <input type="text"  class="span11" placeholder="龙城" name="mapKey" id="monster_action_mapKey" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">数量 :</label>
-                <div class="controls">
-                  <input type="number"  class="span11" placeholder="不填默认为1" name="num" id="monster_action_num" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">X坐标 :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder='不填默认随机，x,y缺一不可' name="coordinateX" id="monster_action_coordinateX"/>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">Y坐标 :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder='不填默认随机，x,y缺一不可' name="coordinateY" id="monster_action_coordinateY" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">范围 :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder='不填默认1' name="range" id="monster_action_range" />
-                </div>
-              </div>
-              <div class="form-actions">
-                <button type="button" class="btn btn-success" onclick="isvalid('怪物操作')">保存</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
-            <h5>装备复制</h5>
-          </div>
-          <div class="widget-content nopadding">
-            <form action="#" method="post" class="form-horizontal"  id="equip_action_form">
-              <div class="control-group">
-                <label class="control-label">*区名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="equip_action_zoneid" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*被复制玩家名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="小小白" name="originUsername" id="equip_action_origin"/>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*得装备玩家名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="100" name="targetUsername" id="equip_action_target"/>
-                </div>
-              </div>
-              <div class="form-actions">
-                <button type="button" class="btn btn-success" onclick="isvalid('装备复制')">保存</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
+        </form>
       </div>
 
-      <div class="span6">
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
-            <h5>变量操作</h5>
+      <!--怪物操作-->
+      <div class="span12">
+        <form action="" method="post" class="form-horizontal" id="monster_action_form" style="margin: 20px">
+          <div class="modal fade hide" id="action_monster" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title">
+                    怪物操作
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <form action="" method="post" class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label">*区名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="monster_action_zoneid" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*操作类型 :</label>
+                      <div class="controls">
+                        <label>
+                          <input type="radio" name="cType" value=1 onclick="checkBoxClick('怪物操作', this)" checked/>
+                          刷怪</label>
+                        <label>
+                          <input type="radio" name="cType" value=2 onclick="checkBoxClick('怪物操作', this)"/>
+                          杀怪</label>
+                        <label>
+                          <input type="radio" name="cType" value=3 onclick="checkBoxClick('怪物操作', this)"/>
+                          刷NPC(此时x,y必须要填且range无效)</label>
+                        <label>
+                          <input type="radio" name="cType" value=4 onclick="checkBoxClick('怪物操作', this)"/>
+                          指定范围杀怪</label>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*怪物索引 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="白野猪" name="mobKey" id="monster_action_mobKey"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*地图索引 :</label>
+                      <div class="controls">
+                        <input type="text"  class="span11" placeholder="龙城" name="mapKey" id="monster_action_mapKey" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">数量 :</label>
+                      <div class="controls">
+                        <input type="number"  class="span11" placeholder="不填默认为1" name="num" id="monster_action_num" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">X坐标 :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder='不填默认随机，x,y缺一不可' name="coordinateX" id="monster_action_coordinateX"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">Y坐标 :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder='不填默认随机，x,y缺一不可' name="coordinateY" id="monster_action_coordinateY" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">范围 :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder='不填默认1' name="range" id="monster_action_range" />
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+                  <button type="button" class="btn btn-primary" onclick="isvalid('怪物操作')">
+                    提交
+                  </button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
           </div>
-          <div class="widget-content nopadding">
-            <form action="#" method="post" class="form-horizontal"  id="var_action_form">
-              <div class="control-group">
-                <label class="control-label">*区名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="var_action_zoneid" />
+        </form>
+      </div>
+
+      <!--装备复制-->
+      <div class="span12">
+        <form action="#" method="post" class="form-horizontal"  id="equip_action_form" style="margin: 20px">
+          <div class="modal fade hide" id="action_equip_copy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title">
+                    装备复制
+                  </h4>
                 </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*操作对象 :</label>
-                <div class="controls">
-                  <label>
-                    <input type="radio" name="targetobj" value='系统' onclick="checkBoxClick('变量操作', this)" checked/>
-                    系统</label>
-                  <label>
-                    <input type="radio" name="targetobj" value='玩家' onclick="checkBoxClick('变量操作', this)" />
-                    玩家</label>
+                <div class="modal-body">
+                  <form action="#" method="post" class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label">*区名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="equip_action_zoneid" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*被复制玩家名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="小小白" name="originUsername" id="equip_action_origin"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*得装备玩家名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="100" name="targetUsername" id="equip_action_target"/>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*变量类型 :</label>
-                <div class="controls">
-                  <label>
-                    <input type="radio" name="vartype" value='int' onclick="checkBoxClick('变量操作', this)" checked/>
-                    int</label>
-                  <label>
-                    <input type="radio" name="vartype" value='str' onclick="checkBoxClick('变量操作', this)" />
-                    str</label>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+                  <button type="button" class="btn btn-primary" onclick="isvalid('装备复制')">
+                    提交
+                  </button>
                 </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*变量名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="xxx" name="varname" id="var_action_name"/>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+          </div>
+        </form>
+      </div>
+
+      <!--变量操作-->
+      <div class="span12">
+        <form action="#" method="post" class="form-horizontal"  id="var_action_form" style="margin: 20px">
+          <div class="modal fade hide" id="action_var" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title">
+                    变量操作
+                  </h4>
                 </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*变量值 :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder="xx" name="varvalue" id="var_action_value"/>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">合区类型(选填) :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder="6" value=6 name="areatype" id="var_action_areatype" title="0忽略，合区时保留目标数据库数据。
+                <div class="modal-body">
+                  <form action="#" method="post" class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label">*区名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="var_action_zoneid" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*操作对象 :</label>
+                      <div class="controls">
+                        <label>
+                          <input type="radio" name="targetobj" value='系统' onclick="checkBoxClick('变量操作', this)" checked/>
+                          系统</label>
+                        <label>
+                          <input type="radio" name="targetobj" value='玩家' onclick="checkBoxClick('变量操作', this)" />
+                          玩家</label>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*变量类型 :</label>
+                      <div class="controls">
+                        <label>
+                          <input type="radio" name="vartype" value='int' onclick="checkBoxClick('变量操作', this)" checked/>
+                          int</label>
+                        <label>
+                          <input type="radio" name="vartype" value='str' onclick="checkBoxClick('变量操作', this)" />
+                          str</label>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*变量名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="xxx" name="varname" id="var_action_name"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*变量值 :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder="xx" name="varvalue" id="var_action_value"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">合区类型(选填) :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder="6" value=6 name="areatype" id="var_action_areatype" title="0忽略，合区时保留目标数据库数据。
                   1替换，合区时保留源数据库数据。
                   2取大，合区时取大的数据，只对整型生效。
                   3取小，合区时取小的数据，只对整型生效。
                   4相加，合区时结果相加，只对整型生效。
                   5相连，合区时结果相连，只对字符串生效。
                   6删除，合区时清除"/>
+                      </div>
+                    </div>
+                    <div class="control-group" style="display: none">
+                      <label class="control-label">玩家名字(选填) :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="小小白" name="playername" id="var_action_playername"/>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-              </div>
-              <div class="control-group" style="display: none">
-                <label class="control-label">玩家名字(选填) :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="小小白" name="playername" id="var_action_playername"/>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+                  <button type="button" class="btn btn-primary" onclick="isvalid('变量操作')">
+                    提交
+                  </button>
                 </div>
-              </div>
-
-              <div class="form-actions">
-                <button type="button" class="btn btn-success" onclick="isvalid('变量操作')">保存</button>
-              </div>
-            </form>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
           </div>
-        </div>
-
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
-            <h5>给予操作</h5>
-          </div>
-          <div class="widget-content nopadding">
-            <form action="#" method="post" class="form-horizontal"  id="give_action_form">
-              <div class="control-group">
-                <label class="control-label">*区名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="give_action_zoneid" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*玩家名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="小小白" name="username" id="give_action_username"/>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*操作类型 :</label>
-                <div class="controls">
-                  <label>
-                    <input type="radio" name="targetObj" value='非绑金币' checked/>
-                    非绑金币</label>
-                  <label>
-                    <input type="radio" name="targetObj" value='非绑元宝' />
-                    非绑元宝</label>
-                  <label>
-                    <input type="radio" name="targetObj" value='积分' />
-                    积分</label>
-                  <label>
-                    <input type="radio" name="targetObj" value='经验' />
-                    经验</label>
-                  <label>
-                    <input type="radio" name="targetObj" value='绑定金币' checked/>
-                    绑定金币</label>
-                  <label>
-                    <input type="radio" name="targetObj" value='绑定元宝' />
-                    绑定元宝</label>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*数量 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="100" name="num" id="give_action_num"/>
-                </div>
-              </div>
-
-              <div class="form-actions">
-                <button type="button" class="btn btn-success" onclick="isvalid('给予操作')">保存</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
-            <h5>模拟充值</h5>
-          </div>
-          <div class="widget-content nopadding">
-            <form action="#" method="post" class="form-horizontal"  id="charge_action_form">
-              <div class="control-group">
-                <label class="control-label">*区名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="charge_action_zoneid" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*玩家名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="小小白" name="username" id="charge_action_username"/>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*金额/RMB :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder="100" name="num" id="charge_action_num"/>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">返利比例 :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder="如果要返10%则填10即可,不填默认不返利" name="reChargePercent" id="charge_action_reChargePercent"/>
-                </div>
-              </div>
-              <div class="form-actions">
-                <button type="button" class="btn btn-success" onclick="isvalid('模拟充值')">保存</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="fa fa-apple"></i> </span>
-            <h5>消息操作</h5>
-          </div>
-          <div class="widget-content nopadding">
-            <form action="#" method="post" class="form-horizontal"  id="msg_action_form">
-              <div class="control-group">
-                <label class="control-label">*操作类型 :</label>
-                <div class="controls">
-                  <label>
-                    <input type="radio" name="msgType" value='1' checked onclick="checkBoxClick('消息操作', this)"/>
-                    广播信息</label>
-                  <label>
-                    <input type="radio" name="msgType" value='2' onclick="checkBoxClick('消息操作', this)"/>
-                    警告信息</label>
-                  <label>
-                    <input type="radio" name="msgType" value='3' onclick="checkBoxClick('消息操作', this)"/>
-                    弹消息框</label>
-                  <label>
-                    <input type="radio" name="msgType" value='4' onclick="checkBoxClick('消息操作', this)"/>
-                    广播信息自定义颜色</label>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*区名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="msg_action_zoneid" />
-                </div>
-              </div>
-              <div class="control-group" style="display: none">
-                <label class="control-label">*玩家名 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="小小白" name="username" id="msg_action_username"/>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">*消息内容 :</label>
-                <div class="controls">
-                  <input type="text" class="span11" placeholder="YDD牛逼" name="content" id="msg_action_content"/>
-                </div>
-              </div>
-              <div class="control-group" style="display: none">
-                <label class="control-label">前景色 :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder="1-13" name="foreground" id="msg_action_foreground" title="颜色数值
-1黄色
-2红色
-3粉红
-4蓝色
-5浅蓝
-6深粉
-7白色
-8深蓝
-9亮蓝
-10深黄
-11透明
-12黑色
-13绿色"/>
-                </div>
-              </div>
-              <div class="control-group" style="display: none">
-                <label class="control-label">背景色 :</label>
-                <div class="controls">
-                  <input type="number" class="span11" placeholder="1-13" name="background" id="msg_action_background" title="颜色数值
-1黄色
-2红色
-3粉红
-4蓝色
-5浅蓝
-6深粉
-7白色
-8深蓝
-9亮蓝
-10深黄
-11透明
-12黑色
-13绿色"/>
-                </div>
-              </div>
-              <div class="form-actions">
-                <button type="button" class="btn btn-success" onclick="isvalid('消息操作')">保存</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-      </div> <!--/span6-->
-
-    </div>
-    <div class="row-fluid">
-      <div class="widget-box">
-        <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-          <h5>wysihtml5</h5>
-        </div>
-        <div class="widget-content">
-          <div class="control-group">
-            <form>
-              <div class="controls">
-                <textarea class="textarea_editor span12" rows="6" placeholder="Enter text ..."></textarea>
-              </div>
-            </form>
-          </div>
-        </div>
+        </form>
       </div>
+
+      <!--给予操作-->
+      <div class="span12">
+        <form action="#" method="post" class="form-horizontal" id="give_action_form" style="margin: 20px">
+          <div class="modal fade hide" id="action_give" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title">
+                    给予操作
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <form action="#" method="post" class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label">*区名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="give_action_zoneid" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*玩家名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="小小白" name="username" id="give_action_username"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*操作类型 :</label>
+                      <div class="controls">
+                        <label>
+                          <input type="radio" name="targetObj" value='非绑金币' checked/>
+                          非绑金币</label>
+                        <label>
+                          <input type="radio" name="targetObj" value='非绑元宝' />
+                          非绑元宝</label>
+                        <label>
+                          <input type="radio" name="targetObj" value='积分' />
+                          积分</label>
+                        <label>
+                          <input type="radio" name="targetObj" value='经验' />
+                          经验</label>
+                        <label>
+                          <input type="radio" name="targetObj" value='绑定金币' checked/>
+                          绑定金币</label>
+                        <label>
+                          <input type="radio" name="targetObj" value='绑定元宝' />
+                          绑定元宝</label>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*数量 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="100" name="num" id="give_action_num"/>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+                  <button type="button" class="btn btn-primary" onclick="isvalid('给予操作')">
+                    提交
+                  </button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+          </div>
+        </form>
+      </div>
+
+      <!--消息操作-->
+      <div class="span12">
+        <form action="#" method="post" class="form-horizontal" id="msg_action_form" style="margin: 20px">
+          <div class="modal fade hide" id="action_msg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title">
+                    消息操作
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <form action="#" method="post" class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label">*操作类型 :</label>
+                      <div class="controls">
+                        <label>
+                          <input type="radio" name="msgType" value='1' checked onclick="checkBoxClick('消息操作', this)"/>
+                          广播信息</label>
+                        <label>
+                          <input type="radio" name="msgType" value='2' onclick="checkBoxClick('消息操作', this)"/>
+                          警告信息</label>
+                        <label>
+                          <input type="radio" name="msgType" value='3' onclick="checkBoxClick('消息操作', this)"/>
+                          弹消息框</label>
+                        <label>
+                          <input type="radio" name="msgType" value='4' onclick="checkBoxClick('消息操作', this)"/>
+                          广播信息自定义颜色</label>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*区名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="msg_action_zoneid" />
+                      </div>
+                    </div>
+                    <div class="control-group" style="display: none">
+                      <label class="control-label">*玩家名 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="小小白" name="username" id="msg_action_username"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">*消息内容 :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" placeholder="YDD牛逼" name="content" id="msg_action_content"/>
+                      </div>
+                    </div>
+                    <div class="control-group" style="display: none">
+                      <label class="control-label">前景色 :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder="1-13" name="foreground" id="msg_action_foreground" title="颜色数值
+1黄色
+2红色
+3粉红
+4蓝色
+5浅蓝
+6深粉
+7白色
+8深蓝
+9亮蓝
+10深黄
+11透明
+12黑色
+13绿色"/>
+                      </div>
+                    </div>
+                    <div class="control-group" style="display: none">
+                      <label class="control-label">背景色 :</label>
+                      <div class="controls">
+                        <input type="number" class="span11" placeholder="1-13" name="background" id="msg_action_background" title="颜色数值
+1黄色
+2红色
+3粉红
+4蓝色
+5浅蓝
+6深粉
+7白色
+8深蓝
+9亮蓝
+10深黄
+11透明
+12黑色
+13绿色"/>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+                  <button type="button" class="btn btn-primary" onclick="isvalid('消息操作')">
+                    提交
+                  </button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+          </div>
+        </form>
+      </div>
+
     </div>
+
+  </div>
+    <!-- Modal Area END-->
   </div>
 </div>
 <div th:replace="common/frame-footer::frame-footer"/>
