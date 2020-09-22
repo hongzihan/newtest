@@ -69,7 +69,7 @@ CREATE TABLE `web_action` (
   `id` bigint(25) NOT NULL AUTO_INCREMENT,
   `zoneid` varchar(255) NOT NULL,
   `actiontype` int(11) NOT NULL,
-  `actiondata` varchar(1023) NOT NULL,
+  `actiondata` varchar(5095) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 

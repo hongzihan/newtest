@@ -251,7 +251,7 @@ public class WebActionController {
     @RequiresPermissions("saveActionData_var_transfer")
     @ResponseBody
     @RequestMapping("saveActionData_var_transfer")
-    public String saveActionData_var_transfer(WebAction webAction, String usernameBefore, String accountBefore, String idBefore, String usernameAfter, String accountAfter, String idAfter) {
+    public String saveActionData_var_transfer(WebAction webAction, String usernameBefore, String accountBefore, String idBefore, String usernameAfter, String accountAfter, String idAfter, String accountSerialize) {
         if (usernameBefore == null || accountBefore == null || idBefore == null || usernameAfter == null || accountAfter == null || idAfter == null) {
             return "{code:404, msg:'失败'}";
         }
@@ -269,6 +269,7 @@ public class WebActionController {
         hmap.put("usernameAfter", usernameAfter);
         hmap.put("accountAfter", accountAfter);
         hmap.put("idAfter", idAfter);
+        hmap.put("accountSerialize", accountSerialize);
         webAction.setActiondata(JSON.toJSONString(hmap));
         webActionService.save(webAction);
         return "{code:200, msg:'成功'}";
