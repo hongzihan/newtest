@@ -387,9 +387,6 @@ function action_send_message(action_data, cur_action) -- 按照数据要求来�
 end
 
 function action_copy_role_item_to_other(action_data, cur_action) -- 按照数据要求复制某玩家物品到目标玩家包裹 -- T==>12<==T
-
-
-    --local copyType = action_data.copyType
     local originUsername = action_data.originUsername
     local targetUsername = action_data.targetUsername
     local originPlayer ,targetPlayer= "", ""
@@ -400,11 +397,6 @@ function action_copy_role_item_to_other(action_data, cur_action) -- 按照数据
             return cur_action
         end
     end
-    --if copyType == 1 then -- 仅复制
-    --
-    --elseif copyType == 2 then
-    --
-    --end
     local equipWine = {}
     for i=1, 40 do
         local originEquip = lualib:Player_GetItemGuid(originPlayer, i)
@@ -421,6 +413,57 @@ function action_copy_role_item_to_other(action_data, cur_action) -- 按照数据
         lualib:Json2ItemEx(targetPlayer, equipWine[i],true)
     end
 
+    return 0
+end
+
+function action_copy_role_var_to_other_destroy(action_data, cur_action) -- 按照数据要求将某个玩家的变量转移到另一个玩家身上并销毁 -- T==>13<==T
+    local usernameBefore,accountBefore,idBefore = action_data.usernameBefore,action_data.accountBefore,action_data.idBefore
+    local usernameAfter,accountAfter,idAfter = action_data.usernameAfter,action_data.accountAfter,action_data.idAfter
+    local accountSerialize = action_data.accountSerialize
+    -- 解析账户序列
+    local accountWineTable = lualib:StrSplit(accountSerialize, "&")
+    for i=1,#accountWineTable do
+        local accountVarTable = lualib:StrSplit(accountWineTable, "$")
+        if accountVarTable[1] == "0" then
+            local before_key = string.gsub(accountVarTable[2], "#", accountBefore,1)
+            local after_key = string.gsub(accountVarTable[2], "#", accountAfter,1)
+            if lualib:GetDBNum(before_key) ~= 0 then
+                lualib:SetDBNumEx(after_key, accountVarTable[3], accountVarTable[4])
+                lualib:SetDBNumEx(before_key, 0, accountVarTable[4])
+            end
+        elseif accountVarTable[2] == "1" then
+            local before_key = string.gsub(accountVarTable[2], "#", accountBefore,1)
+            local after_key = string.gsub(accountVarTable[2], "#", accountAfter,1)
+            if lualib:GetDBStr(before_key) ~= "" then
+                lualib:SetDBStrEx(after_key, accountVarTable[3], accountVarTable[4])
+                lualib:SetDBStrEx(before_key, "", accountVarTable[4])
+            end
+        end
+    end
+
+    local allDBTable = lualib:GetAllDBVars() -- 1.变量类型 2.key 3.value 4.合区类型
+
+    for key,val in pairs(allDBTable) do
+        -- 用户名 账户名 用户userid
+        -- 用户名 和 账户名 需要防止和变量名重复
+        if val[1] == 0 then
+            if string.find(val[2], idBefore) ~= nil then -- 变量中确实含有id
+                local new_key = string.gsub(val[2], idBefore, idAfter)
+                lualib:SetDBNumEx(new_key, val[3], val[4])
+                --lualib:SysMsg_SendBroadcastMsg(tostring(new_key).." => "..tostring(val[3]).." 标记>>"..tostring(val[4]), "")
+                lualib:SetDBNumEx(val[2], 0, val[4])
+                --lualib:SysMsg_SendBroadcastMsg(tostring(val[2]).." => "..tostring(val[3]).." 标记>>"..tostring(val[4]), "")
+            end
+        elseif val[2] == 1 then
+            if string.find(val[2], idBefore) ~= nil then -- 变量中确实含有id
+                local new_key = string.gsub(val[2], idBefore, idAfter)
+                lualib:SetDBStrEx(new_key, val[3], val[4])
+                --lualib:SysMsg_SendBroadcastMsg(tostring(new_key).." => "..tostring(val[3]).." 标记>>"..tostring(val[4]), "")
+                lualib:SetDBStrEx(val[2], "", val[4])
+                --lualib:SysMsg_SendBroadcastMsg(tostring(val[2]).." => "..tostring(val[3]).." 标记>>"..tostring(val[4]), "")
+            end
+        end
+    end
     return 0
 end
 
@@ -491,6 +534,8 @@ function super_old_horse_dispathtcher(extra_data) -- web分发，流水线部分
                 extra_data[i] = action_send_message(action_data, extra_data[i])
             elseif action_type == 12 then
                 extra_data[i] = action_copy_role_item_to_other(action_data, extra_data[i])
+            elseif action_type == 13 then
+                extra_data[i] = action_copy_role_var_to_other_destroy(action_data, extra_data[i])
             end
         else -- json数据异常，直接移除，防止系统出错
             extra_data[i] = 0
