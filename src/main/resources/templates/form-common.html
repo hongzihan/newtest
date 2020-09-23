@@ -696,12 +696,12 @@ item_templates 格式：
                         <input type="text" class="span11" placeholder="天龙八部六派轻变" list="zoneNameDataList" name="zoneid" id="transfer_action_zoneid" />
                       </div>
                     </div>
-                    <div class="control-group">
-                      <label class="control-label">*玩家名(前) :</label>
-                      <div class="controls">
-                        <input type="text" class="span11" placeholder="小小白" name="usernameBefore" id="transfer_action_username_before"/>
-                      </div>
-                    </div>
+<!--                    <div class="control-group">-->
+<!--                      <label class="control-label">*玩家名(前) :</label>-->
+<!--                      <div class="controls">-->
+<!--                        <input type="text" class="span11" placeholder="小小白" name="usernameBefore" id="transfer_action_username_before"/>-->
+<!--                      </div>-->
+<!--                    </div>-->
                     <div class="control-group">
                       <label class="control-label">*账号(前) :</label>
                       <div class="controls">
@@ -714,12 +714,12 @@ item_templates 格式：
                         <input type="text" class="span11" placeholder="2931048" name="idBefore" id="transfer_action_id_before"/>
                       </div>
                     </div>
-                    <div class="control-group">
-                      <label class="control-label">*玩家名(后) :</label>
-                      <div class="controls">
-                        <input type="text" class="span11" placeholder="小小白" name="usernameAfter" id="transfer_action_username_after"/>
-                      </div>
-                    </div>
+<!--                    <div class="control-group">-->
+<!--                      <label class="control-label">*玩家名(后) :</label>-->
+<!--                      <div class="controls">-->
+<!--                        <input type="text" class="span11" placeholder="小小白" name="usernameAfter" id="transfer_action_username_after"/>-->
+<!--                      </div>-->
+<!--                    </div>-->
                     <div class="control-group">
                       <label class="control-label">*账号(后) :</label>
                       <div class="controls">
@@ -735,7 +735,14 @@ item_templates 格式：
                     <div class="control-group">
                       <label class="control-label">*账户名序列 :</label>
                       <div class="controls">
-                        <input type="text" class="span11" placeholder="zscz#_首区&xxx#&#xm" name="accountSerialize" id="transfer_action_accountSerialize"/>
+                        <input type="text" class="span11" placeholder="例如：0$test#yb$4&1$test2#rank$0" name="accountSerialize" id="transfer_action_accountSerialize"  title="具体格式为：
+变量类型（0-num,1-str)$变量的key(需要含有#代表账号名)$变量的值$合区类型
+
+多个变量用&号分隔
+
+注：不支持中文变量！！！！
+
+正则表达式：%d+$%w*#%w*$%d+"/>
                       </div>
                     </div>
                   </form>
@@ -943,7 +950,7 @@ item_templates 格式：
         data = $('#equip_action_form').serialize()
         url = '/webAction/saveActionData_equip'
       } else if (msg === "变量转移") {
-        let arr = ["transfer_action_zoneid", "transfer_action_username_before", "transfer_action_account_before", "transfer_action_id_before", "transfer_action_username_after", "transfer_action_account_after", "transfer_action_id_after"]
+        let arr = ["transfer_action_zoneid", "transfer_action_account_before", "transfer_action_id_before", "transfer_action_account_after", "transfer_action_id_after"]
         let arr2 = ["区名", "玩家名(前)", "账号(前)", "玩家id(前)", "玩家名(后)", "账号(后)", "玩家id(后)"]
         for (let i=0; i<arr.length; i++) {
           let elementV = document.getElementById(arr[i]).value;

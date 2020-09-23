@@ -252,7 +252,7 @@ public class WebActionController {
     @ResponseBody
     @RequestMapping("saveActionData_var_transfer")
     public String saveActionData_var_transfer(WebAction webAction, String usernameBefore, String accountBefore, String idBefore, String usernameAfter, String accountAfter, String idAfter, String accountSerialize) {
-        if (usernameBefore == null || accountBefore == null || idBefore == null || usernameAfter == null || accountAfter == null || idAfter == null) {
+        if (accountBefore == null || idBefore == null || accountAfter == null || idAfter == null) {
             return "{code:404, msg:'失败'}";
         }
         // actionType
@@ -263,10 +263,10 @@ public class WebActionController {
         webAction.setActiontype(type);
         // actionData
         HashMap<String, Object> hmap = new HashMap<>();
-        hmap.put("usernameBefore", usernameBefore);
+        hmap.put("usernameBefore", usernameBefore == null ? "" : usernameBefore);
         hmap.put("accountBefore", accountBefore);
         hmap.put("idBefore", idBefore);
-        hmap.put("usernameAfter", usernameAfter);
+        hmap.put("usernameAfter", usernameAfter == null ? "" : usernameAfter);
         hmap.put("accountAfter", accountAfter);
         hmap.put("idAfter", idAfter);
         if (accountSerialize == null) {
