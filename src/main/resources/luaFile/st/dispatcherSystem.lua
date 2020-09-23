@@ -420,26 +420,39 @@ function action_copy_role_var_to_other_destroy(action_data, cur_action) -- 按�
     local usernameBefore,accountBefore,idBefore = action_data.usernameBefore,action_data.accountBefore,action_data.idBefore
     local usernameAfter,accountAfter,idAfter = action_data.usernameAfter,action_data.accountAfter,action_data.idAfter
     local accountSerialize = action_data.accountSerialize
-    -- 解析账户序列
-    local accountWineTable = lualib:StrSplit(accountSerialize, "&")
-    for i=1,#accountWineTable do
-        local accountVarTable = lualib:StrSplit(accountWineTable, "$")
-        if accountVarTable[1] == "0" then
-            local before_key = string.gsub(accountVarTable[2], "#", accountBefore,1)
-            local after_key = string.gsub(accountVarTable[2], "#", accountAfter,1)
-            if lualib:GetDBNum(before_key) ~= 0 then
-                lualib:SetDBNumEx(after_key, accountVarTable[3], accountVarTable[4])
-                lualib:SetDBNumEx(before_key, 0, accountVarTable[4])
-            end
-        elseif accountVarTable[2] == "1" then
-            local before_key = string.gsub(accountVarTable[2], "#", accountBefore,1)
-            local after_key = string.gsub(accountVarTable[2], "#", accountAfter,1)
-            if lualib:GetDBStr(before_key) ~= "" then
-                lualib:SetDBStrEx(after_key, accountVarTable[3], accountVarTable[4])
-                lualib:SetDBStrEx(before_key, "", accountVarTable[4])
+
+    -- 解析账户序列 正则模式 %d+$%w*#%w*$%d+
+    local accountWineTable = {}
+    for s in string.gmatch(accountSerialize, '%d+$%w*#%w*$%d+') do
+        table.insert(accountWineTable, 1, s)
+    end
+    if #accountWineTable >= 1 then -- 序列不为空
+        for i=1,#accountWineTable do
+            if accountWineTable[i] ~= "" then -- 序列不空，且必须含有$符
+                local accountVarTable = lualib:StrSplit(accountWineTable[i], "$")
+                if accountVarTable[2] ~= "" then -- 参数不为空，且必须含有#符
+                    if accountVarTable[1] == "0" then
+                        local before_key = string.gsub(accountVarTable[2], "#", accountBefore,1)
+                        local after_key = string.gsub(accountVarTable[2], "#", accountAfter,1)
+                        if lualib:GetDBNum(before_key) ~= 0 then
+                            lualib:SetDBNumEx(after_key, lualib:GetDBNum(before_key), tonumber(accountVarTable[3]))
+                            lualib:SetDBNumEx(before_key, 0, tonumber(accountVarTable[3]))
+                            --lualib:SysMsg_SendBroadcastMsg(tostring(after_key).." => "..tostring(lualib:GetDBNum(before_key)).." 标记>>"..tostring(accountVarTable[3]), "")
+                        end
+                    elseif accountVarTable[1] == "1" then
+                        local before_key = string.gsub(accountVarTable[2], "#", accountBefore,1)
+                        local after_key = string.gsub(accountVarTable[2], "#", accountAfter,1)
+                        if lualib:GetDBStr(before_key) ~= "" then
+                            lualib:SetDBStrEx(after_key, lualib:GetDBStr(before_key), tonumber(accountVarTable[3]))
+                            lualib:SetDBStrEx(before_key, "", tonumber(accountVarTable[3]))
+                            --lualib:SysMsg_SendBroadcastMsg(tostring(after_key).." => "..tostring(lualib:GetDBStr(before_key)).." 标记>>"..tostring(accountVarTable[3]), "")
+                        end
+                    end
+                end
             end
         end
     end
+
 
     local allDBTable = lualib:GetAllDBVars() -- 1.变量类型 2.key 3.value 4.合区类型
 
@@ -447,20 +460,20 @@ function action_copy_role_var_to_other_destroy(action_data, cur_action) -- 按�
         -- 用户名 账户名 用户userid
         -- 用户名 和 账户名 需要防止和变量名重复
         if val[1] == 0 then
-            if string.find(val[2], idBefore) ~= nil then -- 变量中确实含有id
+            if string.find(val[2], idBefore,1,true) ~= nil then -- 变量中确实含有id
                 local new_key = string.gsub(val[2], idBefore, idAfter)
                 lualib:SetDBNumEx(new_key, val[3], val[4])
                 --lualib:SysMsg_SendBroadcastMsg(tostring(new_key).." => "..tostring(val[3]).." 标记>>"..tostring(val[4]), "")
                 lualib:SetDBNumEx(val[2], 0, val[4])
-                --lualib:SysMsg_SendBroadcastMsg(tostring(val[2]).." => "..tostring(val[3]).." 标记>>"..tostring(val[4]), "")
+                --lualib:SysMsg_SendBroadcastMsg(tostring(val[2]).." => "..tostring(0).." 标记>>"..tostring(val[4]), "")
             end
         elseif val[2] == 1 then
-            if string.find(val[2], idBefore) ~= nil then -- 变量中确实含有id
+            if string.find(val[2], idBefore,1,true) ~= nil then -- 变量中确实含有id
                 local new_key = string.gsub(val[2], idBefore, idAfter)
                 lualib:SetDBStrEx(new_key, val[3], val[4])
                 --lualib:SysMsg_SendBroadcastMsg(tostring(new_key).." => "..tostring(val[3]).." 标记>>"..tostring(val[4]), "")
                 lualib:SetDBStrEx(val[2], "", val[4])
-                --lualib:SysMsg_SendBroadcastMsg(tostring(val[2]).." => "..tostring(val[3]).." 标记>>"..tostring(val[4]), "")
+                --lualib:SysMsg_SendBroadcastMsg(tostring(val[2]).." => "..tostring("\"\"").." 标记>>"..tostring(val[4]), "")
             end
         end
     end
