@@ -50,6 +50,7 @@
             <li th:class="${curPage eq 'monsterDieMsg' ? 'active' : ''}"><a href="/st/searchMonsterMsg"><i class="fa fa-snapchat-ghost" aria-hidden="true"></i> <span>怪物信息</span></a></li>
             <li th:class="${curPage eq 'chatRecord' ? 'active' : ''}"><a href="/st/chat_record"><i class="fa fa-wechat" aria-hidden="true"></i> <span>聊天监控</span></a></li>
             <li th:class="${curPage eq 'zoneManage' ? 'active' : ''}"><a href="/config/zoneManage"><i class="fa fa-linux" aria-hidden="true"></i> <span>分区管理</span></a></li>
+            <li th:class="${curPage eq 'roleManage' ? 'active' : ''}"><a href="/st/role/main"><i class="fa fa-user-secret" aria-hidden="true"></i> <span>玩家管理</span></a></li>
             <li class="submenu" id="submenu_1"> <a href="#"><i class="fa fa-windows" aria-hidden="true"></i> <span>表单操作</span> <span class="label label-important">3</span></a>
                 <ul>
                     <li th:class="${curPage eq 'form-common' ? 'active' : ''}"><a href="/st/form-common">一般操作</a></li>

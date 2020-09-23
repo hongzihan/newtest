@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.st.newtest.stGame.Mapper.StRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.st.newtest.stGame.Entity.StRole">
+        <id column="id" property="id" />
+        <result column="zone_id" property="zoneId" />
+        <result column="zone_name" property="zoneName" />
+        <result column="account" property="account" />
+        <result column="role_name" property="roleName" />
+        <result column="role_id" property="roleId" />
+        <result column="role_level" property="roleLevel" />
+        <result column="job" property="job" />
+        <result column="gender" property="gender" />
+        <result column="charge_yb" property="chargeYb" />
+        <result column="cur_yb" property="curYb" />
+        <result column="cur_gold" property="curGold" />
+        <result column="last_record_date" property="lastRecordDate" />
+    </resultMap>
+
+</mapper>

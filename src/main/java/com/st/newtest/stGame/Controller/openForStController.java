@@ -1,14 +1,18 @@
 package com.st.newtest.stGame.Controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.st.newtest.Util.ConfigUtil;
 import com.st.newtest.stGame.Entity.Charge;
 import com.st.newtest.stGame.Entity.ChatRecord;
 import com.st.newtest.stGame.Entity.MonsterDie;
+import com.st.newtest.stGame.Entity.StRole;
+import com.st.newtest.stGame.Mapper.StRoleMapper;
 import com.st.newtest.stGame.Service.ChargeService;
 import com.st.newtest.Util.stUtil;
 import com.st.newtest.stGame.Service.ChatRecordService;
 import com.st.newtest.stGame.Service.MonsterDieService;
+import com.st.newtest.stGame.Service.StRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/openSt")
@@ -30,6 +35,9 @@ public class openForStController {
 
     @Autowired
     private ChatRecordService chatRecordService;
+
+    @Autowired
+    private StRoleService stRoleService;
 
     private Map<String, Object> parse = null;
 
@@ -83,6 +91,42 @@ public class openForStController {
                 chatRecord.setZoneName("敏感词专区");
                 chatRecordService.save(chatRecord);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+        return "success";
+    }
+
+    @ResponseBody
+    @RequestMapping("insertRoleData")
+    public String insertRoleData(String jsonMsg) {
+        try {
+            // 将json信息转为JSONObject
+            parse = JSONObject.parseObject(jsonMsg);
+            // 获取json内的actionType属性值
+            Map<String, Object>  actionData = (Map<String, Object> ) parse.get("actionData");
+            // 转化存储的jsonData值
+            StRole stRole = new StRole();
+            stRole.setZoneId((String) actionData.get("zoneId"));
+            stRole.setZoneName((String) actionData.get("zoneName"));
+            stRole.setAccount((String) actionData.get("account"));
+            stRole.setRoleName((String) actionData.get("roleName"));
+            stRole.setRoleId((String) actionData.get("roleId"));
+            stRole.setRoleLevel((String) actionData.get("roleLevel"));
+            stRole.setJob((String) actionData.get("job"));
+            stRole.setGender((String) actionData.get("gender"));
+            stRole.setChargeYb((String) actionData.get("chargeYb"));
+            stRole.setCurYb((String) actionData.get("curYb"));
+            stRole.setCurGold((String) actionData.get("curGold"));
+            stRole.setLastRecordDate(df.parse((String) actionData.get("lastRecordDate")));
+            List<StRole> roleList = stRoleService.lambdaQuery().eq(StRole::getRoleName, (String) actionData.get("roleName")).list();
+            if (roleList == null || roleList.size() < 1) {
+                stRoleService.save(stRole);
+            } else {
+                stRoleService.lambdaUpdate().update(stRole);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             return "failed";

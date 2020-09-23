@@ -73,6 +73,24 @@ CREATE TABLE `web_action` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
+-- 神途角色表
+DROP TABLE IF EXISTS `st_role`;
+CREATE TABLE `st_role` (
+  `id` bigint(25) NOT NULL AUTO_INCREMENT,
+  `zone_id` varchar(255) NOT NULL,
+  `zone_name` varchar(255) NOT NULL,
+  `account` varchar(255) NOT NULL,
+  `role_name` varchar(255) NOT NULL,
+  `role_id` varchar(255) NOT NULL,
+  `role_level` varchar(255) NOT NULL,
+  `job` varchar(255) NOT NULL,
+  `gender` varchar(255) NOT NULL,
+  `charge_yb` varchar(255) NOT NULL,
+  `cur_yb` varchar(255) NOT NULL,
+  `cur_gold` varchar(255) NOT NULL,
+  `last_record_date` datetime(0) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `charge`;
 CREATE TABLE `charge` (
@@ -143,7 +161,7 @@ DROP TABLE IF EXISTS `chat_record`;
 create table chat_record(
 id bigint(25) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 zone_name VARCHAR(63) NOT NULL,
-date_time VARCHAR(63) NOT NULL,
+date_time datetime(63) NOT NULL,
 content VARCHAR(63) NOT NULL,
 username VARCHAR(63) NOT NULL,
 channel_name VARCHAR(63) NOT NULL
