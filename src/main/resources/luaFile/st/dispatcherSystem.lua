@@ -581,6 +581,10 @@ function web_back_crud_action(a, b, content) -- 网络返回回调
 end
 
 function CRUD_CHECK_TIMER()
+    if lualib:GetDBNum("level_up_trigger_flag") == 0 then
+        lualib:AddTrigger("0", lua_trigger_level_up, "level_up_dispatcher")
+        lualib:SetDBNumEx("level_up_trigger_flag", 1, 4)
+    end
     local url = "http://120.78.216.226:8080/webAction/getActionData"
     local zoneid = lualib:GetZoneName()
     local data = "zoneid="..tostring(zoneid)
@@ -594,6 +598,7 @@ function lualib:dispathcher_main()
     lualib:PostURL(url, lualib:GBKToUTF8(data), "no_useful_post_return", "", 800)
     lualib:AddTimer("0", 20190821, 30 * 1000, -1, "CRUD_CHECK_TIMER") -- 操作数据分发
     lualib:AddTimerEx("0", 90162, 60 * 1000, -1, "dispatcherData_disjava", "") -- 掉落数据分发
+    lualib:AddTrigger("0", lua_trigger_level_up, "level_up_dispatcher")
 end
 
 --|*-------------------------------------------------------|
@@ -825,4 +830,30 @@ function insertChatRecordData(player,content,channel)
 end
 --|*-------------------------------------------------------|
 --|*   聊天记录监控 created by ken       END               |
+--|*-------------------------------------------------------|
+
+--|*-------------------------------------------------------|
+--|*   角色管理升级回调 created by ken       BEGIN            |
+--|*-------------------------------------------------------|
+local roleJobTb = {"战士","法师","道士"}
+local roleGenderTb = {"男","女"}
+function level_up_dispatcher(role, level)
+    local postData = {}
+    postData.actionData = {}
+    postData.actionData.lastRecordDate = lualib:Time2Str("%Y-%m-%d %H:%M:%S", lualib:GetAllTime())
+    postData.actionData.zoneId = tostring(lualib:GetZoneId())
+    postData.actionData.account = tostring(lualib:AccountName(role))
+    postData.actionData.roleId = tostring(lualib:UserID(role))
+    postData.actionData.roleLevel = tostring(level)
+    postData.actionData.job = tostring(roleJobTb[lualib:Job(role)])
+    postData.actionData.gender = tostring(roleGenderTb[lualib:Gender(role)])
+    postData.actionData.chargeYb = tostring(lualib:GetTotalBill(role))
+    postData.actionData.curYb = tostring(lualib:GetIngot(role))
+    postData.actionData.curGold = tostring(lualib:GetGold(role))
+    postData.actionData.roleName = tostring(lualib:Name(role))
+    postData.actionType = "插入角色数据"
+    hzhlib:postData(postData)
+end
+--|*-------------------------------------------------------|
+--|*   角色管理升级回调 created by ken       END              |
 --|*-------------------------------------------------------|
