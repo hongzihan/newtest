@@ -120,7 +120,7 @@ public class openForStController {
             stRole.setCurYb((String) actionData.get("curYb"));
             stRole.setCurGold((String) actionData.get("curGold"));
             stRole.setLastRecordDate(df.parse((String) actionData.get("lastRecordDate")));
-            List<StRole> roleList = stRoleService.lambdaQuery().eq(StRole::getRoleName, (String) actionData.get("roleName")).list();
+            List<StRole> roleList = stRoleService.lambdaQuery().eq(StRole::getRoleName, (String) actionData.get("roleName")).eq(StRole::getZoneId,(String) actionData.get("zoneId")).eq(StRole::getRoleId,(String) actionData.get("roleId")).list();
             if (roleList == null || roleList.size() < 1) {
                 stRoleService.save(stRole);
             } else {
