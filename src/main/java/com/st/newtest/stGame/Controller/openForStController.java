@@ -124,7 +124,7 @@ public class openForStController {
             if (roleList == null || roleList.size() < 1) {
                 stRoleService.save(stRole);
             } else {
-                stRoleService.lambdaUpdate().update(stRole);
+                stRoleService.lambdaUpdate().eq(StRole::getRoleName, (String) actionData.get("roleName")).eq(StRole::getZoneId,(String) actionData.get("zoneId")).eq(StRole::getRoleId,(String) actionData.get("roleId")).update(stRole);
             }
 
         } catch (Exception e) {
