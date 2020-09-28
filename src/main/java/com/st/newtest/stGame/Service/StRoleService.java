@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-09-23
  */
 public interface StRoleService extends IService<StRole> {
-
+    int deleteByZoneName(String zoneName);
 }
