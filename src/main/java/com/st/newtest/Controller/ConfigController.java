@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.st.newtest.Entity.Config;
 import com.st.newtest.Service.ConfigService;
 import com.st.newtest.Util.CommonUtil;
+import com.st.newtest.stGame.Service.MonsterDieService;
 import com.st.newtest.stGame.Service.StRoleService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.shiro.authz.annotation.Logical;
@@ -38,6 +39,9 @@ public class ConfigController {
 
     @Autowired
     private StRoleService stRoleService;
+
+    @Autowired
+    private MonsterDieService monsterDieService;
 
     private String zoneNameConfigName = "zoneNameConfig";
 
@@ -91,6 +95,7 @@ public class ConfigController {
                     if (zMap.get("zoneName").equals(zoneName)) {
                         zList.remove(zMap);
                         stRoleService.deleteByZoneName(zoneName);
+                        monsterDieService.deleteByZoneName(zoneName);
                         break;
                     }
                 }

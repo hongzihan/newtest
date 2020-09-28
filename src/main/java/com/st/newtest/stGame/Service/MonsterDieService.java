@@ -10,4 +10,6 @@ public interface MonsterDieService extends IService<MonsterDie> {
     int insertNewMonster(MonsterDie monsterDie);
 
     Boolean clearTargetReliveTime(MonsterDie monsterDie);
+
+    int deleteByZoneName(String zoneName);
 }

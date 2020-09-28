@@ -74,4 +74,11 @@ public class MonsterDieServiceImpl extends ServiceImpl<MonsterDieMapper, Monster
         }
         return true;
     }
+
+    @Override
+    public int deleteByZoneName(String zoneName) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("zonename", zoneName);
+        return monsterDieMapper.deleteByMap(map);
+    }
 }
