@@ -15,6 +15,14 @@ function hzhlib:postData(postData)
     end
     -- 插入区名
     postData.actionData.zoneName = lualib:GetZoneName()
+
+    local start_time = lualib:Str2Time(lualib:GetConstVar("StartServerTime"))
+    local cur_time = lualib:Str2Time(lualib:Now())
+
+    if cur_time - start_time < 0 then
+        postData.actionData.zoneName = postData.actionData.zoneName.."$内测区"
+    end
+
     -- 将传入的postData数据json化
     local postData_json = json.encode(postData)
     local url = "http://120.78.216.226:8080/openSt/main"
@@ -354,7 +362,7 @@ function action_monster_refresh_kill(action_data, cur_action) -- 按照数据要
     else
         return 0
     end
-        return 0
+    return 0
 end
 
 function action_send_message(action_data, cur_action) -- 按照数据要求来发送不同类型的消息 -- T==>11<==T
@@ -581,20 +589,27 @@ function web_back_crud_action(a, b, content) -- 网络返回回调
 end
 
 function CRUD_CHECK_TIMER()
-    if lualib:GetDBNum("level_up_trigger_flag") == 0 then
-        lualib:AddTrigger("0", lua_trigger_level_up, "level_up_dispatcher")
-        lualib:SetDBNumEx("level_up_trigger_flag", 1, 4)
-    end
     local url = "http://120.78.216.226:8080/webAction/getActionData"
     local zoneid = lualib:GetZoneName()
+    local start_time = lualib:Str2Time(lualib:GetConstVar("StartServerTime"))
+    local cur_time = lualib:Str2Time(lualib:Now())
+    if cur_time - start_time < 0 then
+        zoneid = zoneid.."$内测区"
+    end
     local data = "zoneid="..tostring(zoneid)
     lualib:PostURL(url, lualib:GBKToUTF8(data), "web_back_crud_action", "", 800)
 end
 
 function lualib:dispathcher_main()
     -- 主函数
+    local start_time = lualib:Str2Time(lualib:GetConstVar("StartServerTime"))
+    local cur_time = lualib:Str2Time(lualib:Now())
     local url = "http://120.78.216.226:8080/config/insertZoneNameConfig"
-    local data = "zoneName="..tostring(lualib:GetZoneName())
+    local zoneName = lualib:GetZoneName()
+    if cur_time - start_time < 0 then
+        zoneName = zoneName.."$内测区"
+    end
+    local data = "zoneName="..tostring(zoneName)
     lualib:PostURL(url, lualib:GBKToUTF8(data), "no_useful_post_return", "", 800)
     lualib:AddTimer("0", 20190821, 30 * 1000, -1, "CRUD_CHECK_TIMER") -- 操作数据分发
     lualib:AddTimerEx("0", 90162, 60 * 1000, -1, "dispatcherData_disjava", "") -- 掉落数据分发
