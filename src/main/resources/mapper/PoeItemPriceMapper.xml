@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.st.newtest.poeGame.Mapper.PoeItemPriceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.st.newtest.poeGame.Entity.PoeItemPrice">
+        <id column="id" property="id" />
+        <result column="item_name" property="itemName" />
+        <result column="item_type" property="itemType" />
+        <result column="item_cur_price" property="itemCurPrice" />
+        <result column="item_desc" property="itemDesc" />
+        <result column="item_record_time" property="itemRecordTime" />
+    </resultMap>
+
+</mapper>

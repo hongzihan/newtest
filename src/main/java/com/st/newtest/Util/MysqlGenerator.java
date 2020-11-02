@@ -42,7 +42,7 @@ public class MysqlGenerator {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);      // 表名生成策略
-        strategy.setInclude(new String[] { "st_role" });     // 需要生成的表
+        strategy.setInclude(new String[] { "poe_item_price" });     // 需要生成的表
 //        strategy.setSuperServiceClass(null);
 //        strategy.setSuperServiceImplClass(null);
         strategy.setSuperMapperClass(null);
@@ -50,7 +50,7 @@ public class MysqlGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.st.newtest.stGame");
+        pc.setParent("com.st.newtest.poeGame");
         pc.setController("Controller");
         pc.setService("Service");
         pc.setServiceImpl("Service.impl");

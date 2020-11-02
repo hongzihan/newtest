@@ -174,6 +174,16 @@ config_name VARCHAR(63) NOT NULL,
 config_value VARCHAR(4095) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `poe_item_price`;
+create table poe_item_price(
+id bigint(25) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+item_name VARCHAR(255) NOT NULL,
+item_type VARCHAR(255),
+item_cur_price VARCHAR(255),
+item_desc VARCHAR(255),
+item_record_time VARCHAR(255)
+) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
+
 
 -- alter table permission change modelname modelname varchar(200) not null;
 -- alter table permission change permission permission varchar(100) not null;
