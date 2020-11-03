@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Matrix Admin</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<div class="container-fluid" >
+    <div class="jumbotron">
+        <h1 class="display-4">POE 价格记录器!</h1>
+        <p class="lead">一个简单的价格记录器，方便查询获取到物品的收益.</p>
+        <hr class="my-4">
+        <a class="btn btn-success btn-lg" href="#" role="button" data-toggle="modal" data-target="#addNewItem">新增物品</a>
+<!--        <a class="btn btn-primary btn-lg" href="#" role="button">查询物品</a>-->
+        <hr class="my-4">
+        <div class="input-group mb-3">
+            <input type="text" id="search_content" class="form-control" placeholder="物品名字" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button_add2" onclick="searchItem(2)">精确搜索</button>
+                <button class="btn btn-outline-secondary" type="button" id="button_add3" onclick="searchItem(3)">模糊搜索</button>
+            </div>
+        </div>
+        <hr class="my-4">
+        <!--物品展示区域-->
+        <div class="row" id="item_show_area"></div>
+        <hr class="my-4">
+        <!-- 排行榜 -->
+        <div class="row">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr class="active">
+                        <th>物品</th>
+                        <th>价格</th>
+                        <th>排行价格</th>
+                        <th>类型</th>
+                        <th>额外描述</th>
+                        <th>时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <span th:each="item : ${itemList}">
+                        <tr class="odd gradeX">
+                            <td>[[${item.itemName}]]</td>
+                            <td>[[${item.itemCurPrice}]]</td>
+                            <td>[[${item.chaosPrice}]]</td>
+                            <td>[[${item.itemType}]]</td>
+                            <td>[[${item.itemDesc}]]</td>
+                            <td>[[${item.itemRecordTime}]]</td>
+                        </tr>
+                    </span>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addNewItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">新增物品</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_add">
+                        <div class="form-group">
+                            <label for="form_new_item_name" class="col-form-label">物品名称:</label>
+                            <input type="text" class="form-control" id="form_new_item_name" name="itemName">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="form_new_item_value" class="col-form-label">价值:</label>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <input type="number" class="form-control" id="form_new_item_value" name="itemCurPrice">
+                                </div>
+                                <div class="col-sm">
+                                    <div class="dropdown">
+                                        <select class="custom-select" id="form_new_item_value_unit" name="itemValueUnit" aria-label="Example select with button addon">
+                                            <option selected>混沌石</option>
+                                            <option>崇高石</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label">物品类型:</label>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="dropdown">
+                                        <select class="custom-select" id="form_new_item_type" name="itemType" aria-label="Example select with button addon">
+                                            <option selected>通货</option>
+                                            <option>技能宝石</option>
+                                            <option>装备</option>
+                                            <option>药剂</option>
+                                            <option>其它</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="form_new_item_simpleDesc" class="col-form-label">描述:</label>
+                            <textarea class="form-control" placeholder="宝石可填 异常 分歧 魅影" id="form_new_item_simpleDesc" name="itemDesc"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="addNewItem()">确认新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit_item_label">编辑物品</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_edit">
+                        <div class="form-group">
+                            <label for="form_old_item_name" class="col-form-label">物品名称:</label>
+                            <input type="text" class="form-control" id="form_old_item_name" name="itemName">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="form_old_item_value" class="col-form-label">价值:</label>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <input type="number" class="form-control" id="form_old_item_value" name="itemCurPrice">
+                                </div>
+                                <div class="col-sm">
+                                    <div class="dropdown">
+                                        <select class="custom-select" id="form_old_item_value_unit" name="itemValueUnit" aria-label="Example select with button addon">
+                                            <option selected>混沌石</option>
+                                            <option>崇高石</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label">物品类型:</label>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="dropdown">
+                                        <select class="custom-select" id="form_old_item_type" name="itemType" aria-label="Example select with button addon">
+                                            <option selected>通货</option>
+                                            <option>技能宝石</option>
+                                            <option>装备</option>
+                                            <option>药剂</option>
+                                            <option>其它</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="form_old_item_simpleDesc" class="col-form-label">描述:</label>
+                            <textarea class="form-control" placeholder="宝石可填 异常 分歧 魅影" id="form_old_item_simpleDesc" name="itemDesc"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="editItem()">确认更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $('#search_content').bind('keypress',function(event){
+        if(event.keyCode == 13)
+        {
+            document.getElementById("button_add3").click();
+        }
+    });
+
+
+
+    function createANode(nodeElement, nodeAttr, nodeAttrV) {
+        let element = document.createElement(nodeElement)
+        for (let i=0; i<nodeAttr.length; i++) {
+            let attribute = document.createAttribute(nodeAttr[i])
+            attribute.nodeValue = nodeAttrV[i]
+            element.setAttributeNode(attribute)
+        }
+        return element
+    }
+    function  dataRefresh(data) {
+        document.getElementById("item_show_area").innerHTML = ""
+        let optionJson = JSON.parse( data );
+        for (let i=0; i<optionJson.length; i++) {
+            console.log(optionJson[i].itemName + "急急急")
+            let parentN = document.getElementById("item_show_area")
+            // let node1 = createANode("div", ["class"], ["row"])
+            let node2 = createANode("div", ["class"], ["col-sm"])
+            let node3 = createANode("div", ["class", "style"], ["card", "width: 18rem"])
+            let node4 = createANode("img", ["src", "class"], ["../static/img/poe_item_index_bk.jpg", "card-img-top"])
+            let node5 = createANode("div", ["class"], ["card-body"])
+            let node6 = createANode("h3", ["class", "style"], ["card-title", "color: #f89406"])
+            node6.innerHTML = optionJson[i].itemName
+            node5.appendChild(node6)
+            node6 = createANode("h5", ["class", "style"], ["card-title", "color: #da4f49"])
+            node6.innerHTML = optionJson[i].itemCurPrice
+            node5.appendChild(node6)
+            node6 = createANode("h5", ["class", "style"], ["card-title", "color: #459D1C"])
+            node6.innerHTML = optionJson[i].itemRecordTime
+            node5.appendChild(node6)
+            node6 = createANode("h5", ["class", "style"], ["card-title", "color: #0e0e0e"])
+            node6.innerHTML = optionJson[i].itemType
+            node5.appendChild(node6)
+            node6 = createANode("h5", ["class", "style"], ["card-title", "color: #2a85a0"])
+            node6.innerHTML = optionJson[i].itemDesc
+            node5.appendChild(node6)
+            node6 = createANode("a", ["href", "class", "data-toggle", "data-target", "data-itemName", "onclick"], ["#", "btn btn-primary", "modal", "#editItem", optionJson[i].itemName, "delItemPre(\"" + optionJson[i].itemName + "\",\"" + optionJson[i].itemRecordTime + "\",\"" + optionJson[i].itemDesc  + "\",\"" + optionJson[i].itemType + "\",\"" + optionJson[i].itemCurPrice + "\")"])
+            node6.innerHTML = "编辑"
+            node5.appendChild(node6)
+            node6 = createANode("a", ["href", "class", "onclick"], ["#", "btn btn-danger", "delItem(\"" + optionJson[i].itemName + "\",\"" + optionJson[i].itemRecordTime + "\")"])
+            node6.innerHTML = "删除"
+            node5.appendChild(node6)
+            node3.appendChild(node4)
+            node3.appendChild(node5)
+            node2.appendChild(node3)
+            parentN.appendChild(node2)
+        }
+    }
+    <!-- 搜索 -->
+    function searchItem(type) {
+        $.ajax({
+            type: 'post',
+            data: {itemName:document.getElementById("search_content").value},
+            url: type === 2 ? "/poeItemPrice/search" : "/poeItemPrice/BlurrySearch",
+            cache: false,
+            dataType: 'text',
+            async: false,
+            success: data => {
+                dataRefresh(data)
+            }
+        })
+    }
+
+    <!-- 新增物品 -->
+    function addNewItem() {
+        //表单异步提交
+        $.ajax({
+            type: 'post',
+            data: $('#form_add').serialize(),
+            url: "/poeItemPrice/addNewItem",
+            cache:false,
+            dataType:'text',
+            success: function (msg) {
+                if (msg === "{code:200, msg:'成功'}") {
+                    alert("提交成功！")
+                    document.getElementById("search_content").value = document.getElementById("form_new_item_name").value
+                    document.getElementById("button_add2").click()
+                } else {
+                    alert("提交失败！")
+                }
+            }
+        })
+    }
+
+    let itemNameRecord = ""
+    let itemRecordTimeRecord = ""
+    let itemDescRecord = ""
+    let itemTypeRecord = ""
+    let itemCurPriceRecord = ""
+    function delItemPre(itemNamePre, itemRecordTimePre, itemDescPre, itemTypePre, itemCurPricePre) {
+        itemNameRecord = itemNamePre
+        itemRecordTimeRecord = itemRecordTimePre
+        itemDescRecord = itemDescPre
+        itemTypeRecord = itemTypePre
+        itemCurPriceRecord = itemCurPricePre
+        document.getElementById("form_old_item_name").value = itemNamePre
+        document.getElementById("form_old_item_simpleDesc").value = itemDescPre
+        let options = document.getElementById("form_old_item_type").children
+        for (let i=0; i<options.length; i++) {
+            options[i].removeAttribute("selected")
+        }
+        for (let i=0; i<options.length; i++) {
+            options[i].setAttribute("selected", "")
+        }
+        let priceT = itemCurPricePre.split(" ")
+        document.getElementById("form_old_item_value").value = priceT[0]
+
+        options = document.getElementById("form_old_item_value_unit").children
+        for (let i=0; i<options.length; i++) {
+            options[i].removeAttribute("selected")
+        }
+        for (let i=0; i<options.length; i++) {
+            if (options[i].innerHTML === priceT[1]) {
+                options[i].setAttribute("selected", "")
+            }
+        }
+    }
+
+    <!-- 删除物品 -->
+    function delItem(itemName, itemRecordTime) {
+        //表单异步提交
+        $.ajax({
+            type: 'post',
+            data: {itemName: itemName, itemRecordTime: itemRecordTime},
+            url: "/poeItemPrice/delItem",
+            cache: false,
+            dataType:'text',
+            success: function (msg) {
+                if (msg === "{code:200, msg:'成功'}") {
+                    alert("提交成功！")
+                    document.getElementById("button_add2").click()
+                } else {
+                    alert("提交失败！")
+                }
+            }
+        })
+    }
+
+    <!-- 编辑物品 -->
+    function editItem() {
+        //表单异步提交
+        let data = $('#form_edit').serialize()
+        data = data + "&itemRecordTime=" + itemRecordTimeRecord
+        console.log(data)
+        $.ajax({
+            type: 'post',
+            data: data,
+            url: "/poeItemPrice/editItem",
+            cache:false,
+            dataType:'text',
+            success: function (msg) {
+                if (msg === "{code:200, msg:'成功'}") {
+                    alert("提交成功！")
+                    document.getElementById("button_add2").click()
+                } else {
+                    alert("提交失败！")
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

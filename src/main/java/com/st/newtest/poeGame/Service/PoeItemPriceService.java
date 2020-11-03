@@ -12,5 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-11-02
  */
 public interface PoeItemPriceService extends IService<PoeItemPrice> {
+    Boolean addNewItem(PoeItemPrice poeItemPrice);
 
+    Boolean updateItem(PoeItemPrice poeItemPrice);
 }

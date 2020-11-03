@@ -39,6 +39,7 @@ logging:
   level:
     com.st.newtest.Mapper: TRACE
     com.st.newtest.stGame.Mapper: TRACE
+    com.st.newtest.poeGame.Mapper: TRACE
     com.st.newtest.systemManage.Mapper: DEBUG
 server:
   port: 8080

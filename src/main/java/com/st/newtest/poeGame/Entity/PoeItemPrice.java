@@ -1,7 +1,9 @@
 package com.st.newtest.poeGame.Entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import java.io.Serializable;
@@ -14,7 +16,7 @@ import java.io.Serializable;
  * @author ken
  * @since 2020-11-02
  */
-@Entity
+@Data
 public class PoeItemPrice implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,7 +32,19 @@ public class PoeItemPrice implements Serializable {
 
     private String itemDesc;
 
+
     private String itemRecordTime;
+
+    public Integer getChaosPrice() {
+        return chaosPrice;
+    }
+
+    public void setChaosPrice(Integer chaosPrice) {
+        this.chaosPrice = chaosPrice;
+    }
+
+    @TableField(exist = false)
+    private Integer chaosPrice;
 
     
     public Long getId() {
