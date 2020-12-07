@@ -32,14 +32,18 @@ public class PoeItemPriceController {
     private PoeItemPriceService poeItemPriceService;
 
     @RequestMapping("/index")
-    public ModelAndView mainPage() {
+    public ModelAndView mainPage(String itemType) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("poe-price-index");
         List<PoeItemPrice> exList = poeItemPriceService.lambdaQuery().eq(PoeItemPrice::getItemName, "崇高石").list();
         String itemCurPrice = exList.get(0).getItemCurPrice();
         String[] s = itemCurPrice.split(" ");
         int exPrice = Integer.parseInt(s[0]);
-        List<PoeItemPrice> list = poeItemPriceService.lambdaQuery().list();
+        List<PoeItemPrice> list = null;
+        if (!(itemType != null && !itemType.equals(""))) {
+            itemType = "通货";
+        }
+        list = poeItemPriceService.lambdaQuery().eq(PoeItemPrice::getItemType, itemType).list();
         for (PoeItemPrice poeItemPrice : list) {
             String curItemPriceStr = poeItemPrice.getItemCurPrice();
             String[] ss = curItemPriceStr.split(" ");

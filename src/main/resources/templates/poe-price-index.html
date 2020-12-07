@@ -20,6 +20,7 @@
         <p class="lead">一个简单的价格记录器，方便查询获取到物品的收益.</p>
         <hr class="my-4">
         <a class="btn btn-success btn-lg" href="#" role="button" data-toggle="modal" data-target="#addNewItem">新增物品</a>
+        <a class="btn btn-success btn-lg" href="#" role="button" onclick="findTradeMsg()">测试接口</a>
 <!--        <a class="btn btn-primary btn-lg" href="#" role="button">查询物品</a>-->
         <hr class="my-4">
         <div class="input-group mb-3">
@@ -33,21 +34,30 @@
         <!--物品展示区域-->
         <div class="row" id="item_show_area"></div>
         <hr class="my-4">
-        <!-- 排行榜 -->
+        <!-- 排行榜Ex -->
         <div class="row">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr class="active">
-                        <th>物品</th>
-                        <th>价格</th>
-                        <th>排行价格</th>
-                        <th>类型</th>
-                        <th>额外描述</th>
-                        <th>时间</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <span th:each="item : ${itemList}">
+            <div class="col-2">
+                <div class="btn-group-vertical" role="mainType" id="poe_ninja_main_type">
+
+                </div>
+            </div>
+            <div class="col-10">
+                <!-- 排行榜 -->
+                <div class="row">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr class="active">
+                            <th>物品</th>
+                            <th>价格</th>
+                            <th>排行价格</th>
+                            <th>类型</th>
+                            <th>额外描述</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <span th:each="item : ${itemList}">
                         <tr class="odd gradeX">
                             <td>[[${item.itemName}]]</td>
                             <td>[[${item.itemCurPrice}]]</td>
@@ -55,11 +65,20 @@
                             <td>[[${item.itemType}]]</td>
                             <td>[[${item.itemDesc}]]</td>
                             <td>[[${item.itemRecordTime}]]</td>
+                            <td>
+                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editItem" th:onclick="delItemPre( [[${item.itemName}]] , [[${item.itemRecordTime}]] , [[${item.itemDesc}]] , [[${item.itemType}]] , [[${item.itemCurPrice}]])">编辑</a>
+<!--                                <a href="#" class="btn btn-primary" th:onclick="'delItem(\'' + ${item.itemName} + '\',\'' + ${item.itemRecordTime} + '\')'">编辑</a>-->
+                                <a href="#" class="btn btn-primary" th:onclick="delItem([[${item.itemName}]] , [[${item.itemRecordTime}]])">删除</a>
+
+                            </td>
                         </tr>
                     </span>
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+        <hr class="my-4">
     </div>
 
     <div class="modal fade" id="addNewItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -103,9 +122,29 @@
                                     <div class="dropdown">
                                         <select class="custom-select" id="form_new_item_type" name="itemType" aria-label="Example select with button addon">
                                             <option selected>通货</option>
+                                            <option>碎片</option>
+                                            <option>梦魇宝珠</option>
+                                            <option>守望石</option>
+                                            <option>圣油</option>
+                                            <option>孕育石</option>
+                                            <option>圣甲虫</option>
+                                            <option>化石</option>
+                                            <option>共振器</option>
+                                            <option>精华</option>
+                                            <option>命运卡</option>
+                                            <option>预言</option>
                                             <option>技能宝石</option>
-                                            <option>装备</option>
+                                            <option>底子</option>
+                                            <option>附魔装备</option>
+                                            <option>传奇地图</option>
+                                            <option>地图</option>
+                                            <option>珠宝</option>
                                             <option>药剂</option>
+                                            <option>传奇武器</option>
+                                            <option>传奇护甲</option>
+                                            <option>传奇首饰</option>
+                                            <option>野兽</option>
+                                            <option>魔瓶</option>
                                             <option>其它</option>
                                         </select>
                                     </div>
@@ -169,9 +208,29 @@
                                     <div class="dropdown">
                                         <select class="custom-select" id="form_old_item_type" name="itemType" aria-label="Example select with button addon">
                                             <option selected>通货</option>
+                                            <option>碎片</option>
+                                            <option>梦魇宝珠</option>
+                                            <option>守望石</option>
+                                            <option>圣油</option>
+                                            <option>孕育石</option>
+                                            <option>圣甲虫</option>
+                                            <option>化石</option>
+                                            <option>共振器</option>
+                                            <option>精华</option>
+                                            <option>命运卡</option>
+                                            <option>预言</option>
                                             <option>技能宝石</option>
-                                            <option>装备</option>
+                                            <option>底子</option>
+                                            <option>附魔装备</option>
+                                            <option>传奇地图</option>
+                                            <option>地图</option>
+                                            <option>珠宝</option>
                                             <option>药剂</option>
+                                            <option>传奇武器</option>
+                                            <option>传奇护甲</option>
+                                            <option>传奇首饰</option>
+                                            <option>野兽</option>
+                                            <option>魔瓶</option>
                                             <option>其它</option>
                                         </select>
                                     </div>
@@ -214,11 +273,56 @@
         }
         return element
     }
-    function  dataRefresh(data) {
+    let mainTypeArr = {
+        1: ["通货", "CurrencyRerollRare"],
+        2: ["碎片", "FragmentPhoenix"],
+        3: ["梦魇宝珠", "DeliriumOrbScarabs"],
+        4: ["守望石", "IvoryWatchstone5"],
+        5: ["圣油", "OpalescentOil"],
+        6: ["孕育石", "IncubationAbyss"],
+        7: ["圣甲虫", "GreaterScarabBreach"],
+        8: ["化石", "SanctifiedFossil"],
+        9: ["共振器", "Reroll2x2A"],
+        10: ["精华", "Woe7"],
+        11: ["命运卡", "InventoryIcon"],
+        12: ["预言", "ProphecyOrbRed"],
+        13: ["技能宝石", "Portal"],
+        14: ["底子", "OpalRing"],
+        15: ["附魔装备", "ClusterBurst"],
+        16: ["传奇地图", "UndeadSiege"],
+        17: ["地图", "Gorge3"],
+        18: ["珠宝", "unique7"],
+        19: ["药剂", "Item"],
+        20: ["传奇武器", "Varunastra"],
+        21: ["传奇护甲", "Skyforth"],
+        22: ["传奇首饰", "AgateAmuletUnique"],
+        23: ["野兽", "BestiaryOrbFull"],
+        24: ["魔瓶", "VialTemperedFlesh"],
+        25: ["其它", "CurrencyDuplicate"],
+    }
+    window.onload = () => {
+        let mainNode = document.getElementById("poe_ninja_main_type")
+        for (let i=1; i <= 25; i++) {
+            let buttonNode = createANode("button", ["type", "class", "onclick"], ["button", "btn btn-secondary", "searchWithType('" + mainTypeArr[i][0] + "')"])
+            let imgNode = createANode("img", ["src", "style"], ["../static/img/poe/MainType/" + mainTypeArr[i][1] + ".png", "width:40px;height:40px"])
+            let textNode = createANode("span", ["style"], ["text-align:left;line-height:40px;color:#f9f1db"])
+            let node1 = createANode("div", ["class"], ["row"])
+            let node2 = createANode("div", ["class"], ["col-3"])
+            let node3 = createANode("div", ["class"], ["col-9"])
+            textNode.innerHTML = mainTypeArr[i][0]
+            node2.appendChild(imgNode)
+            node3.appendChild(textNode)
+            node1.appendChild(node2)
+            node1.appendChild(node3)
+            buttonNode.appendChild(node1)
+            mainNode.appendChild(buttonNode)
+        }
+    }
+
+    function dataRefresh(data) {
         document.getElementById("item_show_area").innerHTML = ""
         let optionJson = JSON.parse( data );
         for (let i=0; i<optionJson.length; i++) {
-            console.log(optionJson[i].itemName + "急急急")
             let parentN = document.getElementById("item_show_area")
             // let node1 = createANode("div", ["class"], ["row"])
             let node2 = createANode("div", ["class"], ["col-sm"])
@@ -306,7 +410,9 @@
             options[i].removeAttribute("selected")
         }
         for (let i=0; i<options.length; i++) {
-            options[i].setAttribute("selected", "")
+            if (options[i].innerHTML === itemTypePre) {
+                options[i].setAttribute("selected", "")
+            }
         }
         let priceT = itemCurPricePre.split(" ")
         document.getElementById("form_old_item_value").value = priceT[0]
@@ -347,7 +453,6 @@
         //表单异步提交
         let data = $('#form_edit').serialize()
         data = data + "&itemRecordTime=" + itemRecordTimeRecord
-        console.log(data)
         $.ajax({
             type: 'post',
             data: data,
@@ -360,6 +465,67 @@
                     document.getElementById("button_add2").click()
                 } else {
                     alert("提交失败！")
+                }
+            }
+        })
+    }
+
+    function searchWithType(param) {
+        window.location.replace("http://" + location.host + "/poeItemPrice/index?itemType=" + param);
+    }
+
+    function findTradeMsg() {
+        let uuidAttr = []
+        $.ajax({
+            type: 'post',
+            data: '{"query":{"status":{"option":"online"},"name":"Headhunter","type":"Leather Belt","stats":[{"type":"and","filters":[]}]},"sort":{"price":"asc"}}',
+            url: "https://www.pathofexile.com/api/trade/search/Heist",
+            cache:false,
+            dataType:'json',
+            contentType: "application/json;charset=utf-8",
+            success: function (msg) {
+                let itemJson = msg
+                // 抽样选取前10个
+                for (let i=0; i<10; i++) {
+                    uuidAttr[i] = itemJson["result"][i]
+                }
+                fetchItemJson(uuidAttr, itemJson.id)
+            }
+        })
+    }
+
+    function fetchItemJson(uuidAttr, itemId) {
+        let data = uuidAttr.join()
+        $.ajax({
+            type: 'get',
+            data: "",
+            url: "https://www.pathofexile.com/api/trade/fetch/" + data,
+            cache:false,
+            dataType:'json',
+            success: function (msg) {
+                let itemJson = msg
+                for (let i=0; i<9; i++) {
+                    console.log(itemJson.result[i].listing.price.type + " " + itemJson.result[i].listing.price.amount + " " + itemJson.result[i].listing.price.currency)
+                }
+
+            }
+        })
+    }
+
+    function findTradeMsg2() {
+        $.ajax({
+            type: 'post',
+            data: '{"query":{"status":{"option":"any"},"type":"胜利盔甲","stats":[{"type":"and","filters":[],"disabled":false}]},"sort":{"price":"asc"}}',
+            url: "https://poe.game.qq.com/api/trade/search/S13%E8%B5%9B%E5%AD%A3",
+            cache:false,
+            dataType:'json',
+            contentType: "application/json;charset=utf-8",
+            success: function (msg) {
+                console.log("##################")
+                let itemJson = jQuery.parseJSON(msg);
+                for(let k in itemJson ){//遍历packJson 对象的每个key/value对,k为key
+                    console.log("kkkk")
+                    console.log(k + " " + itemJson[k]);
                 }
             }
         })
