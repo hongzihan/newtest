@@ -185,8 +185,11 @@ public class CheckPriceTimer {
                     // 根据uuid字串获取物品实际数据json串
                     String getUrl = fetchUrl + suffix;
                     Thread.sleep(200);
-                    String s1 = HttpUtil
-                            .get(getUrl);
+                    String s1 = HttpRequest
+                            .get(getUrl)
+                            .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                            .execute()
+                            .body();
                     // 将json串转换为JSONObject
                     JSONObject jo2 = JSONObject.parseObject(s1);
                     // 计算价格平均值
@@ -315,8 +318,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -438,8 +444,11 @@ public class CheckPriceTimer {
                     // 根据uuid字串获取物品实际数据json串
                     String getUrl = fetchUrl + suffix;
                     Thread.sleep(200);
-                    String s1 = HttpUtil
-                            .get(getUrl);
+                    String s1 = HttpRequest
+                            .get(getUrl)
+                            .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                            .execute()
+                            .body();
                     // 将json串转换为JSONObject
                     JSONObject jo2 = JSONObject.parseObject(s1);
                     // 计算价格平均值
@@ -532,8 +541,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -623,8 +635,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -717,8 +732,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -811,8 +829,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -905,8 +926,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -1000,8 +1024,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -1094,8 +1121,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -1187,8 +1217,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -1280,8 +1313,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -1373,8 +1409,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -1466,7 +1505,6 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                System.out.println("getUrl => " + getUrl);
                 String s1 = HttpRequest
                         .get(getUrl)
                         .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
@@ -1565,8 +1603,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -1658,8 +1699,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -1751,8 +1795,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -1844,8 +1891,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
@@ -1937,8 +1987,11 @@ public class CheckPriceTimer {
                 // 根据uuid字串获取物品实际数据json串
                 String getUrl = fetchUrl + suffix;
                 Thread.sleep(200);
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
