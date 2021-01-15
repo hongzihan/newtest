@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<title>Matrix Admin</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../static/css/colorpicker.css" />
+<link rel="stylesheet" href="../static/css/datepicker.css" />
+<link rel="stylesheet" href="../static/css/uniform.css" />
+<link rel="stylesheet" href="../static/css/select2.css" />
+<link rel="stylesheet" href="../static/css/matrix-style.css" />
+<link rel="stylesheet" href="../static/css/matrix-media.css" />
+<link rel="stylesheet" href="../static/css/bootstrap-wysihtml5.css" />
+<link href="../static/font-awesome/css/font-awesome.css" rel="stylesheet" />
+</head>
+<body>
+<div th:replace="common/frame-main::frame-main"/>
+<!--close-left-menu-stats-sidebar-->
+
+<div id="content">
+  <div class="container-fluid">
+    <datalist id="zoneNameDataList">
+      <span th:each="zoneName : ${zoneNameList}">
+        <option th:value="${zoneName.zoneName}">
+      </span>
+    </datalist>
+    <div class="quick-actions_homepage">
+      <ul class="quick-actions" id="ul_zone_manage">
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('通货')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">通货</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('碎片')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">碎片</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('预言')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">预言</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('命运卡')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">命运卡</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('梦魇宝珠')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">梦魇宝珠</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('守望石')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">守望石</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('圣油')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">圣油</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('孕育石')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">孕育石</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('圣甲虫')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">圣甲虫</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('化石')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">化石</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('共振器')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">共振器</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('精华')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">精华</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('技能宝石')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">技能宝石</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('底子')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">底子</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('附魔装备')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">附魔装备</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('传奇地图')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">传奇地图</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('地图')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">地图</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('珠宝')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">珠宝</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('药剂')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">药剂</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('传奇武器')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">传奇武器</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('传奇首饰')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">传奇首饰</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('野兽')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">野兽</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('魔瓶')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">魔瓶</strong></a>
+        </li>
+        <li onclick="" class="bg_lr span3">
+          <a href="#" type="button" onclick="update('其它')"><i class="fa fa-diamond fa-3x" style="color: #ececec;"></i> <br/><strong style="color: #ececec;">其它</strong></a>
+        </li>
+      </ul>
+    </div>
+    <!-- Modal Area END-->
+  </div>
+</div>
+<div th:replace="common/frame-footer::frame-footer"/>
+<script src="../static/js/jquery.min.js"></script>
+<script src="../static/js/jquery.ui.custom.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/js/bootstrap-colorpicker.js"></script>
+<script src="../static/js/bootstrap-datepicker.js"></script>
+<script src="../static/js/jquery.toggle.buttons.html"></script>
+<script src="../static/js/masked.js"></script>
+<script src="../static/js/jquery.uniform.js"></script>
+<script src="../static/js/select2.min.js"></script>
+<script src="../static/js/matrix.js"></script>
+<script src="../static/js/matrix.form_common.js"></script>
+<script src="../static/js/wysihtml5-0.3.0.js"></script>
+<script src="../static/js/jquery.peity.min.js"></script>
+<script src="../static/js/bootstrap-wysihtml5.js"></script>
+<script>
+  <!-- 更新价格 -->
+  function update(itemMainType) {
+    //表单异步提交
+    $.ajax({
+      type: 'post',
+      data: {itemMainType: itemMainType},
+      url: "/poeItemPrice/updateItemPriceByMainType",
+      cache:false,
+      dataType:'text',
+      success: function (msg) {
+        if (msg === "{code:200, msg:'成功'}") {
+          alert("提交成功！")
+        } else {
+          alert("提交失败！")
+        }
+      }
+    })
+  }
+</script>
+</body>
+</html>

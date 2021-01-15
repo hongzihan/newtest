@@ -32,6 +32,13 @@ public class PoeItemPriceController {
     @Autowired
     private PoeItemPriceService poeItemPriceService;
 
+    @RequestMapping("/updatePricePage")
+    public ModelAndView pricePage(String itemType) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("form-updatePrice");
+        return modelAndView;
+    }
+
     @RequestMapping("/index")
     public ModelAndView mainPage(String itemType) {
         ModelAndView modelAndView = new ModelAndView();
@@ -91,6 +98,18 @@ public class PoeItemPriceController {
         poeItemPrice.setItemRecordTime(formatTime);
         boolean save = poeItemPriceService.addNewItem(poeItemPrice);
         if (save) {
+            return "{code:200, msg:'成功'}";
+        } else {
+            return "{code:500, msg:'失败'}";
+        }
+    }
+
+    @RequiresRoles("supermanager")
+    @RequestMapping("/updateItemPriceByMainType")
+    @ResponseBody
+    public String updateItemPriceByMainType(String itemMainType) {
+        System.out.println(itemMainType);
+        if (1 == 1) {
             return "{code:200, msg:'成功'}";
         } else {
             return "{code:500, msg:'失败'}";

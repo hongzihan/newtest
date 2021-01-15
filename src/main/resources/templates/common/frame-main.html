@@ -61,6 +61,7 @@
                 <span th:if="${role.rolename eq 'administrator'}">
                     <li th:class="${curPage eq 'chargeTable' ? 'active' : ''}" id="admin_private_1"><a href="/table/chargeTable"><i class="fa fa-money" aria-hidden="true"></i> <span>充值统计</span></a></li>
                     <li th:class="${curPage eq 'form-validation' ? 'active' : ''}"><a href="/form-permission"><i class="fa fa-group" aria-hidden="true"></i> <span>权限管理</span></a></li>
+                    <li th:class="${curPage eq 'form-validation' ? 'active' : ''}"><a href="/poeItemPrice/updatePricePage"><i class="fa fa-group" aria-hidden="true"></i> <span>价格更新</span></a></li>
                 </span>
             </span>
         </ul>
