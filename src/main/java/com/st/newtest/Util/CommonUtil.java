@@ -115,4 +115,10 @@ public class CommonUtil {
 
 
     }
+
+    public static int genRandom(int min, int max) {
+        int result = 0;
+        result = (int) (Math.random() * min + (max - min + 1));
+        return result;
+    }
 }

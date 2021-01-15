@@ -10,6 +10,7 @@
         <result column="item_cur_price" property="itemCurPrice" />
         <result column="item_desc" property="itemDesc" />
         <result column="item_record_time" property="itemRecordTime" />
+        <result column="item_is_popular" property="itemIsPopular" />
     </resultMap>
 
 </mapper>

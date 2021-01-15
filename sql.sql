@@ -181,7 +181,8 @@ item_name VARCHAR(255) NOT NULL,
 item_type VARCHAR(255),
 item_cur_price VARCHAR(255),
 item_desc VARCHAR(255),
-item_record_time VARCHAR(255)
+item_record_time VARCHAR(255),
+item_filters VARCHAR(5095)
 ) ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8;
 
 

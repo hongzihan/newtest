@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.st.newtest.Util.CommonUtil;
 import com.st.newtest.poeGame.Entity.PoeItemPrice;
 import com.st.newtest.poeGame.Service.PoeItemPriceService;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -79,6 +80,7 @@ public class PoeItemPriceController {
         return JSON.toJSONString(list);
     }
 
+    @RequiresRoles("supermanager")
     @RequestMapping("/addNewItem")
     @ResponseBody
     public String addNewItem(PoeItemPrice poeItemPrice, String itemValueUnit) {
@@ -95,6 +97,7 @@ public class PoeItemPriceController {
         }
     }
 
+    @RequiresRoles("supermanager")
     @RequestMapping("/editItem")
     @ResponseBody
     public String editItem(PoeItemPrice poeItemPrice, String itemValueUnit) {
@@ -107,6 +110,7 @@ public class PoeItemPriceController {
         }
     }
 
+    @RequiresRoles("supermanager")
     @RequestMapping("/delItem")
     @ResponseBody
     public String delItem(PoeItemPrice poeItemPrice) {

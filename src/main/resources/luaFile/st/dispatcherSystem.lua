@@ -233,7 +233,11 @@ function action_charge_monitor(action_data, cur_action) -- 按照数据要求给
             end)
             if status or status2 then
                 lualib:AddIngot(playerGUID, yb, "web_action", "web_action")
-                lualib:SetDBNum("define_bill"..user_id,lualib:GetDBNum("define_bill"..user_id)+yb)
+                -- --------------------其它版本改动-------------------------
+                --lualib:SetDBNum("define_bill"..user_id,lualib:GetDBNum("define_bill"..user_id)+yb)
+
+                -- ----------------- 三国镇魂改动 ------------------
+
                 return true
             else
                 return false

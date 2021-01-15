@@ -16,12 +16,13 @@
 <body>
 <div class="container-fluid" >
     <div class="jumbotron">
+        <!--<a class="btn btn-success btn-lg" href="javascript:void(0);" role="button" data-toggle="modal" data-target="#showPrice" id="gem_price_show_btn">价格展示</a>-->
         <h1 class="display-4">POE 价格记录器!</h1>
         <p class="lead">一个简单的价格记录器，方便查询获取到物品的收益.</p>
         <hr class="my-4">
-        <a class="btn btn-success btn-lg" href="#" role="button" data-toggle="modal" data-target="#addNewItem">新增物品</a>
-        <a class="btn btn-success btn-lg" href="#" role="button" onclick="findTradeMsg()">测试接口</a>
-<!--        <a class="btn btn-primary btn-lg" href="#" role="button">查询物品</a>-->
+        <!--<a class="btn btn-success btn-lg" href="javascript:void(0);" role="button" data-toggle="modal" data-target="#addNewItem">新增物品</a>-->
+        <!--<a class="btn btn-success btn-lg" href="javascript:void(0);" role="button" onclick="findTradeMsg()">测试接口</a>-->
+<!--        <a class="btn btn-primary btn-lg" href="javascript:void(0);" role="button">查询物品</a>-->
         <hr class="my-4">
         <div class="input-group mb-3">
             <input type="text" id="search_content" class="form-control" placeholder="物品名字" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -46,7 +47,7 @@
                 <div class="row">
                     <table class="table table-bordered table-hover">
                         <thead>
-                        <tr class="active">
+                        <tr class="table-primary">
                             <th>物品</th>
                             <th>价格</th>
                             <th>排行价格</th>
@@ -58,7 +59,7 @@
                         </thead>
                         <tbody>
                         <span th:each="item : ${itemList}">
-                        <tr class="odd gradeX">
+                        <tr class="odd gradeX" th:classappend="${item.itemIsPopular} == '否' ? 'table-danger' : 'table-info'">
                             <td>[[${item.itemName}]]</td>
                             <td>[[${item.itemCurPrice}]]</td>
                             <td>[[${item.chaosPrice}]]</td>
@@ -66,10 +67,10 @@
                             <td>[[${item.itemDesc}]]</td>
                             <td>[[${item.itemRecordTime}]]</td>
                             <td>
-                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editItem" th:onclick="delItemPre( [[${item.itemName}]] , [[${item.itemRecordTime}]] , [[${item.itemDesc}]] , [[${item.itemType}]] , [[${item.itemCurPrice}]])">编辑</a>
-<!--                                <a href="#" class="btn btn-primary" th:onclick="'delItem(\'' + ${item.itemName} + '\',\'' + ${item.itemRecordTime} + '\')'">编辑</a>-->
-                                <a href="#" class="btn btn-primary" th:onclick="delItem([[${item.itemName}]] , [[${item.itemRecordTime}]])">删除</a>
-
+<!--                                <a href="javascript:void(0);" class="btn btn-primary" data-toggle="modal" data-target="#editItem" th:onclick="delItemPre( [[${item.itemName}]] , [[${item.itemRecordTime}]] , [[${item.itemDesc}]] , [[${item.itemType}]] , [[${item.itemCurPrice}]])">编辑</a>-->
+<!--                                <a href="javascript:void(0);" class="btn btn-primary" th:onclick="'delItem(\'' + ${item.itemName} + '\',\'' + ${item.itemRecordTime} + '\')'">编辑</a>-->
+<!--                                <a href="javascript:void(0);" class="btn btn-danger" th:onclick="delItem([[${item.itemName}]] , [[${item.itemRecordTime}]])">删除</a>-->
+                                <a href="javascript:void(0);" class="btn btn-success" th:onclick="itemUpdate([[${item.itemName}]] , [[${item.itemDesc}]])">♻</a>
                             </td>
                         </tr>
                     </span>
@@ -247,6 +248,29 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                     <button type="button" class="btn btn-primary" onclick="editItem()">确认更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 价格展示 -->
+    <div class="modal fade" id="showPrice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="show_price_label">价格展示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" id="price_show_area">
+                        <div><span style="font-size: 24px">100</span>&nbsp;&nbsp;<img style="width: 36px;height: 36px" src="../static/img/poe/currency/CurrencyRerollRare.png"/></div>
+                        <div><span style="font-size: 24px">5</span>&nbsp;&nbsp;<img style="width: 36px;height: 36px" src="../static/img/poe/currency/CurrencyAddModToRare.png"/></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                 </div>
             </div>
         </div>
@@ -474,12 +498,15 @@
         window.location.replace("http://" + location.host + "/poeItemPrice/index?itemType=" + param);
     }
 
-    function findTradeMsg() {
+    function findTradeMsg(jsonMsg) {
+        // if (jsonMsg === undefined) {
+        //     jsonMsg = '{"query":{"status":{"option":"any"},"type":"元素净化","stats":[{"type":"and","filters":[]}],"filters":{"misc_filters":{"filters":{"corrupted":{"option":"false"},"gem_alternate_quality":{"option":"0"},"quality":{"min":0},"gem_level":{"min":0}}}}},"sort":{"price":"asc"}}'
+        // }
         let uuidAttr = []
         $.ajax({
             type: 'post',
-            data: '{"query":{"status":{"option":"online"},"name":"Headhunter","type":"Leather Belt","stats":[{"type":"and","filters":[]}]},"sort":{"price":"asc"}}',
-            url: "https://www.pathofexile.com/api/trade/search/Heist",
+            data: jsonMsg,
+            url: "https://poe.game.qq.com/api/trade/search/S13%E8%B5%9B%E5%AD%A3",
             cache:false,
             dataType:'json',
             contentType: "application/json;charset=utf-8",
@@ -499,36 +526,54 @@
         $.ajax({
             type: 'get',
             data: "",
-            url: "https://www.pathofexile.com/api/trade/fetch/" + data,
+            url: "https://poe.game.qq.com/api/trade/fetch/" + data,
             cache:false,
             dataType:'json',
             success: function (msg) {
                 let itemJson = msg
-                for (let i=0; i<9; i++) {
-                    console.log(itemJson.result[i].listing.price.type + " " + itemJson.result[i].listing.price.amount + " " + itemJson.result[i].listing.price.currency)
+                let coreNode = document.getElementById("price_show_area")
+                coreNode.innerHTML = ""
+                document.getElementById("show_price_label").innerHTML = itemJson.result[0].item.typeLine
+                for (let i=0; i<10; i++) {
+                    // console.log(itemJson.result[i].listing.price.type + " " + itemJson.result[i].listing.price.amount + " " + itemJson.result[i].listing.price.currency)
+                    // let node = createANode("p",[],[])
+                    // node.innerHTML = itemJson.result[i].item.note
+                    // coreNode.appendChild(node)
+                    let divNode = createANode("div",[],[])
+                    let spanNode = createANode("span",["style"],["font-size: 24px"])
+                    spanNode.innerHTML = itemJson.result[i].listing.price.amount + "  "
+                    let curNode = createANode("span",[],[])
+                    curNode.innerHTML = itemJson.result[i].listing.price.currency
+                    if (itemJson.result[i].listing.price.currency === "exalted") {
+                        curNode = createANode("img",["src"],["../static/img/poe/currency/CurrencyAddModToRare.png"])
+                    } else if (itemJson.result[i].listing.price.currency === "chaos") {
+                        curNode = createANode("img",["src"],["../static/img/poe/currency/CurrencyRerollRare.png"])
+                    }
+                    divNode.appendChild(spanNode)
+                    divNode.appendChild(curNode)
+                    coreNode.appendChild(divNode)
                 }
-
+                document.getElementById("gem_price_show_btn").click()
             }
         })
     }
 
-    function findTradeMsg2() {
-        $.ajax({
-            type: 'post',
-            data: '{"query":{"status":{"option":"any"},"type":"胜利盔甲","stats":[{"type":"and","filters":[],"disabled":false}]},"sort":{"price":"asc"}}',
-            url: "https://poe.game.qq.com/api/trade/search/S13%E8%B5%9B%E5%AD%A3",
-            cache:false,
-            dataType:'json',
-            contentType: "application/json;charset=utf-8",
-            success: function (msg) {
-                console.log("##################")
-                let itemJson = jQuery.parseJSON(msg);
-                for(let k in itemJson ){//遍历packJson 对象的每个key/value对,k为key
-                    console.log("kkkk")
-                    console.log(k + " " + itemJson[k]);
-                }
-            }
-        })
+    function itemUpdate(itemName, itemDesc) {
+        let baseJson = {"query":{"status":{"option":"any"},"type":"元素净化","stats":[{"type":"and","filters":[],"disabled":false}],"filters":{"misc_filters":{"filters":{"quality":{"min":0,"max":null},"corrupted":{"option":"false"},"gem_level":{"min":0,"max":null},"gem_alternate_quality":{"option":"0"}},"disabled":false}}},"sort":{"price":"asc"}}
+        baseJson.query.type = itemName
+        let alternate_quality = 0
+        if (itemDesc === "精良的") {
+            alternate_quality = 0
+        } else if(itemDesc === "异常") {
+            alternate_quality = 1
+        } else if(itemDesc === "分歧") {
+            alternate_quality = 2
+        } else if(itemDesc === "魅影") {
+            alternate_quality = 3
+        }
+        baseJson.query.filters.misc_filters.filters.gem_alternate_quality.option = alternate_quality
+
+        findTradeMsg(JSON.stringify(baseJson))
     }
 </script>
 </body>

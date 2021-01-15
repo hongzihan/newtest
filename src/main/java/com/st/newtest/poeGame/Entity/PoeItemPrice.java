@@ -32,8 +32,9 @@ public class PoeItemPrice implements Serializable {
 
     private String itemDesc;
 
-
     private String itemRecordTime;
+
+    private String itemIsPopular;
 
     public Integer getChaosPrice() {
         return chaosPrice;
@@ -46,6 +47,7 @@ public class PoeItemPrice implements Serializable {
     @TableField(exist = false)
     private Integer chaosPrice;
 
+    private String itemFilters;
     
     public Long getId() {
         return id;
@@ -78,7 +80,15 @@ public class PoeItemPrice implements Serializable {
       public void setItemCurPrice(String itemCurPrice) {
           this.itemCurPrice = itemCurPrice;
       }
-    
+
+    public String getItemIsPopular() {
+        return itemIsPopular;
+    }
+
+    public void setItemIsPopular(String itemIsPopular) {
+        this.itemIsPopular = itemIsPopular;
+    }
+
     public String getItemDesc() {
         return itemDesc;
     }
@@ -94,6 +104,14 @@ public class PoeItemPrice implements Serializable {
       public void setItemRecordTime(String itemRecordTime) {
           this.itemRecordTime = itemRecordTime;
       }
+
+    public String getItemFilters() {
+        return itemFilters;
+    }
+
+    public void setItemFilters(String itemFilters) {
+        this.itemFilters = itemFilters;
+    }
 
     @Override
     public String toString() {

@@ -36,6 +36,7 @@ public class PoeItemPriceServiceImpl extends ServiceImpl<PoeItemPriceMapper, Poe
         } else {
             poeItemPriceList.get(0).setItemRecordTime(poeItemPrice.getItemRecordTime());
             poeItemPriceList.get(0).setItemCurPrice(poeItemPrice.getItemCurPrice());
+            poeItemPriceList.get(0).setItemIsPopular(poeItemPrice.getItemIsPopular());
             poeItemPriceMapper.updateById(poeItemPriceList.get(0));
         }
         return true;
