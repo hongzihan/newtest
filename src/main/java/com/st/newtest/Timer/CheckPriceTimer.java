@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -23,8 +24,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 
-@Configuration
-@EnableScheduling
+@Component
+//@EnableScheduling
 public class CheckPriceTimer {
     @Autowired
     private PoeItemPriceService poeItemPriceService;
@@ -34,6 +35,8 @@ public class CheckPriceTimer {
     public static int exaltedPrice = 150;
 
     private static String url = "https://poe.game.qq.com/api/trade/search/S13%E8%B5%9B%E5%AD%A3";
+
+    private static String fetchUrl = "https://poe.game.qq.com/api/trade/fetch/";
 
     private JSONObject getSearchObjectByItemTag(String itemTag) {
         String result = "{\"query\":{\"status\":{\"option\":\"any\"},\"type\":\"清澈圣油\",\"stats\":[{\"type\":\"and\",\"filters\":[]}],\"filters\":{\"socket_filters\":{\"filters\":{\"links\":{}},\"sockets\":{}},\"map_filters\":{\"filters\":{}},\"misc_filters\":{\"filters\":{\"corrupted\":{\"option\":\"false\"}}}}},\"sort\":{\"price\":\"asc\"}}";
@@ -141,8 +144,8 @@ public class CheckPriceTimer {
     }
 
     // 技能石
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void gemTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void gemTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "技能宝石";
         // 暂时禁用技能石的设置
         if (1 == 1) {
@@ -180,7 +183,8 @@ public class CheckPriceTimer {
 
                     String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                     // 根据uuid字串获取物品实际数据json串
-                    String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                    String getUrl = fetchUrl + suffix;
+                    Thread.sleep(200);
                     String s1 = HttpUtil
                             .get(getUrl);
                     // 将json串转换为JSONObject
@@ -249,8 +253,8 @@ public class CheckPriceTimer {
     }
 
     // 预言
-    @Scheduled(cron = "0 56 0/3 * * *")
-    public void prophecyTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 56 0/3 * * *")
+    public void prophecyTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "预言";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -309,7 +313,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -384,8 +389,8 @@ public class CheckPriceTimer {
     }
 
     // 传奇地图
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void uniqueMapTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void uniqueMapTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "传奇地图";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -431,7 +436,8 @@ public class CheckPriceTimer {
 
                     String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                     // 根据uuid字串获取物品实际数据json串
-                    String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                    String getUrl = fetchUrl + suffix;
+                    Thread.sleep(200);
                     String s1 = HttpUtil
                             .get(getUrl);
                     // 将json串转换为JSONObject
@@ -492,8 +498,8 @@ public class CheckPriceTimer {
     }
 
     // 珠宝
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void jewelTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void jewelTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "珠宝";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -524,7 +530,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -584,8 +591,8 @@ public class CheckPriceTimer {
     }
 
     // 命运卡
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void cardTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void cardTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "命运卡";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -614,7 +621,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -674,8 +682,8 @@ public class CheckPriceTimer {
     }
 
     // 药剂
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void flaskTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void flaskTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "药剂";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -707,7 +715,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -767,8 +776,8 @@ public class CheckPriceTimer {
     }
 
     // 传奇首饰
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void uniqueAccessoriesTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void uniqueAccessoriesTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "传奇首饰";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -800,7 +809,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -860,8 +870,8 @@ public class CheckPriceTimer {
     }
 
     // 传奇武器
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void uniqueWeaponTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void uniqueWeaponTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "传奇武器";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -893,7 +903,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -954,8 +965,8 @@ public class CheckPriceTimer {
     }
 
     // 传奇护甲1
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void uniqueArmour1Timer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void uniqueArmour1Timer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "传奇护甲";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag + "1"));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -987,7 +998,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -1047,8 +1059,8 @@ public class CheckPriceTimer {
     }
 
     // 传奇护甲2
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void uniqueArmour2Timer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void uniqueArmour2Timer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "传奇护甲";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag + "2"));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -1080,7 +1092,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -1140,8 +1153,8 @@ public class CheckPriceTimer {
     }
 
     // 精华
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void essenceTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void essenceTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "精华";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -1172,7 +1185,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -1232,8 +1246,8 @@ public class CheckPriceTimer {
     }
 
     // 通货
-    @Scheduled(cron = "0 9 0/1 * * *")
-    public void currencyTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 9 0/1 * * *")
+    public void currencyTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "通货";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -1264,7 +1278,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -1324,8 +1339,8 @@ public class CheckPriceTimer {
     }
 
     // 碎片
-    @Scheduled(cron = "0 15 0/1 * * *")
-    public void fragmentTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 15 0/1 * * *")
+    public void fragmentTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "碎片";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -1356,7 +1371,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -1416,8 +1432,8 @@ public class CheckPriceTimer {
     }
 
     // 化石
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void fossilTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void fossilTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "化石";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -1448,10 +1464,17 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
-                String s1 = HttpUtil
-                        .get(getUrl);
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
+                System.out.println("getUrl => " + getUrl);
+                String s1 = HttpRequest
+                        .get(getUrl)
+                        .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36")
+                        .execute()
+                        .body();
                 // 将json串转换为JSONObject
+                s1 = UnicodeUtil.toString(s1);
+                System.out.println("s1 => " + s1);
                 JSONObject jo2 = JSONObject.parseObject(s1);
                 // 计算价格平均值
                 int avgPrice = 0;
@@ -1508,8 +1531,8 @@ public class CheckPriceTimer {
     }
 
     // 圣油
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void oilTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void oilTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "圣油";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -1540,7 +1563,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -1600,8 +1624,8 @@ public class CheckPriceTimer {
     }
 
     // 共振器
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void resonatorsTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void resonatorsTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "共振器";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -1632,7 +1656,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -1692,8 +1717,8 @@ public class CheckPriceTimer {
     }
 
     // 魔瓶
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void vialTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void vialTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "魔瓶";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -1724,7 +1749,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -1784,8 +1810,8 @@ public class CheckPriceTimer {
     }
 
     // 孕育石
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void incubatorsTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void incubatorsTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "孕育石";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -1816,7 +1842,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -1876,8 +1903,8 @@ public class CheckPriceTimer {
     }
 
     // 梦魇宝珠
-    @Scheduled(cron = "0 0 0/4 * * *")
-    public void deliriumOrbTimer() throws InterruptedException {
+    // @Scheduled(cron = "0 0 0/4 * * *")
+    public void deliriumOrbTimer(PoeItemPriceService poeItemPriceService) throws InterruptedException {
         String item_tag = "梦魇宝珠";
         JSONArray jsonArray = JSON.parseArray(getItemJsonByItemTag(item_tag));
         JSONObject jo = getSearchObjectByItemTag(item_tag);
@@ -1908,7 +1935,8 @@ public class CheckPriceTimer {
 
                 String suffix = ArrayUtil.join(ArrayUtil.resize(ja.toArray(), totalItem), ",");
                 // 根据uuid字串获取物品实际数据json串
-                String getUrl = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+                String getUrl = fetchUrl + suffix;
+                Thread.sleep(200);
                 String s1 = HttpUtil
                         .get(getUrl);
                 // 将json串转换为JSONObject
@@ -1967,7 +1995,7 @@ public class CheckPriceTimer {
         }
     }
 
-    @Scheduled(cron = "15 0/30 * * * *")
+    // @Scheduled(cron = "15 0/30 * * * *")
     public void timer() {
         String item_tag = "通货";
         //获取当前时间
@@ -1986,7 +2014,7 @@ public class CheckPriceTimer {
                 suffix = suffix + jsonArray.get(i) + ",";
             }
             suffix = StrUtil.sub(suffix, 0, -1);
-            url = "https://poe.game.qq.com/api/trade/fetch/" + suffix;
+            url = fetchUrl + suffix;
             String s = HttpUtil.get(url);
 
             // 取出实际价格

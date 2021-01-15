@@ -2,6 +2,7 @@ package com.st.newtest.poeGame.Controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.st.newtest.Timer.CheckPriceTimer;
 import com.st.newtest.Util.CommonUtil;
 import com.st.newtest.poeGame.Entity.PoeItemPrice;
 import com.st.newtest.poeGame.Service.PoeItemPriceService;
@@ -107,13 +108,51 @@ public class PoeItemPriceController {
     @RequiresRoles("supermanager")
     @RequestMapping("/updateItemPriceByMainType")
     @ResponseBody
-    public String updateItemPriceByMainType(String itemMainType) {
+    public String updateItemPriceByMainType(String itemMainType) throws InterruptedException {
         System.out.println(itemMainType);
-        if (1 == 1) {
-            return "{code:200, msg:'成功'}";
+        CheckPriceTimer checkPriceTimer = new CheckPriceTimer();
+        if (itemMainType.equals("技能宝石")) {
+            checkPriceTimer.gemTimer(poeItemPriceService);
+        } else if (itemMainType.equals("预言")) {
+            checkPriceTimer.prophecyTimer(poeItemPriceService);
+        } else if (itemMainType.equals("传奇地图")) {
+            checkPriceTimer.uniqueMapTimer(poeItemPriceService);
+        } else if (itemMainType.equals("珠宝")) {
+            checkPriceTimer.jewelTimer(poeItemPriceService);
+        } else if (itemMainType.equals("命运卡")) {
+            checkPriceTimer.cardTimer(poeItemPriceService);
+        } else if (itemMainType.equals("药剂")) {
+            checkPriceTimer.flaskTimer(poeItemPriceService);
+        } else if (itemMainType.equals("传奇首饰")) {
+            checkPriceTimer.uniqueAccessoriesTimer(poeItemPriceService);
+        } else if (itemMainType.equals("传奇武器")) {
+            checkPriceTimer.uniqueWeaponTimer(poeItemPriceService);
+        } else if (itemMainType.equals("传奇护甲1")) {
+            checkPriceTimer.uniqueArmour1Timer(poeItemPriceService);
+        } else if (itemMainType.equals("传奇护甲2")) {
+            checkPriceTimer.uniqueArmour2Timer(poeItemPriceService);
+        } else if (itemMainType.equals("精华")) {
+            checkPriceTimer.essenceTimer(poeItemPriceService);
+        } else if (itemMainType.equals("化石")) {
+            checkPriceTimer.fossilTimer(poeItemPriceService);
+        } else if (itemMainType.equals("圣油")) {
+            checkPriceTimer.oilTimer(poeItemPriceService);
+        } else if (itemMainType.equals("共振器")) {
+            checkPriceTimer.resonatorsTimer(poeItemPriceService);
+        } else if (itemMainType.equals("魔瓶")) {
+            checkPriceTimer.vialTimer(poeItemPriceService);
+        } else if (itemMainType.equals("孕育石")) {
+            checkPriceTimer.incubatorsTimer(poeItemPriceService);
+        } else if (itemMainType.equals("梦魇宝珠")) {
+            checkPriceTimer.deliriumOrbTimer(poeItemPriceService);
+        } else if (itemMainType.equals("通货")) {
+            checkPriceTimer.currencyTimer(poeItemPriceService);
+        } else if (itemMainType.equals("碎片")) {
+            checkPriceTimer.fragmentTimer(poeItemPriceService);
         } else {
             return "{code:500, msg:'失败'}";
         }
+        return "{code:200, msg:'成功'}";
     }
 
     @RequiresRoles("supermanager")
