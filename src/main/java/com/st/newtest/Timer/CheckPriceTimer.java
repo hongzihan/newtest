@@ -34,7 +34,7 @@ public class CheckPriceTimer {
 
     public static int exaltedPrice = 150;
 
-    private static String url = "https://poe.game.qq.com/api/trade/search/S13%E8%B5%9B%E5%AD%A3";
+    private static String url = "https://poe.game.qq.com/api/trade/search/S14%E8%B5%9B%E5%AD%A3";
 
     private static String fetchUrl = "https://poe.game.qq.com/api/trade/fetch/";
 
